@@ -8,6 +8,7 @@ else:
 
 print(f'Hola {user}!')
 # print('Hola %s!' % user)
+# print('Hola %s' % user + '!')
 
 another_user = input('Who is yout best friend? ')
 i = 1
@@ -22,5 +23,3 @@ if another_user == user:
     print('or maybe you are your own best friend... it\'s cool, I guess...')
 else:
     print('So, {} is your bestie! I\'m glad to read that!'.format(another_user))
-
-# print('Hola %s' % another_user + '!')
