@@ -1,48 +1,34 @@
-# String Formats
-# Same thing for string formats: use them in some strings to know what they do.
-# %d
-# %i
-# %o
-# %u
-# %x
-# %X
-# %e
-# %E
-# %f
-# %F
-# %g
-# %G
+dictionary = {'a': 'Anna', 'd': 'Debra', 'j': 'Jeannie'}
 
-# Operators
-# Some of these may be unfamiliar to you, but look them up anyway. Find out what they do, and if
-# you still can’t fi gure it out, save it for later.
-# +
-# -
-# *
-# **
-# /
-# //
-# %
-# <
-# >
-# <=
-# >=
-# ==
-# !=
-# < >
-# ()
-# []
-# {}
-# @
-# •,
-# •:
-# .
-# =
-# •
-# +=
-# - =
-# *=
-# /=
-# //=
-# %=
-# **=
+def add_laura():
+	dictionary[0] = 'Laura'
+
+def add_ellie():
+	dictionary['e'] = 'Ellie'
+
+def rem_laura():
+	del dictionary[0]
+
+def print_new_list():
+	name_list = list(dictionary.items())
+
+	for key, value in name_list:
+		print(f'letter {key} has name {value}')
+
+	f = dictionary.get('f') # returns None
+	print(f)
+	if not f:
+		print('sorry, no "F"')
+
+	s = dictionary.get('s', 'Sarah') # Default value
+	print(s)
+
+def do_everything():
+	add_laura()
+	add_ellie()
+	print(dictionary)
+	rem_laura()
+	print(dictionary)
+	print_new_list()
+
+# do_everything()
