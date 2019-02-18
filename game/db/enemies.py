@@ -3,7 +3,8 @@ ugly_monster = {
 	'attack': 5,
 	'defense': 5,
 	'hp': 2,
-	'status': ['angry', 3]
+	'status': ['angry', 3],
+	'speed': 7
 }
 
 strong_monster = {
@@ -11,5 +12,6 @@ strong_monster = {
 	'attack': 5,
 	'defense': 5,
 	'hp': 20,
-	'status': ['angry', 3]
+	'status': ['angry', 3],
+	'speed': 3
 }

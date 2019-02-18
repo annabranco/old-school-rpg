@@ -7,8 +7,9 @@ from sys import argv
 # WIP: default value is not working
 argv = argv[1:]
 if len(argv) == 0:
-	enemy = strong_monster
+	enemy = ugly_monster
 else:
-	enemy = enemies.argv[0]
+	enemy_called = argv[0]
+	enemy = enemies[{enemy_called}]
 
 cinematics.start_encounter(enemy)

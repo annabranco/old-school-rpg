@@ -4,7 +4,8 @@ from db.hero import hero
 import actions
 import cinematics
 
-def attack(bonus, enemy):
+#define texts by types of weapons
+def attack(enemy, bonus = 0):
 	difficult = enemy['defense']
 	base_attack = hero['attack'] + bonus
 	i = 0
@@ -29,6 +30,8 @@ def attack(bonus, enemy):
 
 def	epic_fail(successes):
 	print('You lose your balance and fall on the ground.')
+# define types of fails: break weapon, drop weapon, fall, open guard, loses focus...
+# 1-13 types + fails
 
 def cause_damage(successes, enemy):
 	hp = enemy['hp']
@@ -46,7 +49,7 @@ def cause_damage(successes, enemy):
 		print(f'You slash your sword causing a great damage on {enemy["name"]}. It is badly hurt.')
 	else:
 		enemy['hp'] = new_hp
-		enemy['status'] = ['wounded', 2]
+		enemy['hp'] = ['wounded', 2]
 		print(f'You strike a blow on {enemy["name"]}, causing some blood to spill.')
 	next_round(enemy)
 
