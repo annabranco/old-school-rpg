@@ -1,24 +1,24 @@
 from random import randint
-from db.hero import hero
+from db.hero import Hero
 from core.config import print
 
 
 def initiative(enemy, bonus=0):
-    print('An initiative should be rolled to know who strikes first')
+    print('An initiative should be rolled to know who strikes first.')
 
     initiative_difficulty = 6
 
-    hero_initiative = 0
-    hero_rolls = []
+    Hero_initiative = 0
+    Hero_rolls = []
     h = 0
-    while h < hero['speed'] + bonus:
-        hero_rolls.append(randint(1, 10))
+    while h < Hero['speed'] + bonus:
+        Hero_rolls.append(randint(1, 10))
         h += 1
-    print(hero_rolls)
-    for roll in hero_rolls:
+    print(str(Hero_rolls))
+    for roll in Hero_rolls:
         if roll >= initiative_difficulty:
-            hero_initiative += 1
-    print(hero_initiative)
+            Hero_initiative += 1
+    print(str(Hero_initiative))
 
     enemy_initiative = 0
     enemy_rolls = []
@@ -26,19 +26,19 @@ def initiative(enemy, bonus=0):
     while e < enemy['speed']:
         enemy_rolls.append(randint(1, 10))
         e += 1
-    print(enemy_rolls)
+    print(str(enemy_rolls))
     for roll in enemy_rolls:
         if roll >= initiative_difficulty:
             enemy_initiative += 1
-    print(enemy_initiative)
+    print(str(enemy_initiative))
 
-    compare_initiatives(hero_initiative, enemy_initiative, enemy)
+    compare_initiatives(Hero_initiative, enemy_initiative, enemy)
 
 
-def compare_initiatives(hero_initiative, enemy_initiative, enemy):
-    if hero_initiative > enemy_initiative:
+def compare_initiatives(Hero_initiative, enemy_initiative, enemy):
+    if Hero_initiative > enemy_initiative:
         print('You strike first.')
-    elif hero_initiative < enemy_initiative:
+    elif Hero_initiative < enemy_initiative:
         print(f'{enemy["name"]} strikes first.')
     else:
-        print('Simultaneous attack')
+        print('Simultaneous attack.')
