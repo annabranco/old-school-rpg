@@ -8,7 +8,7 @@ if len(argv) == 0:
 else:
 	action = argv[0]
 
-hero = {
+Hero = {
 	'attack': 5,
 	'defense': 5,
 	'hp': 5
@@ -27,7 +27,7 @@ enemy = monster1
 # COMBAT - ATTACK
 def attack(bonus, enemy):
 	difficult = enemy['defense']
-	base_attack = hero['attack'] + bonus
+	base_attack = Hero['attack'] + bonus
 	i = 0
 	rolls = []
 	while i < base_attack:

@@ -1,6 +1,6 @@
 from random import randint
 from mechanics.global_mechanics import modifiers
-from db.hero import hero
+from db.hero import Hero
 import actions
 import cinematics
 from core.config import print
@@ -10,7 +10,7 @@ from core.config import print
 
 def attack(enemy, bonus=0):
     difficult = enemy['defense']
-    base_attack = hero['attack'] + bonus
+    base_attack = Hero['attack'] + bonus
     i = 0
     rolls = []
     while i < base_attack:

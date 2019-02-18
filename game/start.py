@@ -1,7 +1,7 @@
 import cinematics
 from db.enemies import ugly_monster, strong_monster
 from db import enemies
-from db.hero import hero
+from db.hero import Hero
 from sys import argv
 from core.config import print
 
