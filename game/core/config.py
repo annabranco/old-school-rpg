@@ -22,6 +22,7 @@ def print(text):
         else:
             time.sleep(0.05)
             write_to_screen(letter)
+    write_to_screen('\n')
 
 
 def write_to_screen(letter):

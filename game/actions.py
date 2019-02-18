@@ -5,7 +5,7 @@ from core.config import print
 
 
 def ask_for_action():
-    print('What do you do?\n')
+    print('What do you do?')
     return input('> ')
 
 
