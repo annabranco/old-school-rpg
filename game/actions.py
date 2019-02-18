@@ -14,7 +14,7 @@ def encounter_reaction(enemy):
     if action == 'attack':
         print(
             f'You draw your sword and strike before {enemy["name"]} has a chance to understand what is happening.')
-        attack(enemy, 2)
+        attack(enemy, 2, True)
     elif action == 'wait':
         print(
             f'You wait to see the reaction of the {enemy["name"]}. He draws a club and comes to attack you.')
