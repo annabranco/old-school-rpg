@@ -1,12 +1,12 @@
-import sys
-import time
-from random import randrange
+temp = [{8: '✔️ success'}, {5: '✖️ fail'}, {5: '✖️ fail'}, {3: '✖️ fail'}]
+temp2 = [8,5,5,3]
+a = b = ''
+index = 0
+for item in temp:
+	a = temp2[index]
+	b = temp[index]
+	index += 1
 
-text = 'Testing printing test'
-
-for letter in text:
-    sys.stdout.write(letter)
-    sys.stdout.flush()
-    seconds = "0." + str(randrange(1, 3, 1))
-    seconds = float(seconds)
-    time.sleep(seconds)
+print(a)
+print(b)
+print(temp[0][8])
