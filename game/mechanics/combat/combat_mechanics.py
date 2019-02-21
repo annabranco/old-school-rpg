@@ -6,35 +6,12 @@ import cinematics
 import actions
 
 def dispatch_attack(difficult, base_attack, attacker, defendant):
-		i = 0
-		rolls = []
-		while i < base_attack:
-				rolls.append(randint(1, 10))
-				i += 1
-		successes = 0
-		print(str(rolls))
-		for roll in rolls:
-				if roll >= difficult:
-						successes += 1
-		print(f'successes: {successes}')
-		successes = successes - \
-				modifiers.manage_critical_fails(rolls) + modifiers.manage_critical_successes(rolls)
-		print(f'- total: {successes}')
 		if successes < 0:
 				epic_fail(successes, attacker)
 		elif successes > 1:
 				cause_damage(successes, attacker, defendant)
 		else:
 				missed(attacker, defendant)
-
-
-def epic_fail(successes, attacker):
-		if attacker == Hero:
-				print('You lose your balance and fall on the ground.\n')
-		else:
-				print(
-						f'{attacker["name"]} loses the balance and falls on the ground.\n')
-
 
 def cause_damage(successes, attacker, defendant):
 		hp = defendant['hp']

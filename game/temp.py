@@ -1,12 +1,9 @@
-temp = [{8: '✔️ success'}, {5: '✖️ fail'}, {5: '✖️ fail'}, {3: '✖️ fail'}]
-temp2 = [8,5,5,3]
-a = b = ''
-index = 0
-for item in temp:
-	a = temp2[index]
-	b = temp[index]
-	index += 1
+import cinematics
+from db.enemies import ugly_monster, strong_monster
+from db import enemies
+from db.hero import Hero
+from sys import argv
+from mechanics.global_mechanics.rolls import roll_dices
+from core.config import print
 
-print(a)
-print(b)
-print(temp[0][8])
+print(roll_dices(4, 6, 'anything'))
