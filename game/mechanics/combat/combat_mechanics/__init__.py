@@ -1,19 +1,17 @@
-from mechanics.global_mechanics import modifiers
-from random import randint
+from core.config import *
 from db.hero import Hero
-from core.config import print
-import cinematics
-import actions
+from db import cinematics
+from mechanics.combat.combat_rounds import combat_rounds
+from mechanics.combat import initiative
+from mechanics.combat import attack
+from mechanics.combat import defend
 
-def dispatch_attack(difficult, base_attack, attacker, defendant):
-		if successes < 0:
-				epic_fail(successes, attacker)
-		elif successes > 1:
-				cause_damage(successes, attacker, defendant)
-		else:
-				missed(attacker, defendant)
+# combat_rounds.took_action = {
+# 		'Hero': False,
+# 		'enemy': False
+# }
 
-def cause_damage(successes, attacker, defendant):
+def damage(successes, attacker, defendant):
 		hp = defendant['hp']
 		print(f' {defendant["name"]}\'s HP before attack:')
 		print(str(hp))
@@ -36,30 +34,38 @@ def cause_damage(successes, attacker, defendant):
 						print(f'{attacker["name"]} strikes you causing great pain and damage. You feel badly hurt.\n')
 				else:
 						print(f'You slash your sword causing a great damage on {defendant["name"]}. It is badly hurt.\n')
-
 		else:
-				defendant['hp'] = ['wounded', 2]
+				defendant['status'] = ['wounded', 2]
+				cause_wound(attacker, defendant, successes)
 
 		print('\nStart next round.\n')
-		next_round(defendant, attacker)
+		next_round(attacker, defendant)
 
 
-def next_round(defendant, attacker):
-		if defendant == Hero:
-			cinematics.declare_enemy_status(attacker)
-			cinematics.declare_hero_status(defendant)
-			actions.encounter_reaction(attacker)
+def next_round(attacker, defendant):
+		print(combat_rounds.took_action)
+		if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
+				initiative.initiative(attacker, 0)
+		elif combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
+				initiative.initiative(defendant, 0)
+		elif defendant == Hero and combat_rounds.took_action['enemy']:
+				cinematics.declare_enemy_status(attacker)
+				cinematics.declare_hero_status(defendant)
+				attack.attack(attacker, 0, False)
+		elif attacker == Hero and combat_rounds.took_action['Hero']:
+				cinematics.declare_enemy_status(defendant)
+				cinematics.declare_hero_status(attacker)
+				defend.defend(defendant, 0, False)
 		else:
-			cinematics.declare_enemy_status(defendant)
-			cinematics.declare_hero_status(attacker)
-			actions.encounter_reaction(defendant)
-
+				print('something went wrong')
 
 def missed(attacker, defendant):
 		if attacker == Hero:
 				print(f'You miss your blow on {defendant["name"]}.\n')
 		else:
 				print(f'{attacker["name"]} misses the attack against you.\n')
+		next_round(attacker, defendant)
+
 
 
 def death_by_combat(Hero, enemy):
@@ -76,6 +82,6 @@ def killed_enemy(enemy):
 		exit(0)
 
 
-def cause_wound(defendant, attacker, severity):
+def cause_wound(attacker, defendant, severity):
 		print(
 				f'You strike a blow on {defendant["name"]}, causing some blood to spill.\n')

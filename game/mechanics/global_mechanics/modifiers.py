@@ -1,3 +1,5 @@
+from core.config import *
+
 def manage_critical_fails(rolls):
 		critical_fails = 0
 		for roll in rolls:

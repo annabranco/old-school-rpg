@@ -1,16 +1,16 @@
-from random import randint
-from mechanics.global_mechanics import modifiers
+from core.config import *
 from db.hero import Hero
-import actions
-import cinematics
-from core.config import print
-from mechanics.global_mechanics.rolls import roll_dices
-from mechanics.combat.combat_mechanics import cause_damage, missed
-from db.fails import disastrous_fail_on_attack
+from mechanics.global_mechanics.rolls.rolls import roll_dices
+from mechanics.combat import combat_mechanics
+from mechanics.combat.combat_rounds import combat_rounds
+from db import fails
+
 # define texts by types of weapons
 
 
 def attack(enemy, bonus=0, surprise_attack=False):
+
+		combat_rounds.took_action['Hero'] = True
 
 		if surprise_attack == True:
 				difficult = 2
@@ -22,15 +22,15 @@ def attack(enemy, bonus=0, surprise_attack=False):
 
 		if results_text == 'epic':
 				print('Epic success on attack')
-				cause_damage(results_number, Hero, enemy)
+				combat_mechanics.damage(results_number, Hero, enemy)
 		elif results_text == 'decisive' or results_number > 0:
-				cause_damage(results_number, Hero, enemy)
+				combat_mechanics.damage(results_number, Hero, enemy)
 		elif results_text == 'critical':
 				print('Critical fail on attack')
-				disastrous_fail_on_attack(results_number, Hero, enemy)
+				fails.disastrous_fail_on_attack(results_number, Hero, enemy)
 		elif results_text == 'disastrous':
 				print('Disastrous fail on attack')
-				disastrous_fail_on_attack(results_number, Hero, enemy)
+				fails.disastrous_fail_on_attack(results_number, Hero, enemy)
 		else:
-				missed(Hero, enemy)
+				combat_mechanics.missed(Hero, enemy)
 

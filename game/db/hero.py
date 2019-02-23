@@ -1,6 +1,6 @@
 Hero = {
     'name': 'Hero',
-    'attack': 5,
+    'attack': 1,
     'speed': 5,
     'defense': 5,
     'hp': 5,

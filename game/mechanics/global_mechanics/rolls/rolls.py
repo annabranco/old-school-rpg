@@ -1,6 +1,7 @@
-from random import randint
+from core.config import *
 import time
-from core.config import write_to_screen
+from random import randint
+
 
 def roll_dices(dices_number, difficult, reason):
 		print(str(difficult))

@@ -1,6 +1,6 @@
 ugly_monster = {
 		'name': 'Ugly Monster',
-		'attack': 5,
+		'attack': 1,
 		'defense': 5,
 		'hp': 2,
 		'status': ['angry', 3],

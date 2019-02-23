@@ -1,5 +1,5 @@
-import actions
-from core.config import print
+from core.config import *
+from mechanics.actions import actions
 from db.hero import Hero
 
 def start_encounter(enemy):
