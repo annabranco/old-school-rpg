@@ -1,8 +1,10 @@
 Hero = {
     'name': 'Hero',
     'attack': 1,
-    'speed': 5,
-    'defense': 5,
-    'hp': 5,
-		'status': ['feeling fine', 5]
+    'speed': 1,
+    'defense': 1,
+		'total_hp': 5,
+    'hp': 1,
+		'status': ['feeling fine', 5],
+		'weapon': 'sword'
 }
