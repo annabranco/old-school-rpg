@@ -72,17 +72,17 @@ def cause_damage(successes, enemy):
 	print(hp)
 	new_hp = hp - successes
 	if new_hp <= 0:
-		enemy['hp'] = ['dead', 0]
+		enemy['status'] = ['dead', 0]
 		print(f'You give a mortal thrust of your blade and {enemy['name']} falls dead.')
 		print('You win!')
 		exit(0)
 	elif new_hp <= hp / 3:
 		enemy['hp'] = new_hp
-		enemy['hp'] = ['severily wounded', 1]
+		enemy['status'] = ['severily wounded', 1]
 		print(f'You slash your sword causing a great damage on {enemy['name']}. It is badly hurt'.)
 	else:
 		enemy['hp'] = new_hp
-		enemy['hp'] = ['wounded', 2]
+		enemy['status '] = ['wounded', 2]
 		print(f'You strike a blow on {enemy['name']}, causing some blood to spill'.)
 	next_round()
 
