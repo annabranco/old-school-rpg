@@ -1,6 +1,6 @@
 from core.config import *
 from db.hero import Hero
-from mechanics.global_mechanics.rolls.rolls import roll_dices
+from mechanics.global_mechanics.rolls import roll_dices
 from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
 import mechanics.combat
@@ -17,7 +17,7 @@ def defend(enemy, bonus=0, focus_on_defense=False):
 		difficult = Hero['defense'] + bonus
 		base_attack = enemy['attack']
 
-		results_number, results_text = roll_dices(base_attack, difficult, f'Defending {enemy["name"]}')
+		results_number, results_text = roll_dices(base_attack, difficult, f'{enemy["name"]}\'s Attack:')
 
 		if results_text == 'epic':
 				print('Epic success on attack')
