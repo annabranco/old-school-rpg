@@ -1,5 +1,6 @@
 import sys
 import time
+from textwrap import dedent
 
 # This function overwrites basic "print" so the texts are print like they were being typed
 # def print(text):
@@ -25,6 +26,26 @@ import time
 # 						write_to_screen(letter)
 # 		write_to_screen('\n')
 
+
+def print_cinematics(text):
+		write_to_screen('\t\t')
+		print(text)
+
 def write_to_screen(letter):
 		sys.stdout.write(letter)
 		sys.stdout.flush()
+
+def mechanics_block(action):
+		write_to_screen('\n\n\n')
+		write_to_screen('----------------------------- ')
+		write_to_screen(action)
+		write_to_screen(' -----------------------------')
+		write_to_screen('\n')
+
+def cinematics_block():
+		write_to_screen('\n')
+		write_to_screen('----------------------------------------------------------')
+		write_to_screen('\n\n')
+
+def action_block():
+		print('\n\t\t---\n')

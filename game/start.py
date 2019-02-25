@@ -1,5 +1,5 @@
 from db import enemies
-from db import cinematics
+import cinematics
 from sys import argv
 
 argv = argv[1:]
