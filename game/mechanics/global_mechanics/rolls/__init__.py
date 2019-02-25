@@ -1,10 +1,9 @@
-from core.config import *
+from core.config import write_to_screen
 import time
 from random import randint
 
 
 def roll_dices(dices_number, difficult, reason):
-		print(str(difficult))
 		i = 1
 		rolls = []
 		rolled_results = []
@@ -34,18 +33,16 @@ def roll_dices(dices_number, difficult, reason):
 				else:
 						rolled_results.append({roll: '✖️ fail'})
 						results_object['fail'] += 1
+
 		results_object['decisiveMinusCritical'] = results_object['decisive'] - results_object['critical']
-		print(f'decisiveMinusCritical: {results_object["decisiveMinusCritical"]}')
 		results_object['final_result'] = results_object['success'] + results_object['decisiveMinusCritical']
 		special = print_rolls(difficult, rolls, rolled_results, results_object, reason)
 		return [results_object['final_result'],special]
 
 def print_rolls(difficult, rolls, rolled_results, results_object, reason):
-		print('==========================')
 		time.sleep(0.01)
-		print(f'{reason}')
-		print(f'Dices to roll: {len(rolled_results)}')
-		print(f'Difficult: {difficult}')
+		print(f'  *** {reason} ***')
+		print(f'Dices to roll: {len(rolled_results)}, difficult: {difficult}')
 		print('\n')
 		index = 0
 		while index < len(rolls):
@@ -59,8 +56,8 @@ def print_rolls(difficult, rolls, rolled_results, results_object, reason):
 		print('\n')
 		special, result, final_result  = define_result(results_object)
 
-		print(f'Result: {special} {result} ({final_result})')
-		print('==========================')
+		print(f'\t* Result: {special.upper()} {result.upper()} ({final_result})')
+		print('\n')
 		return special
 
 def define_result(results_object):
