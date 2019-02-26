@@ -1,30 +1,52 @@
-# Basic Python exercises
+# Old -school RPG
 
-This is just a repo with very basic python coding, as part of my learning of this great language. All exercises but _test.py_ were written by me.
+_Under construction_
 
-- test.py
-this is a very very basic exercise with strings and numbers
+This is a text-based Fantasy Role Playing Game.
 
-- test0.py ❤️
-  this is an exercise using argv and records names on an eternal file (names.txt).
-	You may initiate it using an opitional name
-	`python3 test0.py`
-	or
-	`python3 test0.py Anna`
+The aim to create a flexible backend system designed to acomodate different stories and games.
 
-- test1.py
-this is a basic exercise fooling around with local and global variables.
-	Like _test0_, you may initiate it using an opitional name or not. It not, it gives  default value for argv.
-		`python3 test0.py <Anna>`
+### Current development: combat system.
 
-- test2.py
-this is a basic Class exercise with and without constructor
+## Next dev:
+- Coding characters as Classes and Subclasses.
 
-- test3.py
-this is a basic exercise using dictionaries and lists. It doesn't print a thing.
 
-- test4.py
-this is a basic exercise using module imports. It prints _test3_.
+## Implemented:
 
-- test5.py ❤️
-this is a more throughout exercise using Class and inheritance. I really like this one!
+### System:
+* Printing cinematics;
+* Printing mechanics.
+
+### Global mechanics:
+* Dice rolls;
+* Modifiers;
+* Status changes.
+
+
+### Combat mechanics:
+* Combat rounds;
+* Initiative;
+* Attacking;
+* Defending;
+* Damage;
+* Simultaneous attack;
+* Missing attack.
+
+### Actions:
+* Global prompt;
+* Attack;
+* Defend;
+* Wait.
+
+### Database:
+* Hero;
+* Enemies;
+* Status;
+* Damages;
+* Death;
+* Kills;
+* Fails.
+
+### Cinematics:
+* Start encounter;
