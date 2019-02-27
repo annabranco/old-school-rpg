@@ -59,18 +59,25 @@ class Character(object):
                 print(f'\t- {item}')
 
     def draw_weapon(self):
-        if self.weapon["type"] == 'blade':
-            action = ['unsheathe',  'unsheathes']
-        elif self.weapon["type"] == 'range':
-            action = ['place an arrow on',
-                      'places an arrow on']
-        elif self.weapon["type"] == 'blunt':
-            action = ['draw', 'draws']
-
-        if self.type == 'Player':
-            print(f'You {action[0]} your {self.weapon["name"]}.')
+        if not self.weapon["name"]:
+            if self.type == 'Player':
+                print(f'You have no weapon.')
+            else:
+                exit(
+                    f'{self.name} doesn\'t have a weapon. This is probably a mistake on your code.')
         else:
-            print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
+            if self.weapon["type"] == 'blade':
+                action = ['unsheathe',  'unsheathes']
+            elif self.weapon["type"] == 'range':
+                action = ['place an arrow on',
+                          'places an arrow on']
+            elif self.weapon["type"] == 'blunt':
+                action = ['draw', 'draws']
+
+            if self.type == 'Player':
+                print(f'You {action[0]} your {self.weapon["name"]}.')
+            else:
+                print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
 
 
 class Player(Character):
@@ -144,9 +151,15 @@ hammer = {'name': 'Warhammer', 'type': 'blunt', 'bonus': 2}
 # Hero.drop_item()
 # Hero.declare_inventory()
 
+# DRAW WEAPONS
+no_weapon = {'name': '', 'type': '', 'bonus': 0}
 Hero.weapon = long_sword
 Orc.weapon = hammer
 Ariel.weapon = bow
 Hero.draw_weapon()
 Orc.draw_weapon()
+Ariel.draw_weapon()
+Hero.weapon = no_weapon
+Ariel.weapon = no_weapon
+Hero.draw_weapon()
 Ariel.draw_weapon()
