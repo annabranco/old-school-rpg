@@ -5,10 +5,10 @@ class Character(object):
     def __init__(self, name, type, race):
         self.name = name
         self.type = type
-        self.race = ''
-        self.weapon = {'name': '', 'bonus': 0}
-        self.shield = {'name': '', 'bonus': 0}
-        self.armor = {'name': '', 'bonus': 0}
+        self.race = race
+        self.weapon = {'name': '', 'type': '', 'bonus': 0}
+        self.shield = {'name': '', 'type': '', 'bonus': 0}
+        self.armor = {'name': '', 'type': '', 'bonus': 0}
         self.inventory = []
         self.attack = 0
         self.defense = 0
@@ -58,6 +58,20 @@ class Character(object):
             else:
                 print(f'\t- {item}')
 
+    def draw_weapon(self):
+        if self.weapon["type"] == 'blade':
+            action = ['unsheathe',  'unsheathes']
+        elif self.weapon["type"] == 'range':
+            action = ['place an arrow on',
+                      'places an arrow on']
+        elif self.weapon["type"] == 'blunt':
+            action = ['draw', 'draws']
+
+        if self.type == 'Player':
+            print(f'You {action[0]} your {self.weapon["name"]}.')
+        else:
+            print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
+
 
 class Player(Character):
     def __init__(self, name='Hero', race='human'):
@@ -91,17 +105,22 @@ class Player(Character):
             self.inventory.remove(item)
         else:
             print(f'You don\'t have {which_item} on your inventory.')
-        print(self.inventory)
 
 
 class NPC(Character):
     def __init__(self, name='Ugly Monster', race='humanoid'):
         super(NPC, self).__init__(name, 'NPC', race)
 
+    def set_name(self, new_name):
+        self.name = new_name
+        print(f'The {self.race} tells you his name is {self.name}.')
 
-Hero = Player('Anna', 'elf')
+
+Hero = Player('Anna', 'human')
 Orc = NPC('Orc', 'orc')
-
+Ariel = NPC('Ariel')
+Ariel.set_name('Ariel')
+Orc.set_name('Zogro')
 # ---- DAMAGE
 # Hero.full_hp = Hero.hp = 6
 # Hero.take_damage(2)
@@ -111,13 +130,23 @@ Orc = NPC('Orc', 'orc')
 # Orc.declare_status()
 
 # ---- GET ITEMS
-Hero.get_item('arrows')
-Hero.get_item('bow')
-Hero.get_item({'name': 'book'})
-long_sword = {'name': 'Long sword', 'bonus': 2}
-Hero.get_item(long_sword)
-Hero.declare_inventory()
-Hero.drop_item('bow')
-Hero.declare_inventory()
-Hero.drop_item()
-Hero.declare_inventory()
+long_sword = {'name': 'Long sword', 'type': 'blade', 'bonus': 2}
+bow = {'name': 'Short Bow', 'type': 'range', 'bonus': 2}
+hammer = {'name': 'Warhammer', 'type': 'blunt', 'bonus': 2}
+
+# Hero.get_item('arrows')
+# Hero.get_item('bow')
+# Hero.get_item({'name': 'book'})
+# Hero.get_item(long_sword)
+# Hero.declare_inventory()
+# Hero.drop_item('bow')
+# Hero.declare_inventory()
+# Hero.drop_item()
+# Hero.declare_inventory()
+
+Hero.weapon = long_sword
+Orc.weapon = hammer
+Ariel.weapon = bow
+Hero.draw_weapon()
+Orc.draw_weapon()
+Ariel.draw_weapon()
