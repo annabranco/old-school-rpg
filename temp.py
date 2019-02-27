@@ -122,12 +122,16 @@ class NPC(Character):
         self.name = new_name
         print(f'The {self.race} tells you his name is {self.name}.')
 
+    def declare_action(self, action):
+        print(f'{self.name} is {action}.')
+
 
 Hero = Player('Anna', 'human')
 Orc = NPC('Orc', 'orc')
 Ariel = NPC('Ariel')
 Ariel.set_name('Ariel')
 Orc.set_name('Zogro')
+
 # ---- DAMAGE
 # Hero.full_hp = Hero.hp = 6
 # Hero.take_damage(2)
@@ -152,14 +156,17 @@ hammer = {'name': 'Warhammer', 'type': 'blunt', 'bonus': 2}
 # Hero.declare_inventory()
 
 # DRAW WEAPONS
-no_weapon = {'name': '', 'type': '', 'bonus': 0}
-Hero.weapon = long_sword
-Orc.weapon = hammer
-Ariel.weapon = bow
-Hero.draw_weapon()
-Orc.draw_weapon()
-Ariel.draw_weapon()
-Hero.weapon = no_weapon
-Ariel.weapon = no_weapon
-Hero.draw_weapon()
-Ariel.draw_weapon()
+# no_weapon = {'name': '', 'type': '', 'bonus': 0}
+# Hero.weapon = long_sword
+# Orc.weapon = hammer
+# Ariel.weapon = bow
+# Hero.draw_weapon()
+# Orc.draw_weapon()
+# Ariel.draw_weapon()
+# Hero.weapon = no_weapon
+# Ariel.weapon = no_weapon
+# Hero.draw_weapon()
+# Ariel.draw_weapon()
+
+Orc.declare_action('sleeping')
+Ariel.declare_action('paying attention on you')
