@@ -78,9 +78,9 @@ class Player(Character):
             which_item = input('> ')
             for this_item in self.inventory:
                 if type(this_item) == dict:
-                    if this_item["name"] == which_item:
+                    if str(this_item["name"]).lower() == which_item.lower():
                         item = this_item
-                elif this_item == which_item:
+                elif this_item.lower() == which_item.lower():
                     item = this_item
 
         if item != None:
