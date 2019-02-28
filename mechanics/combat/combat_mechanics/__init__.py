@@ -35,15 +35,16 @@ def damage(successes, attacker, defendant):
 
     next_round(attacker, defendant)
 
+
 def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
 
-    total_hp_hero = Hero.full_hp
     new_hero_hp = Hero.hp - abs(results_number_enemy)
     Hero.hp = new_hero_hp
+    Hero.change_status()
 
-    total_hp_enemy = enemy.full_hp
     new_enemy_hp = enemy.hp - abs(results_number_hero)
     enemy.hp = new_enemy_hp
+    enemy.change_status()
 
     print('Current HPs after the simultaneous attack:')
     print(f'You: {Hero.hp}')
@@ -52,21 +53,30 @@ def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
     Hero.declare_status()
     enemy.declare_status()
 
-
-    if new_hero_hp <= 0 and new_enemy_hp <= 0:
+    if Hero.status == 'dead' and enemy.status == 'dead':
         death.mutual_death_by_combat(enemy)
-    elif new_hero_hp <= 0:
+    elif Hero.status == 'dead':
         death.death_by_simultaneous_attack(enemy, results_number_hero)
-    elif new_enemy_hp <= 0:
+    elif enemy.status == 'dead':
         kills.killed_enemy_on_simultaneous_attack(Hero, enemy)
     else:
-# TODO: CHECK THIS BLOCK. Message of damage is fired event though one misses
         cinematics_block()
-        print_cinematics(
-            f'You and {enemy.name} hit each other at the same time, causing mutual damage.')
+        if results_number_hero > 0 and results_number_enemy > 0:
+            print_cinematics(
+                f'You and {enemy.name} hit each other at the same time, causing mutual damage.')
+        elif results_number_hero > 0:
+            print_cinematics(
+                f'You parry the {enemy.name} attack and hit it, causing some damage.')
+        elif results_number_enemy > 0:
+            print_cinematics(
+                f'Taking advantage of your innefective attack, {enemy.name} strikes you a blow.')
+        else:
+            print_cinematics(
+                f'You clash with {enemy.name}, but but your attaks block each other.')
         cinematics_block()
         print('\nStart next round.\n')
         next_round(Hero, enemy)
+
 
 def next_round(attacker, defendant):
     if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:

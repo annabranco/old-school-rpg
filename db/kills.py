@@ -1,11 +1,12 @@
 from textwrap import dedent
 from core.config import print_cinematics, cinematics_block
 import cinematics
+from core.characters.Hero import Hero
 
 
 def victory():
     cinematics_block()
-    cinematics.declare_hero_status()
+    Hero.declare_status()
     print_cinematics('You win!\n')
     exit(0)
 

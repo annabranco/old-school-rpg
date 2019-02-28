@@ -16,7 +16,6 @@ class Character(object):
         self.hp = 0
         self.speed = 0
         self.status = 'unknown'
-        self.get_status = self.declare_status()
 
     def change_status(self):
         if self.hp <= 0:
@@ -41,9 +40,9 @@ class Character(object):
 
     def declare_status(self):
         if self.type == 'Player':
-            return f'You are {self.status}'
+            print(f'You are {self.status}')
         else:
-            return f'{self.name} looks {self.status}.'
+            print(f'{self.name} looks {self.status}.')
 
     def declare_hp(self):
         if self.type == 'Player':
