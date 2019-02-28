@@ -90,7 +90,7 @@ def next_round(attacker, defendant):
         action_block()
         attack.attack(attacker, 0, False)
     elif attacker == Hero and combat_rounds.took_action['Hero']:
-        attacker.declare_status()
+        defendant.declare_status()
         Hero.declare_status()
         action_block()
         defend.defend(defendant, 0, False)
