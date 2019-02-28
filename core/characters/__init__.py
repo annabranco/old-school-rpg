@@ -17,17 +17,21 @@ class Character(object):
         self.speed = 0
         self.status = 'unknown'
 
-    def change_status(self):
-        if self.hp <= 0:
-            self.status = 'dead'
-        elif self.hp == self.full_hp:
-            self.status = 'well'
-        elif self.hp <= ceil(self.full_hp / 3):
-            self.status = 'severily wounded'
-        elif self.hp <= ceil(self.full_hp * 2 / 3):
-            self.status = 'wounded'
+    def change_status(self, new_status = None):
+        if not new_status:
+            if self.hp <= 0:
+                self.status = 'dead'
+            elif self.hp == self.full_hp:
+                self.status = 'well'
+            elif self.hp <= ceil(self.full_hp / 3):
+                self.status = 'severily wounded'
+            elif self.hp <= ceil(self.full_hp * 2 / 3):
+                self.status = 'wounded'
+            else:
+                self.status = 'lightly wounded'
         else:
-            self.status = 'lightly wounded'
+            self.status = new_status
+
 
     def take_damage(self, damage):
         self.hp = self.hp - damage

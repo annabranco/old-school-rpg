@@ -4,7 +4,7 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from core.characters.Hero import Hero
 from core.config import *
-
+from cinematics import scenario
 
 def ask_for_action():
     print_cinematics('What do you do?')
@@ -46,9 +46,49 @@ def encounter_reaction_aware(action, enemy):
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and prepare to face him.')
         initiative.initiative(enemy, 0)
+
     elif action == 'defend':
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and put yourself on a defensive stance while the {enemy.name} draws a {enemy.weapon["name"]} and comes to attack you.')
         mechanics_block('COMBAT')
         combat_rounds.took_action['Hero'] = True
         defend.defend(enemy, 0, True)
+
+def where(place):
+    return getattr(scenario, place)
+
+def basic_actions():
+        place = ask_for_action()
+
+    # if action == 'look around' or action == 'look':
+    #     print_cinematics(
+    #         f'You look around and you see {scenario.description}.')
+
+    # elif action == 'search':
+    #     print('Where would you like to search?')
+    #     place = input('> ')
+        if place in scenario.ambient:
+            print_cinematics(f'You search the {place} but you find nothing.')
+        elif place in scenario.far_away:
+            print_cinematics(f'It is too far away.')
+        elif place in scenario.has_something:
+            if where(place)[0]["special"] != None:
+                print(where(place)[0]["special"])
+                Hero.change_status('tired')
+                Hero.declare_status()
+            if len(where(place)) > 1:
+                print('You\'ve found:')
+                for item in where(place):
+                    if item.get("name") != None:
+                        print(f'- {item.get("name")}')
+
+
+            # if not getattr(scenario, place["special"]):
+            #     print(getattr(scenario, place["special"])
+            # else:
+            #     print(f'You\'ve found {getattr(scenario, place["special"]}')
+
+        # for place in scenario.ambient:
+        #     if place == search_where:
+        #         print_cinematics(f'You search {place} but you find nothing.')
+
