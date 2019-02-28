@@ -35,6 +35,38 @@ def damage(successes, attacker, defendant):
 
     next_round(attacker, defendant)
 
+def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
+
+    total_hp_hero = Hero.full_hp
+    new_hero_hp = Hero.hp - abs(results_number_enemy)
+    Hero.hp = new_hero_hp
+
+    total_hp_enemy = enemy.full_hp
+    new_enemy_hp = enemy.hp - abs(results_number_hero)
+    enemy.hp = new_enemy_hp
+
+    print('Current HPs after the simultaneous attack:')
+    print(f'You: {Hero.hp}')
+    print(f'{enemy.name}: {enemy.hp}')
+
+    Hero.declare_status()
+    enemy.declare_status()
+
+
+    if new_hero_hp <= 0 and new_enemy_hp <= 0:
+        death.mutual_death_by_combat(enemy)
+    elif new_hero_hp <= 0:
+        death.death_by_simultaneous_attack(enemy, results_number_hero)
+    elif new_enemy_hp <= 0:
+        kills.killed_enemy_on_simultaneous_attack(Hero, enemy)
+    else:
+# TODO: CHECK THIS BLOCK. Message of damage is fired event though one misses
+        cinematics_block()
+        print_cinematics(
+            f'You and {enemy.name} hit each other at the same time, causing mutual damage.')
+        cinematics_block()
+        print('\nStart next round.\n')
+        next_round(Hero, enemy)
 
 def next_round(attacker, defendant):
     if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
@@ -43,13 +75,13 @@ def next_round(attacker, defendant):
     elif combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
         initiative.initiative(defendant, 0)
     elif defendant == Hero and combat_rounds.took_action['enemy']:
-        cinematics.declare_enemy_status(attacker)
-        cinematics.declare_hero_status()
+        attacker.declare_status()
+        Hero.declare_status()
         action_block()
         attack.attack(attacker, 0, False)
     elif attacker == Hero and combat_rounds.took_action['Hero']:
-        cinematics.declare_enemy_status(defendant)
-        cinematics.declare_hero_status()
+        attacker.declare_status()
+        Hero.declare_status()
         action_block()
         defend.defend(defendant, 0, False)
     else:
@@ -59,58 +91,9 @@ def next_round(attacker, defendant):
 def missed(attacker, defendant):
     cinematics_block()
     if attacker == Hero:
-        print_cinematics(f'You miss your blow on {defendant["name"]}.\n')
+        print_cinematics(f'You miss your blow on {defendant.name}.\n')
     else:
         print_cinematics(
-            f'{attacker["name"]} misses the attack against you.\n')
+            f'{attacker.name} misses the attack against you.\n')
     cinematics_block()
     next_round(attacker, defendant)
-
-
-def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
-
-    total_hp_hero = Hero['total_hp']
-    hp_hero = Hero['hp']
-    new_hero_hp = hp_hero - abs(results_number_enemy)
-    Hero['hp'] = new_hero_hp
-
-    total_hp_enemy = enemy['total_hp']
-    hp_enemy = enemy['hp']
-    new_enemy_hp = hp_enemy - abs(results_number_hero)
-    enemy['hp'] = new_enemy_hp
-
-    print('Current HPs after the simultaneous attack:')
-    print(f'You: {new_hero_hp}')
-    print(f'{enemy["name"]}: {new_enemy_hp}')
-
-    if new_hero_hp <= 0:
-        status_changes.update_status(Hero, 'dead')
-    elif new_hero_hp <= total_hp_hero / 3:
-        status_changes.update_status(Hero, 'severily wounded')
-    elif new_hero_hp <= total_hp_hero / 3 * 2:
-        status_changes.update_status(Hero, 'wounded')
-    elif new_hero_hp < total_hp_hero:
-        status_changes.update_status(Hero, 'lightly wounded')
-
-    if new_enemy_hp <= 0:
-        status_changes.update_status(enemy, 'dead')
-    elif new_enemy_hp <= total_hp_enemy / 3:
-        status_changes.update_status(enemy, 'severily wounded')
-    elif new_enemy_hp <= total_hp_enemy / 3 * 2:
-        status_changes.update_status(enemy, 'wounded')
-    elif new_enemy_hp < total_hp_enemy:
-        status_changes.update_status(enemy, 'lightly wounded')
-
-    if new_hero_hp <= 0 and new_enemy_hp <= 0:
-        death.mutual_death_by_combat(enemy)
-    elif new_hero_hp <= 0:
-        death.death_by_simultaneous_attack(enemy, results_number_hero)
-    elif new_enemy_hp <= 0:
-        kills.killed_enemy_on_simultaneous_attack(Hero, enemy)
-    else:
-        cinematics_block()
-        print_cinematics(
-            f'You and {enemy["name"]} hit each other at the same time, causing mutual damage.')
-        cinematics_block()
-        print('\nStart next round.\n')
-        next_round(Hero, enemy)
