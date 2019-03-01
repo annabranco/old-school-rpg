@@ -1,23 +1,13 @@
-description = 'a vast green field full of trees. \
-Near you there are some bushes and far away you can see a river flowing from the left \
-to the right. The trail you\'ve been following seems to go on until a bridge on the river'
-
-floor = []
-bushes = [
-	{'special': 'You spend a very long time searching the bushes and start to feel tired.', 'status': 'tired'},
-	{
-	'description': 'are high green bushes full of leaves',
-	'name': 'coin',
-	'hidden': True,
-}]
-trees = [
-	{'special': None},
-	{
-	'description': 'are apple trees full of apples',
-	'name': 'apples',
-	'hidden': False,
-}]
-
-ambient = ['trail', 'field']
-has_something = ['bushes', 'trees']
-far_away = ['river', 'bridge']
+class Scenario(object):
+    def __init__(self, name, scene):
+        self.scene = scene
+        self.name = name
+        self.description = 'a dull boring vast desert full of sand'
+        self.encounter_rate = 0
+        self.hiding_places = []
+        self.status_on_entering = ''
+        self.ambient = ['sand']
+        self.has_something = []
+        self.far_away = []
+        self.floor = []
+        self.exits = []

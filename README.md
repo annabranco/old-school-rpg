@@ -17,7 +17,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 ### System:
 * Printing cinematics;
 * Printing mechanics;
-* Hero Class.
+* Characters constructor;
+* Hero constructor.
 
 ### Global mechanics:
 * Dice rolls;
@@ -43,7 +44,6 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Search (WIP).
 
 ### Database:
-* Characters generic Class;
 * Enemies basic db;
 * Status.
 
