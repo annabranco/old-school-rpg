@@ -1,4 +1,4 @@
-from db.fails import disastrous_fail_on_attack
+from cinematics.fails import disastrous_fail_on_attack
 from core.characters.Hero import Hero
 from db.enemies import ugly_monster
 from mechanics.actions import *

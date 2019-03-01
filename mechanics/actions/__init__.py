@@ -4,7 +4,7 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from core.characters.Hero import Hero
 from core.config import *
-from cinematics import scenario
+import scenarios
 
 def ask_for_action():
     print_cinematics('What do you do?')
@@ -55,7 +55,7 @@ def encounter_reaction_aware(action, enemy):
         defend.defend(enemy, 0, True)
 
 def where(place):
-    return getattr(scenario, place)
+    return getattr(scenarios, place)
 
 def basic_actions():
         place = ask_for_action()
@@ -67,11 +67,11 @@ def basic_actions():
     # elif action == 'search':
     #     print('Where would you like to search?')
     #     place = input('> ')
-        if place in scenario.ambient:
+        if place in scenarios.ambient:
             print_cinematics(f'You search the {place} but you find nothing.')
-        elif place in scenario.far_away:
+        elif place in scenarios.far_away:
             print_cinematics(f'It is too far away.')
-        elif place in scenario.has_something:
+        elif place in scenarios.has_something:
             if where(place)[0]["special"] != None:
                 print(where(place)[0]["special"])
                 Hero.change_status('tired')
@@ -83,12 +83,12 @@ def basic_actions():
                         print(f'- {item.get("name")}')
 
 
-            # if not getattr(scenario, place["special"]):
-            #     print(getattr(scenario, place["special"])
+            # if not getattr(scenarios, place["special"]):
+            #     print(getattr(scenarios, place["special"])
             # else:
-            #     print(f'You\'ve found {getattr(scenario, place["special"]}')
+            #     print(f'You\'ve found {getattr(scenarios, place["special"]}')
 
-        # for place in scenario.ambient:
+        # for place in scenarios.ambient:
         #     if place == search_where:
         #         print_cinematics(f'You search {place} but you find nothing.')
 
