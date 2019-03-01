@@ -9,8 +9,6 @@ from db import status
 from cinematics import death
 from cinematics import kills
 from cinematics import damages
-from mechanics.global_mechanics import status_changes
-
 
 def damage(successes, attacker, defendant):
     defendant.take_damage(abs(successes))

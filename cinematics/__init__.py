@@ -1,6 +1,6 @@
 from core.config import print_cinematics
 from mechanics import actions
-from db.hero import Hero
+from core.characters.Hero import Hero
 
 
 def start_encounter(enemy):
