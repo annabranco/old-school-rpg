@@ -2,7 +2,7 @@ from core.characters.Hero import Hero
 from mechanics.global_mechanics.rolls import roll_dices
 from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
-from db import fails
+from cinematics import fails
 from mechanics.combat import initiative
 from core.config import *
 

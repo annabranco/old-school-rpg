@@ -5,7 +5,7 @@ from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
 import mechanics.combat
 
-from db import fails
+from cinematics import fails
 
 
 def defend(enemy, bonus=0, focus_on_defense=False):

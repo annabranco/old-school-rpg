@@ -6,9 +6,9 @@ from mechanics.combat import initiative
 from mechanics.combat import attack
 from mechanics.combat import defend
 from db import status
-from db import death
-from db import kills
-from db import damages
+from cinematics import death
+from cinematics import kills
+from cinematics import damages
 from mechanics.global_mechanics import status_changes
 
 
