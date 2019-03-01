@@ -9,14 +9,15 @@ The aim to create a flexible backend system designed to acomodate different stor
 ### Current development: combat system.
 
 ## Next dev:
-- Coding characters as Classes and Subclasses.
+- Coding scenarios as Classes.
 
 
 ## Implemented:
 
 ### System:
 * Printing cinematics;
-* Printing mechanics.
+* Printing mechanics;
+* Hero Class.
 
 ### Global mechanics:
 * Dice rolls;
@@ -37,16 +38,22 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Global prompt;
 * Attack;
 * Defend;
-* Wait.
+* Wait;
+* Look (WIP);
+* Search (WIP).
 
 ### Database:
-* Hero;
-* Enemies;
-* Status;
-* Damages;
-* Death;
-* Kills;
-* Fails.
+* Characters generic Class;
+* Enemies basic db;
+* Status.
 
 ### Cinematics:
 * Start encounter;
+* Damages;
+* Deathes;
+* Kills;
+* Fails.
+
+### Scenarios:
+* Base (WIP);
+* Testing Forest (WIP).
