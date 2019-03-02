@@ -10,16 +10,20 @@ testing_forest.has_something = ['bushes', 'trees']
 testing_forest.hiding_places = ['bushes']
 
 bushes = [
-    {'special': 'You spend a very long time searching the bushes and start to feel tired.', 'status': 'tired'},
     {
-        'description': 'are high green bushes full of leaves',
+        'description': 'are 3 feet green bushes full of leaves',
+        'on_searching': 'You spend a very long time searching the bushes and start to feel tired.',
+        'searching_effect': 'tired'
+        },
+    {
         'name': 'coin',
         'hidden': True,
     }]
 trees = [
-    {'special': None},
     {
         'description': 'are apple trees full of apples',
+    },
+    {
         'name': 'apples',
         'hidden': False,
     }]

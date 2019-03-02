@@ -4,6 +4,7 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from core.characters.Hero import Hero
 from core.config import *
+from mechanics.actions.viewing import look
 
 def ask_for_action():
     print_cinematics('What do you do?')
@@ -62,9 +63,9 @@ def basic_actions(scenario):
     print_cinematics('What do you do?')
     while True:
         action = await_for_action()
-        if action == 'look around' or action == 'look':
-            print_cinematics(
-                f'You look around and you see {scenario.description}.')
+        if action.startswith('look'):
+            what = action.replace('look', '').lstrip()
+            look(what, scenario)
 
         elif action == 'search':
             print('Where would you like to search?')
@@ -75,9 +76,9 @@ def basic_actions(scenario):
                 print_cinematics(f'It is too far away.')
             elif place in scenario.has_something:
                 searching_place = getattr(scenario, place)
-                if getattr(scenario, place)[0]["special"] != None:
-                    print(searching_place[0]["special"])
-                    Hero.change_status('tired')
+                if searching_place.get("on_searching") != None:
+                    print(searching_place[0].get("on_searching"))
+                    Hero.change_status(searching_place[0].get("searching_effect"))
                     Hero.declare_status()
                 if len(searching_place) > 1:
                     print('You\'ve found:')
