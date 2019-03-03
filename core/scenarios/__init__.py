@@ -88,6 +88,4 @@ class Scenario(object):
 
         - call example:
         trees["on_looking"]('trees')
-
-
 '''

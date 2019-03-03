@@ -1,4 +1,4 @@
-from scenarios import Scenario
+from core.scenarios import Scenario
 
 # CREATES A SPECIFIC SCENARIO INSTANCE AND ADDS ITS ATTRIBUTES
 testing_forest = Scenario('Forest', 'scene01', 'a forest')

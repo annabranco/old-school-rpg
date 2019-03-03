@@ -58,7 +58,6 @@ def encounter_reaction_aware(action, enemy):
 
 
 def basic_actions(scenario):
-    print(scenario)
     print_cinematics(f'You are on a {scenario.short_description}.')
     print_cinematics('What do you do?')
     while True:
