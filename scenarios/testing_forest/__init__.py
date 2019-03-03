@@ -10,19 +10,6 @@ testing_forest.far_away = ['river', 'bridge']
 testing_forest.hiding_places = ['bushes']
 
 
-# TODO: DEF THIS FUNCTION INSIDE CLASS?
-# FUNCTION: on_looking
-'''
-DESCRIPTION: If the place looked upon has visible elements (ej. apples on trees),
-the items are added to the scenario instance and can now be also interacted to with.
-Hidden elements are only found with on_serching.
-'''
-def on_looking(_attrib):
-    what = getattr(testing_forest, _attrib)
-    for item in what:
-        if item.get('hidden') == False:
-            item_to_add = item["what"]
-            testing_forest.add(item_to_add["name"], item_to_add)
 
 # SPECIFIC ELEMENTS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
 apples = {
@@ -35,7 +22,7 @@ apples = {
 trees = [
     {
         'description': 'are apple trees full of apples',
-        'on_looking': on_looking
+        'on_looking': testing_forest.on_looking
     },
     {
         'what': apples,
@@ -55,5 +42,5 @@ bushes = [
 
 
 # ADD GLOBAL ELEMENTS TO THE SCENARIO INSTANCE SO THEY CAN BE INTERACTED WITH.
-testing_forest.add('bushes', bushes)
-testing_forest.add('trees', trees)
+testing_forest.add_to_scenario('bushes', bushes)
+testing_forest.add_to_scenario('trees', trees)
