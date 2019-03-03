@@ -9,6 +9,7 @@ from scenarios.testing_forest import testing_forest
 # print(Hero.name)
 # print(Hero.declare_status())
 
+# print(getattr(testing_forest, 'apples'))
 basic_actions(testing_forest)
 
 
