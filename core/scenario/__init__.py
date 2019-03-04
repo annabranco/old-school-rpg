@@ -1,4 +1,7 @@
 from typing import Dict, List, Union
+from core.elements import Item
+from pprint import pprint
+
 
 class Scenario(object):
     def __init__(self, name, scene, short_description):
@@ -22,6 +25,7 @@ class Scenario(object):
     DESCRIPTION: Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
+
     def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
         setattr(self, field, value)
 
@@ -31,13 +35,12 @@ class Scenario(object):
     the items are added to the Scenario instance and can now be also interacted to with.
     Hidden elements are only found with on_serching.
     '''
-    def on_looking(self, where: str) -> None:
-        what: Dict = getattr(self, where)
-        print(what.name)
-        for item in what:
-            if item.get('hidden') == False:
-                item_to_add = item["what"]
-                self.add_to_scenario(item_to_add["name"], item_to_add)
+
+    def on_looking(self, where) -> None:
+        for attr, value in where.__dict__.items():
+            if type(value) == Item and value.hidden == False:
+                pprint(value.name)
+                self.add_to_scenario(value.name, value)
 
 
 '''

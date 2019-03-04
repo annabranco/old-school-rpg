@@ -1,44 +1,51 @@
 class Element(object):
-	def __init__(self, name, description):
-		self.name = name
-		self.description = description
-		self.on_looking = None
-		self.looking_effect = None
-		self.on_searching = None
-		self.searching_effect = None
-		self.on_hearing = None
-		self.hearing_effect = None
-		self.on_touching = None
-		self.touching_effect = None
-		self.on_tasting = None
-		self.tasting_effect = None
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+        self.on_looking = None
+        self.looking_effect = None
+        self.on_searching = None
+        self.searching_effect = None
+        self.on_hearing = None
+        self.hearing_effect = None
+        self.on_touching = None
+        self.touching_effect = None
+        self.on_tasting = None
+        self.tasting_effect = None
+
 
 class Container(Element):
-	def __init__(self, name, description):
-		super(Container, self).__init__(name, description)
+    def __init__(self, name, description):
+        super(Container, self).__init__(name, description)
+
 
 class Item(Element):
-	def __init__(self, name, description):
-		self.hidden = False
-		self.usable = False
+    def __init__(self, name, description):
+        super(Item, self).__init__(name, description)
+        self.hidden = False
+        self.usable = False
+
 
 class Weapon(Item):
-	def __init__(self, name, description):
-		super(Container, self).__init__(name, description)
-		self.type = ''
-		self.bonus = 0
+    def __init__(self, name, description):
+        super(Weapon, self).__init__(name, description)
+        self.type = ''
+        self.bonus = 0
+
 
 class Shield(Item):
-	def __init__(self, name, description):
-		super(Container, self).__init__(name, description)
-		self.type = ''
-		self.bonus = 0
+    def __init__(self, name, description):
+        super(Shield, self).__init__(name, description)
+        self.type = ''
+        self.bonus = 0
+
 
 class Armor(Item):
-	def __init__(self, name, description):
-		super(Container, self).__init__(name, description)
-		self.type = ''
-		self.bonus = 0
+    def __init__(self, name, description):
+        super(Armor, self).__init__(name, description)
+        self.type = ''
+        self.bonus = 0
+
 
 '''
 	class Element(object):
