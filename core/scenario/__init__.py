@@ -28,19 +28,7 @@ class Scenario(object):
 
     def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
         setattr(self, field, value)
-
-    # FUNCTION: on_looking
-    '''
-    DESCRIPTION: If the place looked upon has visible elements (ej. apples on trees),
-    the items are added to the Scenario instance and can now be also interacted to with.
-    Hidden elements are only found with on_serching.
-    '''
-
-    def on_looking(self, where) -> None:
-        for attr, value in where.__dict__.items():
-            if type(value) == Item and value.hidden == False:
-                pprint(value.name)
-                self.add_to_scenario(value.name, value)
+        setattr(value, 'scenario', self.name)
 
 
 '''

@@ -1,0 +1,1 @@
+CURRENT_SCENARIO = None

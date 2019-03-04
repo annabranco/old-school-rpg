@@ -16,9 +16,7 @@ def look(what: str, scenario: Scenario):
 
     elif hasattr(scenario, what):
         looking_place = getattr(scenario, what)
-
-        if getattr(looking_place, 'on_looking'):
-            looking_place.on_looking(looking_place)
+        looking_place.on_looking()
         print_cinematics(
             f'The {what} {looking_place.description}.')
     else:
