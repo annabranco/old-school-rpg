@@ -1,4 +1,7 @@
 from core.scenarios import Scenario
+from core.elements import Item, Container
+
+
 
 # CREATES A SPECIFIC SCENARIO INSTANCE AND ADDS ITS ATTRIBUTES
 testing_forest = Scenario('Forest', 'scene01', 'a forest')
@@ -12,22 +15,13 @@ testing_forest.hiding_places = ['bushes']
 
 
 # SPECIFIC ELEMENTS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
-apples = {
-    'name': 'apples',
-    'description': 'look juicy red',
-}
-
+apples = Item('apples','look juicy red')
 
 # GLOBAL ELEMENTS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
-trees = [
-    {
-        'description': 'are apple trees full of apples',
-        'on_looking': testing_forest.on_looking
-    },
-    {
-        'what': apples,
-        'hidden': False
-    }]
+trees = Container('trees', 'are apple trees full of apples')
+trees.on_looking = testing_forest.on_looking
+trees.apples = apples
+
 
 bushes = [
     {

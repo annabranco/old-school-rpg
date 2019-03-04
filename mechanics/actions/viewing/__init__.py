@@ -17,8 +17,8 @@ def look(what, scenario):
 		else:
 			looking_place = getattr(scenario, what)
 
-		if 'on_looking' in looking_place:
-			looking_place["on_looking"]('trees')
+		if getattr(looking_place, 'on_looking'):
+			looking_place.on_looking('trees')
 		print_cinematics(
 			f'The {what} {looking_place.get("description")}.')
 	else:

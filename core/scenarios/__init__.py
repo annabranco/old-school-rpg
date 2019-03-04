@@ -1,26 +1,28 @@
+from typing import Dict, List, Union
+
 class Scenario(object):
     def __init__(self, name, scene, short_description):
-        self.scene = scene
-        self.name = name
-        self.short_description = 'desert'
-        self.description = 'a dull boring vast desert full of sand'
-        self.encounter_rate = 0
-        self.encounters = []
-        self.safe_places = []
-        self.status_on_entering = ''
-        self.ambient = ['sand']
-        self.far_away = []
-        self.floor = []
-        self.exits = []
-        self.special_death = []
-        self.special_kill = []
+        self.scene: str = scene
+        self.name: str = name
+        self.short_description: str = 'desert'
+        self.description: str = 'a dull boring vast desert full of sand'
+        self.encounter_rate: int = 0
+        self.encounters: List[str] = []
+        self.safe_places: List[Dict] = []
+        self.status_on_entering: str = ''
+        self.ambient: List[str] = ['sand']
+        self.far_away: List[str] = []
+        self.floor: List[str] = []
+        self.exits: List[str] = []
+        self.special_death: List[str] = []
+        self.special_kill: List[str] = []
 
     # FUNCTION: add_to_scenario
     '''
     DESCRIPTION: Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
-    def add_to_scenario(self, field, value):
+    def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
         setattr(self, field, value)
 
     # FUNCTION: on_looking
@@ -29,8 +31,9 @@ class Scenario(object):
     the items are added to the Scenario instance and can now be also interacted to with.
     Hidden elements are only found with on_serching.
     '''
-    def on_looking(self, where):
-        what = getattr(self, where)
+    def on_looking(self, where: str) -> None:
+        what: Dict = getattr(self, where)
+        print(what.name)
         for item in what:
             if item.get('hidden') == False:
                 item_to_add = item["what"]
