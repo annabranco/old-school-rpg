@@ -9,10 +9,10 @@ from db import status
 from cinematics import death
 from cinematics import kills
 from cinematics import damages
-from mechanics.global_mechanics import status_changes
+from core.characters import Character, NPC
 
 
-def damage(successes, attacker, defendant):
+def damage(successes: int, attacker: Character, defendant: Character) -> None:
     defendant.take_damage(abs(successes))
 
     if defendant.status == 'dead':
@@ -36,7 +36,7 @@ def damage(successes, attacker, defendant):
     next_round(attacker, defendant)
 
 
-def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
+def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_enemy: int, enemy: NPC) -> None:
 
     new_hero_hp = Hero.hp - abs(results_number_enemy)
     Hero.hp = new_hero_hp
@@ -78,7 +78,7 @@ def simultaneous_damage(results_number_hero, Hero, results_number_enemy, enemy):
         next_round(Hero, enemy)
 
 
-def next_round(attacker, defendant):
+def next_round(attacker: Character, defendant: Character) -> None:
     if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
         print('\nStart next round.\n')
         initiative.initiative(attacker, 0)
@@ -98,7 +98,7 @@ def next_round(attacker, defendant):
         print('something went wrong')
 
 
-def missed(attacker, defendant):
+def missed(attacker: Character, defendant: Character) -> None:
     cinematics_block()
     if attacker == Hero:
         print_cinematics(f'You miss your blow on {defendant.name}.\n')

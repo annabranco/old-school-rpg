@@ -1,13 +1,14 @@
 from core.config import write_to_screen
 import time
 from random import randint
+from typing import List, Dict
 
 
-def roll_dices(dices_number, difficult, reason):
-    i = 1
-    rolls = []
-    rolled_results = []
-    results_object = {
+def roll_dices(dices_number: int, difficult: int, reason: str):
+    i: int = 1
+    rolls: List[int] = []
+    rolled_results: List[int] = []
+    results_object: Dict[str, int] = {
         'decisive': 0,
         'critical': 0,
         'success': 0,
@@ -34,21 +35,21 @@ def roll_dices(dices_number, difficult, reason):
             rolled_results.append({roll: '✖️  fail'})
             results_object['fail'] += 1
 
-    results_object['decisiveMinusCritical'] = results_object['decisive'] - \
+    results_object['decisiveMinusCritical']: int = results_object['decisive'] - \
         results_object['critical']
-    results_object['final_result'] = results_object['success'] + \
+    results_object['final_result']: int = results_object['success'] + \
         results_object['decisiveMinusCritical']
-    special = print_rolls(difficult, rolls, rolled_results,
+    special: str = print_rolls(difficult, rolls, rolled_results,
                           results_object, reason)
     return [results_object['final_result'], special]
 
 
-def print_rolls(difficult, rolls, rolled_results, results_object, reason):
+def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_object: Dict[str, int], reason: str) -> str:
     time.sleep(0.01)
     print(f'  *** {reason} ***')
     print(f'Dices to roll: {len(rolled_results)}, difficult: {difficult}')
     print('\n')
-    index = 0
+    index: int = 0
     while index < len(rolls):
         result_num = rolls[index]
         result_txt = rolled_results[index][result_num]
@@ -65,10 +66,12 @@ def print_rolls(difficult, rolls, rolled_results, results_object, reason):
     return special
 
 
-def define_result(results_object):
+def define_result(results_object: Dict[str, int]):
+    final_result: int
     decisive, critical, success, fail, decisiveMinusCritical, final_result = results_object.values()
 
-    special = ''
+    special: str = ''
+    result: str
     if final_result == 0:
         result = 'fail'
     elif final_result > 0:

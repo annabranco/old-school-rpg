@@ -5,12 +5,12 @@ from mechanics.combat.combat_rounds import combat_rounds
 from cinematics import fails
 from mechanics.combat import initiative
 from core.config import *
-
+from core.characters import NPC
 
 # define texts by types of weapons
 
 
-def attack(enemy, bonus=0, surprise_attack=False):
+def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False):
     combat_rounds.took_action['Hero'] = True
 
     if surprise_attack == True:
@@ -34,7 +34,7 @@ def attack(enemy, bonus=0, surprise_attack=False):
         combat_mechanics.missed(Hero, enemy)
 
 
-def simultaneous_attack(enemy):
+def simultaneous_attack(enemy: NPC) -> None:
     results_number_hero, results_text_hero = roll_dices(
         Hero.attack, enemy.defense, f'Attacking {enemy.name}')
     results_number_enemy, results_text_enemy = roll_dices(

@@ -1,18 +1,28 @@
+# Core modules
+from core.config import *
+from core.characters.Hero import Hero
+from core.characters import NPC
+from core.scenario import Scenario
+
+# Mechanics modules
 from mechanics.combat import initiative
 from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
-from core.characters.Hero import Hero
-from core.config import *
-import scenarios
+from mechanics.actions.viewing import look, search
+from mechanics.actions.interacting.items import take
 
-def ask_for_action():
+def ask_for_action() -> str:
     print_cinematics('What do you do?')
+    return await_for_action()
+
+
+def await_for_action() -> str:
     return input('\n\t\t> ')
 
 
-def encounter_reaction(enemy):
-    action = ask_for_action()
+def encounter_reaction(enemy: NPC):
+    action: str = ask_for_action()
     print('\n')
     if enemy.status == 'unaware' or enemy.status == 'sleeping':
         encounter_reaction_unaware(action, enemy)
@@ -20,7 +30,7 @@ def encounter_reaction(enemy):
         encounter_reaction_aware(action, enemy)
 
 
-def encounter_reaction_unaware(action, enemy):
+def encounter_reaction_unaware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and strike before {enemy.name} has a chance to understand what is happening.')
@@ -33,7 +43,7 @@ def encounter_reaction_unaware(action, enemy):
         encounter_reaction(enemy)
 
 
-def encounter_reaction_aware(action, enemy):
+def encounter_reaction_aware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and quickly strike {enemy.name}.')
@@ -54,41 +64,27 @@ def encounter_reaction_aware(action, enemy):
         combat_rounds.took_action['Hero'] = True
         defend.defend(enemy, 0, True)
 
-def where(place):
-    return getattr(scenarios, place)
 
-def basic_actions():
-        place = ask_for_action()
+def basic_actions(scenario: Scenario):
+    print_cinematics(f'You are on a {scenario.short_description}.')
+    print_cinematics('What do you do?')
+    while True:
+        action = await_for_action()
+        if action.startswith('look'):
+            what = action.replace('look', '').lstrip()
+            look(what, scenario)
 
-    # if action == 'look around' or action == 'look':
-    #     print_cinematics(
-    #         f'You look around and you see {scenario.description}.')
+        elif action.startswith('search'):
+            if action == 'search':
+                print('Where would you like to search?')
+                place = input('> ')
+            else:
+                place: str = action.replace('search', '').lstrip()
+            search(place, scenario)
 
-    # elif action == 'search':
-    #     print('Where would you like to search?')
-    #     place = input('> ')
-        if place in scenarios.ambient:
-            print_cinematics(f'You search the {place} but you find nothing.')
-        elif place in scenarios.far_away:
-            print_cinematics(f'It is too far away.')
-        elif place in scenarios.has_something:
-            if where(place)[0]["special"] != None:
-                print(where(place)[0]["special"])
-                Hero.change_status('tired')
-                Hero.declare_status()
-            if len(where(place)) > 1:
-                print('You\'ve found:')
-                for item in where(place):
-                    if item.get("name") != None:
-                        print(f'- {item.get("name")}')
+        elif action.startswith('take') or action.startswith('get'):
+            what: str = action.replace('take', '').replace('get', '').lstrip()
+            take(what, scenario)
 
-
-            # if not getattr(scenarios, place["special"]):
-            #     print(getattr(scenarios, place["special"])
-            # else:
-            #     print(f'You\'ve found {getattr(scenarios, place["special"]}')
-
-        # for place in scenarios.ambient:
-        #     if place == search_where:
-        #         print_cinematics(f'You search {place} but you find nothing.')
-
+        elif 'inventory' in action or 'items' in action:
+            Hero.declare_inventory()

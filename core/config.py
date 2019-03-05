@@ -3,7 +3,7 @@ import time
 from textwrap import dedent
 
 # This function overwrites basic "print" so the texts are print like they were being typed
-# def print(text):
+# def print(text: str) -> None:
 # 		for letter in text:
 # 				if letter == '.':
 # 						write_to_screen(letter)
@@ -27,25 +27,30 @@ from textwrap import dedent
 # 		write_to_screen('\n')
 
 
-def print_cinematics(text):
-		write_to_screen('\t\t')
-		print(text)
+def print_cinematics(text: str) -> None:
+    write_to_screen('\t\t')
+    print(text)
 
-def write_to_screen(letter):
-		sys.stdout.write(letter)
-		sys.stdout.flush()
 
-def mechanics_block(action):
-		write_to_screen('\n\n\n')
-		write_to_screen('----------------------------- ')
-		write_to_screen(action)
-		write_to_screen(' -----------------------------')
-		write_to_screen('\n')
+def write_to_screen(letter: str) -> None:
+    sys.stdout.write(letter)
+    sys.stdout.flush()
 
-def cinematics_block():
-		write_to_screen('\n')
-		write_to_screen('----------------------------------------------------------')
-		write_to_screen('\n\n')
 
-def action_block():
-		print('\n\t\t---\n')
+def mechanics_block(action: str) -> None:
+    write_to_screen('\n\n\n')
+    write_to_screen('----------------------------- ')
+    write_to_screen(action)
+    write_to_screen(' -----------------------------')
+    write_to_screen('\n')
+
+
+def cinematics_block() -> None:
+    write_to_screen('\n')
+    write_to_screen(
+        '----------------------------------------------------------')
+    write_to_screen('\n\n')
+
+
+def action_block() -> None:
+    print('\n\t\t---\n')
