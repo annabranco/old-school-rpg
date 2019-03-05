@@ -4,7 +4,8 @@ from pprint import pprint
 
 
 class Scenario(object):
-    def __init__(self, name, scene, short_description):
+
+    def __init__(self, name: str, scene: str, short_description: str):
         self.scene: str = scene
         self.name: str = name
         self.short_description: str = 'desert'
@@ -21,6 +22,7 @@ class Scenario(object):
         self.special_kill: List[str] = []
 
     # FUNCTION: add_to_scenario
+
     '''
     DESCRIPTION: Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.

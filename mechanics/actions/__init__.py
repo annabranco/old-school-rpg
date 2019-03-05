@@ -1,20 +1,28 @@
+# Core modules
+from core.config import *
+from core.characters.Hero import Hero
+from core.characters import NPC
+from core.scenario import Scenario
+
+# Mechanics modules
 from mechanics.combat import initiative
 from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
-from core.characters.Hero import Hero
-from core.config import *
 from mechanics.actions.viewing import look, search
 
-def ask_for_action():
+
+def ask_for_action() -> str:
     print_cinematics('What do you do?')
     return await_for_action()
 
-def await_for_action():
+
+def await_for_action() -> str:
     return input('\n\t\t> ')
 
-def encounter_reaction(enemy):
-    action = ask_for_action()
+
+def encounter_reaction(enemy: NPC):
+    action: str = ask_for_action()
     print('\n')
     if enemy.status == 'unaware' or enemy.status == 'sleeping':
         encounter_reaction_unaware(action, enemy)
@@ -22,7 +30,7 @@ def encounter_reaction(enemy):
         encounter_reaction_aware(action, enemy)
 
 
-def encounter_reaction_unaware(action, enemy):
+def encounter_reaction_unaware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and strike before {enemy.name} has a chance to understand what is happening.')
@@ -35,7 +43,7 @@ def encounter_reaction_unaware(action, enemy):
         encounter_reaction(enemy)
 
 
-def encounter_reaction_aware(action, enemy):
+def encounter_reaction_aware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
             f'You draw your {Hero.weapon["name"]} and quickly strike {enemy.name}.')
@@ -57,7 +65,7 @@ def encounter_reaction_aware(action, enemy):
         defend.defend(enemy, 0, True)
 
 
-def basic_actions(scenario):
+def basic_actions(scenario: Scenario):
     print_cinematics(f'You are on a {scenario.short_description}.')
     print_cinematics('What do you do?')
     while True:
@@ -74,8 +82,6 @@ def basic_actions(scenario):
                 place = action.replace('search', '').lstrip()
             search(place, scenario)
 
-
-
             # if not getattr(scenario, place["special"]):
             #     print(getattr(scenario, place["special"])
             # else:
@@ -84,4 +90,3 @@ def basic_actions(scenario):
         # for place in scenario.ambient:
         #     if place == search_where:
         #         print_cinematics(f'You search {place} but you find nothing.')
-

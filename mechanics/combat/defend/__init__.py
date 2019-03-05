@@ -4,11 +4,12 @@ from mechanics.global_mechanics.rolls import roll_dices
 from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
 import mechanics.combat
+from core.characters import NPC
 
 from cinematics import fails
 
 
-def defend(enemy, bonus=0, focus_on_defense=False):
+def defend(enemy: NPC, bonus: int = 0, focus_on_defense: bool = False) -> None:
     combat_rounds.took_action['enemy'] = True
 
     if focus_on_defense:
