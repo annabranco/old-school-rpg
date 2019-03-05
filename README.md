@@ -44,7 +44,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Defend;
 * Wait;
 * Look;
-* Search.
+* Search;
+* Get/Take (WIP);
 
 ### Database:
 * Enemies basic db;
