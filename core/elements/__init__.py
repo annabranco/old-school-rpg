@@ -3,10 +3,9 @@ from core.config import *
 
 
 class Element(object):
-		def __init__(self, name, description, system_name):
+		def __init__(self, name, description):
 				self.name: str = name
 				self.description: str = description
-				self.system_name: str = system_name
 				self.scenario: str = ''
 				self.looking_effect: str = None
 				self.searching_effect: str = None
@@ -27,8 +26,9 @@ class Element(object):
 		def on_looking(self, callback=None) -> None:
 				for attr, value in self.__dict__.items():
 						if type(value) == Item and value.hidden == False:
+								system_name = value.name.replace(' ', '_').lower()
 								gameplay.CURRENT_SCENARIO.add_to_scenario(
-										value.system_name, value)
+										system_name, value)
 
 	 # FUNCTION: on_looking
 		'''
@@ -41,40 +41,42 @@ class Element(object):
 				print(f'searching {self.name}')
 				for attr, value in self.__dict__.items():
 						if type(value) == Item and value.hidden == True:
+								value.hidden == False
 								print_cinematics(f'You find {value.name}')
+								system_name = value.name.replace(' ', '_').lower()
 								gameplay.CURRENT_SCENARIO.add_to_scenario(
-										value.system_name, value)
+										system_name, value)
 
 
 class Container(Element):
-		def __init__(self, name, description, system_name):
-				super(Container, self).__init__(name, description, system_name)
+		def __init__(self, name, description):
+				super(Container, self).__init__(name, description)
 
 
 class Item(Element):
-		def __init__(self, name, description, system_name):
-				super(Item, self).__init__(name, description, system_name)
+		def __init__(self, name, description):
+				super(Item, self).__init__(name, description)
 				self.hidden = False
 				self.usable = False
 
 
 class Weapon(Item):
-		def __init__(self, name, description, system_name):
-				super(Weapon, self).__init__(name, description, system_name)
+		def __init__(self, name, description):
+				super(Weapon, self).__init__(name, description)
 				self.type = ''
 				self.bonus = 0
 
 
 class Shield(Item):
-		def __init__(self, name, description, system_name):
-				super(Shield, self).__init__(name, description, system_name)
+		def __init__(self, name, description):
+				super(Shield, self).__init__(name, description)
 				self.type = ''
 				self.bonus = 0
 
 
 class Armor(Item):
-		def __init__(self, name, description, system_name):
-				super(Armor, self).__init__(name, description, system_name)
+		def __init__(self, name, description):
+				super(Armor, self).__init__(name, description)
 				self.type = ''
 				self.bonus = 0
 
