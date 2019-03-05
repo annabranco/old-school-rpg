@@ -13,19 +13,18 @@ testing_forest.hiding_places = ['bushes']
 gameplay.CURRENT_SCENARIO = testing_forest
 
 # SPECIFIC ELEMENTS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
-apples = Item('apples', 'look juicy red')
+apples = Item('apples', 'look juicy red', 'apples')
 
 # GLOBAL ELEMENTS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
-trees = Container('trees', 'are apple trees full of apples')
+trees = Container('trees', 'are apple trees full of apples', 'trees')
 trees.apples = apples
 
-coin = Item('golden coin', 'a very old coin made of gold')
-coin.hidden = True
+golden_coin = Item('golden coin', 'a very old coin made of gold', 'coin')
+golden_coin.hidden = True
 
-bushes = Container('bushes', 'are 3 feet green bushes full of leaves')
-bushes.on_searching = 'You spend a very long time searching the bushes and start to feel tired.'
-bushes.searching_effect = 'tired'
-bushes.coin = coin
+bushes = Container('bushes', 'are 3 feet green bushes full of leaves', 'bushes')
+bushes.searching_effect = ['You spend a very long time searching the bushes and start to feel tired.', 'tired']
+bushes.golden_coin = golden_coin
 
 
 # ADD GLOBAL ELEMENTS TO THE SCENARIO INSTANCE SO THEY CAN BE INTERACTED WITH.

@@ -4,7 +4,7 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from core.characters.Hero import Hero
 from core.config import *
-from mechanics.actions.viewing import look
+from mechanics.actions.viewing import look, search
 
 def ask_for_action():
     print_cinematics('What do you do?')
@@ -66,24 +66,15 @@ def basic_actions(scenario):
             what = action.replace('look', '').lstrip()
             look(what, scenario)
 
-        elif action == 'search':
-            print('Where would you like to search?')
-            place = input('> ')
-            if place in scenario.ambient:
-                print_cinematics(f'You search the {place} but you find nothing.')
-            elif place in scenario.far_away:
-                print_cinematics(f'It is too far away.')
-            elif place in scenario.has_something:
-                searching_place = getattr(scenario, place)
-                if searching_place.get("on_searching") != None:
-                    print(searching_place[0].get("on_searching"))
-                    Hero.change_status(searching_place[0].get("searching_effect"))
-                    Hero.declare_status()
-                if len(searching_place) > 1:
-                    print('You\'ve found:')
-                    for item in searching_place:
-                        if item.get("name") != None:
-                            print(f'- {item.get("name")}')
+        elif action.startswith('search'):
+            if action == 'search':
+                print('Where would you like to search?')
+                place = input('> ')
+            else:
+                place = action.replace('search', '').lstrip()
+            search(place, scenario)
+
+
 
             # if not getattr(scenario, place["special"]):
             #     print(getattr(scenario, place["special"])
