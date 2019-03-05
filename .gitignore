@@ -3,3 +3,4 @@
 .DS_Store
 # temp.py
 .vscode
+.mypy_cache

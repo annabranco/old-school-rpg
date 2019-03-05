@@ -55,36 +55,36 @@ class Element(object):
 
 
 class Container(Element):
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str):
         super(Container, self).__init__(name, description)
 
 
 class Item(Element):
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str):
         super(Item, self).__init__(name, description)
-        self.hidden = False
-        self.usable = False
+        self.hidden: bool = False
+        self.usable: bool = False
 
 
 class Weapon(Item):
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str):
         super(Weapon, self).__init__(name, description)
-        self.type = ''
-        self.bonus = 0
+        self.type: str = ''
+        self.bonus: int = 0
 
 
 class Shield(Item):
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str):
         super(Shield, self).__init__(name, description)
-        self.type = ''
-        self.bonus = 0
+        self.type: str = ''
+        self.bonus: int = 0
 
 
 class Armor(Item):
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str):
         super(Armor, self).__init__(name, description)
-        self.type = ''
-        self.bonus = 0
+        self.type: str = ''
+        self.bonus: int = 0
 
 
 '''

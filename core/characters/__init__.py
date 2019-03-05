@@ -1,23 +1,28 @@
 from math import ceil
+from typing import Dict, List, Union
+from core.elements import Item
 
 
 class Character(object):
-    def __init__(self, name, type, race):
-        self.name = name
-        self.type = type
-        self.race = race
-        self.weapon = {'name': '', 'type': '', 'bonus': 0}
-        self.shield = {'name': '', 'type': '', 'bonus': 0}
-        self.armor = {'name': '', 'type': '', 'bonus': 0}
-        self.inventory = []
-        self.attack = 0
-        self.defense = 0
-        self.full_hp = 0
-        self.hp = 0
-        self.speed = 0
-        self.status = 'unknown'
+    def __init__(self, name: str, type: str, race: str):
+        self.name: str = name
+        self.type: str = type
+        self.race: str = race
+        self.weapon: Dict[[str, str], [str, str][str, int]] = {
+            'name': '', 'type': '', 'bonus': 0}
+        self.shield: Dict[[str, str], [str, str][str, int]] = {
+            'name': '', 'type': '', 'bonus': 0}
+        self.armor: Dict[[str, str], [str, str][str, int]] = {
+            'name': '', 'type': '', 'bonus': 0}
+        self.inventory: List[str] = []
+        self.attack: int = 0
+        self.defense: int = 0
+        self.full_hp: int = 0
+        self.hp: int = 0
+        self.speed: int = 0
+        self.status: str = 'unknown'
 
-    def change_status(self, new_status = None):
+    def change_status(self, new_status: str = None) -> None:
         if not new_status:
             if self.hp <= 0:
                 self.status = 'dead'
@@ -32,8 +37,7 @@ class Character(object):
         else:
             self.status = new_status
 
-
-    def take_damage(self, damage):
+    def take_damage(self, damage: int) -> None:
         self.hp = self.hp - damage
         if self.type == 'Player':
             print(f'You take {damage} damage.')
@@ -42,19 +46,19 @@ class Character(object):
         self.declare_hp()
         self.change_status()
 
-    def declare_status(self):
+    def declare_status(self) -> None:
         if self.type == 'Player':
             print(f'You are {self.status}')
         else:
             print(f'{self.name} looks {self.status}.')
 
-    def declare_hp(self):
+    def declare_hp(self) -> None:
         if self.type == 'Player':
             print(f'Your current HP: {self.hp}')
         else:
             print(f'{self.name}\'s current HP: {self.hp}.')
 
-    def declare_inventory(self):
+    def declare_inventory(self) -> None:
         print(f'Your inventory:')
         # return self.inventory
         for item in self.inventory:
@@ -63,7 +67,7 @@ class Character(object):
             else:
                 print(f'\t- {item}')
 
-    def draw_weapon(self):
+    def draw_weapon(self) -> None:
         if not self.weapon["name"]:
             if self.type == 'Player':
                 print(f'You have no weapon.')
@@ -90,14 +94,14 @@ class Player(Character):
         super(Player, self).__init__(name, 'Player', race)
         self.status = 'well'
 
-    def get_item(self, item):
+    def get_item(self, item: Union[Item, str]) -> None:
         if type(item) == dict:
             print(f'You get {item["name"]}.')
         else:
             print(f'You get {item}.')
         self.inventory.append(item)
 
-    def drop_item(self, item=None):
+    def drop_item(self, item: Union[Item, str] = None):
         if item == None:
             print('Which item would you like to drop?')
             self.declare_inventory()
