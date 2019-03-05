@@ -4,7 +4,7 @@ from random import randint
 from typing import List, Dict
 
 
-def roll_dices(dices_number: int, difficult: int, reason: str) -> List[int, str]:
+def roll_dices(dices_number: int, difficult: int, reason: str):
     i: int = 1
     rolls: List[int] = []
     rolled_results: List[int] = []
@@ -35,11 +35,11 @@ def roll_dices(dices_number: int, difficult: int, reason: str) -> List[int, str]
             rolled_results.append({roll: '✖️  fail'})
             results_object['fail'] += 1
 
-    results_object['decisiveMinusCritical'] = results_object['decisive'] - \
+    results_object['decisiveMinusCritical']: int = results_object['decisive'] - \
         results_object['critical']
-    results_object['final_result'] = results_object['success'] + \
+    results_object['final_result']: int = results_object['success'] + \
         results_object['decisiveMinusCritical']
-    special = print_rolls(difficult, rolls, rolled_results,
+    special: str = print_rolls(difficult, rolls, rolled_results,
                           results_object, reason)
     return [results_object['final_result'], special]
 
@@ -66,11 +66,12 @@ def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_o
     return special
 
 
-def define_result(results_object: dict[str, int]) -> List[str, str, int]:
+def define_result(results_object: Dict[str, int]):
+    final_result: int
     decisive, critical, success, fail, decisiveMinusCritical, final_result = results_object.values()
 
     special: str = ''
-    result: str = ''
+    result: str
     if final_result == 0:
         result = 'fail'
     elif final_result > 0:

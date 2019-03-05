@@ -60,10 +60,11 @@ class Container(Element):
 
 
 class Item(Element):
-    def __init__(self, name: str, description: str):
+    def __init__(self, name: str, description: str, weight: int):
         super(Item, self).__init__(name, description)
         self.hidden: bool = False
         self.usable: bool = False
+        self.weight: int = weight
 
 
 class Weapon(Item):

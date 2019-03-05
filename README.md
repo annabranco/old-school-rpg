@@ -6,10 +6,10 @@ This is a text-based Fantasy Role Playing Game.
 
 The aim to create a flexible backend system designed to acomodate different stories and games.
 
-### Current development: combat system.
+### Current development: basic non-combat actions
 
 ## Next dev:
-- Coding scenarios as Classes.
+- First testing game.
 
 
 ## Implemented:
@@ -18,12 +18,15 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Printing cinematics;
 * Printing mechanics;
 * Characters constructor;
-* Hero constructor.
+* Hero constructor;
+* Scenario constructor;
+* Items constructor.
 
 ### Global mechanics:
 * Dice rolls;
 * Modifiers;
-* Status changes.
+* Status changes;
+* Add to scenario mechanics (Scenario Class).
 
 
 ### Combat mechanics:
@@ -40,8 +43,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Attack;
 * Defend;
 * Wait;
-* Look (WIP);
-* Search (WIP).
+* Look;
+* Search.
 
 ### Database:
 * Enemies basic db;

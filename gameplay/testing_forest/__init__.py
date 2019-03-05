@@ -13,13 +13,13 @@ testing_forest.hiding_places = ['bushes']
 gameplay.CURRENT_SCENARIO = testing_forest
 
 # SPECIFIC ELEMENTS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
-apples = Item('apples', 'look juicy red')
+apples = Item('apples', 'look juicy red', 0.2)
 
 # GLOBAL ELEMENTS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
 trees = Container('trees', 'are apple trees full of apples')
 trees.apples = apples
 
-golden_coin = Item('golden coin', 'a very old coin made of gold')
+golden_coin = Item('golden coin', 'a very old coin made of gold', 0)
 golden_coin.hidden = True
 
 bushes = Container('bushes', 'are 3 feet green bushes full of leaves')

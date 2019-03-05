@@ -10,7 +10,7 @@ from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
-
+from mechanics.actions.interacting.items import take
 
 def ask_for_action() -> str:
     print_cinematics('What do you do?')
@@ -79,14 +79,12 @@ def basic_actions(scenario: Scenario):
                 print('Where would you like to search?')
                 place = input('> ')
             else:
-                place = action.replace('search', '').lstrip()
+                place: str = action.replace('search', '').lstrip()
             search(place, scenario)
 
-            # if not getattr(scenario, place["special"]):
-            #     print(getattr(scenario, place["special"])
-            # else:
-            #     print(f'You\'ve found {getattr(scenario, place["special"]}')
+        elif action.startswith('take') or action.startswith('get'):
+            what: str = action.replace('take', '').replace('get', '').lstrip()
+            take(what, scenario)
 
-        # for place in scenario.ambient:
-        #     if place == search_where:
-        #         print_cinematics(f'You search {place} but you find nothing.')
+        elif 'inventory' in action or 'items' in action:
+            Hero.declare_inventory()

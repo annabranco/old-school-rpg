@@ -62,7 +62,9 @@ class Character(object):
         print(f'Your inventory:')
         # return self.inventory
         for item in self.inventory:
-            if type(item) == dict:
+            if type(item) == Item:
+                print(f'\t- {item.name}')
+            elif type(item) == dict:
                 print(f'\t- {item["name"]}')
             else:
                 print(f'\t- {item}')
@@ -93,10 +95,11 @@ class Player(Character):
     def __init__(self, name='Hero', race='human'):
         super(Player, self).__init__(name, 'Player', race)
         self.status = 'well'
+        self.carrying_capacity = 10
 
     def get_item(self, item: Union[Item, str]) -> None:
-        if type(item) == dict:
-            print(f'You get {item["name"]}.')
+        if type(item) == Item:
+            print(f'You get {item.name}.')
         else:
             print(f'You get {item}.')
         self.inventory.append(item)
@@ -126,6 +129,7 @@ class Player(Character):
 class NPC(Character):
     def __init__(self, name='Ugly Monster', race='humanoid'):
         super(NPC, self).__init__(name, 'NPC', race)
+        self.weight: int = 8
 
     def set_name(self, new_name):
         self.name = new_name
