@@ -11,7 +11,13 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
 from mechanics.actions.interacting.items import take
+# DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
+
+# ask_for_action
+'''
+    It is generically called whenever an action is expected from the Player.
+'''
 def ask_for_action() -> str:
     print_cinematics('What do you do?')
     return await_for_action()
@@ -21,6 +27,10 @@ def await_for_action() -> str:
     return input('\n\t\t> ')
 
 
+# encounter_reaction
+'''
+    It is called every time an encounter starts. Checks if the enemy is aware of the Hero presence.
+'''
 def encounter_reaction(enemy: NPC):
     action: str = ask_for_action()
     print('\n')
@@ -30,6 +40,10 @@ def encounter_reaction(enemy: NPC):
         encounter_reaction_aware(action, enemy)
 
 
+# encounter_reaction_unaware
+'''
+    It is called to check Player decisions when the enemy IS NOT aware of the Hero.
+'''
 def encounter_reaction_unaware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
@@ -43,6 +57,10 @@ def encounter_reaction_unaware(action: str, enemy: NPC):
         encounter_reaction(enemy)
 
 
+# encounter_reaction_unaware
+'''
+    It is called to check Player decisions when the enemy IS aware of the Hero.
+'''
 def encounter_reaction_aware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
@@ -65,6 +83,10 @@ def encounter_reaction_aware(action: str, enemy: NPC):
         defend.defend(enemy, 0, True)
 
 
+# basic_actions
+'''
+    It is called to check Player decisions related to no-combat actions.
+'''
 def basic_actions(scenario: Scenario):
     print_cinematics(f'You are on a {scenario.short_description}.')
     print_cinematics('What do you do?')

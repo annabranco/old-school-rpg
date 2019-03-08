@@ -1,3 +1,6 @@
+# DEFINES STATUS EFFECTS
+# The idea and mechanics is still to be developed
+
 status_hero = {
 		'feeling invencible': 7,
 		'feeling great': 6,

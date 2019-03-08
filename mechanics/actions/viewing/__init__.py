@@ -1,7 +1,12 @@
 from core.config import *
 from core.scenario import Scenario
+# DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 
 
+# look
+'''
+    It is called when the Hero looks at something.
+'''
 def look(place: str, scenario: Scenario):
     _place = place.replace(' ', '_').lower()
 
@@ -25,6 +30,10 @@ def look(place: str, scenario: Scenario):
             f'There is nothing to be seen.')
 
 
+# search
+'''
+    It is called when the Hero searched somewhere.
+'''
 def search(place: str, scenario: Scenario):
     _place = place.replace(' ', '_').lower()
 

@@ -7,8 +7,13 @@ import mechanics.combat
 from core.characters import NPC
 
 from cinematics import fails
+# DETERMINES THE MECHANICS RELATED TO THE ENEMIES' ATTACKS
 
-
+# defend
+'''
+    It is called whenever the Hero is attacked by an enemy.
+    Calls roll_dices method and according to the results calls damage or other specific methods.
+'''
 def defend(enemy: NPC, bonus: int = 0, focus_on_defense: bool = False) -> None:
     combat_rounds.took_action['enemy'] = True
 

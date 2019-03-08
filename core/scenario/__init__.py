@@ -1,8 +1,13 @@
 from typing import Dict, List, Union
 from core.elements import Item
 from pprint import pprint
+# DEFINES BASIC LOGICS FOR SCENARIOS
 
 
+# Scenario
+'''
+    CLASS used for all Scenario instances.
+'''
 class Scenario(object):
 
     def __init__(self, name: str, scene: str, short_description: str):
@@ -21,13 +26,11 @@ class Scenario(object):
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
 
-    # FUNCTION: add_to_scenario
-
+    # add_to_scenario
     '''
-    DESCRIPTION: Adds to the Scenario elements not initially interactable.
+    Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
-
     def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
         setattr(self, field, value)
         setattr(value, 'scenario', self.name)

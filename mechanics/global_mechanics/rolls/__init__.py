@@ -2,8 +2,17 @@ from core.config import write_to_screen
 import time
 from random import randint
 from typing import List, Dict
+# DETERMINES THE GLOBAL MECHANICS OF ROLLING DICES
+# Used everywhere on the game when someone tries to do something
 
 
+# roll_dices
+'''
+    Rolls an specific number of 10-sided dices (dices_number) and checks the results
+    obtained against a previous determined difficult (from 1-10).
+    Results of 10 are always considered decisive successes.
+    Results of 1 are always considered critical fails.
+'''
 def roll_dices(dices_number: int, difficult: int, reason: str):
     i: int = 1
     rolls: List[int] = []
@@ -43,7 +52,10 @@ def roll_dices(dices_number: int, difficult: int, reason: str):
                           results_object, reason)
     return [results_object['final_result'], special]
 
-
+# roll_dices
+'''
+    Prints the dice rolling step by step, giving suspense to the process.
+'''
 def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_object: Dict[str, int], reason: str) -> str:
     time.sleep(0.01)
     print(f'  *** {reason} ***')
@@ -66,6 +78,12 @@ def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_o
     return special
 
 
+# roll_dices
+'''
+    Defines the final results
+    between epic success (the better possible outcome) to
+    disastrous fail (the worst possible outcome).
+'''
 def define_result(results_object: Dict[str, int]):
     final_result: int
     decisive, critical, success, fail, decisiveMinusCritical, final_result = results_object.values()

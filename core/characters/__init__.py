@@ -1,8 +1,13 @@
 from math import ceil
 from typing import Dict, List, Union
 from core.elements import Item
+# DEFINES BASIC LOGICS FOR CHARACTERS
 
 
+# Character
+'''
+    CLASS used for all characters on the game.
+'''
 class Character(object):
     def __init__(self, name: str, type: str, race: str):
         self.name: str = name
@@ -91,6 +96,10 @@ class Character(object):
                 print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
 
 
+# Player
+'''
+    CLASS used exclusivelly for the Hero (controlled by the player).
+'''
 class Player(Character):
     def __init__(self, name='Hero', race='human'):
         super(Player, self).__init__(name, 'Player', race)
@@ -126,6 +135,10 @@ class Player(Character):
             print(f'You don\'t have {which_item} on your inventory.')
 
 
+# NPC
+'''
+    CLASS used exclusively for Non Player Characters.
+'''
 class NPC(Character):
     def __init__(self, name='Ugly Monster', race='humanoid'):
         super(NPC, self).__init__(name, 'NPC', race)

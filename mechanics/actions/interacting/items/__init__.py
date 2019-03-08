@@ -3,7 +3,13 @@ from core.scenario import Scenario
 from core.characters.Hero import Hero
 from typing import Union
 from core.elements import Element, Item, Container
+# DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 
+
+# take
+'''
+    It is called when the Hero tries to get something from the Scenario.
+'''
 def take(object: str, scenario: Scenario):
 	__object: str = object.replace(' ', '_').lower()
 	print(Hero.inventory)
@@ -40,6 +46,10 @@ def take(object: str, scenario: Scenario):
 			print(
 					f'You don\'t see any {object} nearby to take it.')
 
+# take
+'''
+    Generic function to check if the Hero has an Item in the inventory.
+'''
 def item_in_inventory(object: Union[str, Item]):
 	if type(object) == str:
 		for __object in Hero.inventory:

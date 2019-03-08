@@ -1,12 +1,21 @@
 from core.config import print_cinematics, cinematics_block
 from core.characters.Hero import Hero
+# Prints cinematics of the actions.
 
 
+# the_end
+'''
+    It is called when the adventure finishes.
+'''
 def the_end():
     print_cinematics('That\'s the end of your adventure...\n\n')
     exit(1)
 
 
+# death_by_combat
+'''
+    It is called when Hero is killed by an enemy on combat.
+'''
 def death_by_combat(Hero, enemy):
     cinematics_block()
     print_cinematics(f'''
@@ -16,6 +25,10 @@ def death_by_combat(Hero, enemy):
     the_end()
 
 
+# mutual_death_by_combat
+'''
+    It is called when both Hero and the enemy kill each other simultaneously on combat
+'''
 def mutual_death_by_combat(enemy):
     cinematics_block()
     print_cinematics(f'''
@@ -25,6 +38,10 @@ def mutual_death_by_combat(enemy):
     the_end()
 
 
+# death_by_simultaneous_attack
+'''
+    It is called when Hero dies on a simultaneous attack, but the enemy survives
+'''
 def death_by_simultaneous_attack(enemy, results_number_hero):
     cinematics_block()
     if results_number_hero == 0:

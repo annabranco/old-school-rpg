@@ -1,6 +1,8 @@
 import sys
 import time
 from textwrap import dedent
+# DEFINES BASIC CONFIG FOR ALL OTHER MODULES
+
 
 # This function overwrites basic "print" so the texts are print like they were being typed
 # def print(text: str) -> None:
