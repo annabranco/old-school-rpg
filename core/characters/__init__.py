@@ -99,9 +99,9 @@ class Player(Character):
 
     def get_item(self, item: Union[Item, str]) -> None:
         if type(item) == Item:
-            print(f'You get {item.name}.')
+            print(f'You got {item.name}.')
         else:
-            print(f'You get {item}.')
+            print(f'You got {item}.')
         self.inventory.append(item)
 
     def drop_item(self, item: Union[Item, str] = None):

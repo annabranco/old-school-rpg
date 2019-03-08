@@ -14,6 +14,7 @@ gameplay.CURRENT_SCENARIO = testing_forest
 
 # SPECIFIC ELEMENTS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
 apples = Item('apples', 'look juicy red', 0.2)
+apples.on_taking = 'keep'
 
 # GLOBAL ELEMENTS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
 trees = Container('trees', 'are apple trees full of apples')

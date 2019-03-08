@@ -53,6 +53,10 @@ class Element(object):
                 return
         print_cinematics(f'You search the {self.name} but you find nothing.')
 
+    def on_taking(self, callback = None):
+        if callback:
+            callback()
+
 
 class Container(Element):
     def __init__(self, name: str, description: str):
