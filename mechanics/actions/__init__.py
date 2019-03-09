@@ -10,7 +10,7 @@ from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
-from mechanics.actions.interacting.items import take
+from mechanics.actions.interacting.items import take, drop
 # DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
 
@@ -92,6 +92,7 @@ def basic_actions(scenario: Scenario):
     print_cinematics('What do you do?')
     while True:
         action = await_for_action()
+
         if action.startswith('look'):
             what = action.replace('look', '').lstrip()
             look(what, scenario)
@@ -110,3 +111,7 @@ def basic_actions(scenario: Scenario):
 
         elif 'inventory' in action or 'items' in action:
             Hero.declare_inventory()
+
+        elif action.startswith('drop'):
+            what: str = action.replace('take', '').replace('get', '').lstrip()
+            drop(what, scenario)

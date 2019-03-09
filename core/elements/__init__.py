@@ -82,6 +82,14 @@ class Item(Element):
         self.weight: int = weight
 
 
+class Food(Item):
+    def __init__(self, name: str, description: str, quantity: int):
+        self.description: str = f'{description}, enough for {quantity} days'
+        super(Item, self).__init__(name, self.description)
+        self.usable: bool = True
+        self.quantity: int = quantity
+        self.weight: int = quantity
+
 # Weapon
 '''
     CLASS used exclusively for Weapons.

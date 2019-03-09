@@ -1,6 +1,7 @@
 from math import ceil
 from typing import Dict, List, Union
 from core.elements import Item
+from core.config import system_name
 # DEFINES BASIC LOGICS FOR CHARACTERS
 
 
@@ -66,13 +67,52 @@ class Character(object):
     def declare_inventory(self) -> None:
         print(f'Your inventory:')
         # return self.inventory
-        for item in self.inventory:
-            if type(item) == Item:
-                print(f'\t- {item.name}')
-            elif type(item) == dict:
-                print(f'\t- {item["name"]}')
+        for __item in self.inventory:
+            if issubclass(type(__item), Item) or type(__item) == Item:
+                print(f'\t- {__item.name}')
+            elif type(__item) == dict:
+                print(f'\t- {__item["name"]}')
             else:
-                print(f'\t- {item}')
+                print(f'\t- {__item}')
+
+    def has_item(self, object: Union[str, Item]) -> bool:
+        if type(object) == str:
+            print('string')
+            for __object in self.inventory:
+                if issubclass(type(__object), Item) or type(__object) == Item:
+                    print('item on inv is Item', __object.name, object)
+                    return system_name(__object.name) == system_name(object)
+                elif type(__object) == str:
+                    print('item on inv is string')
+                    return __object == object
+                else:
+                    print('item on inv is Dict')
+                    return __object["name"] == object
+        else:
+            print('not string')
+            return object in self.inventory
+
+    def get_item_from_inventory(self, object: Union[str, Item]) -> Item:
+        if self.has_item(object):
+            if type(object) == str:
+                for __object in self.inventory:
+                    if issubclass(type(__object), Item) or type(__object) == Item:
+                        if system_name(__object.name) == system_name(object):
+                            return __object
+                    elif type(__object) == str:
+                        if system_name(__object) == system_name(object):
+                            return __object
+                    else:
+                        if system_name(__object["name"]) == system_name(object):
+                            return __object
+            else:
+                return object in self.inventory
+        else:
+            if type(self) == Player:
+                print(f'You don\'t have {object} on your inventory.')
+            else:
+                print(f'{self.name} doesn\'t seem to have {object}')
+
 
     def draw_weapon(self) -> None:
         if not self.weapon["name"]:

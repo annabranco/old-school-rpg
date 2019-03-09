@@ -1,5 +1,6 @@
 from core.config import *
 from core.scenario import Scenario
+from core.characters.Hero import Hero
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 
 
@@ -7,24 +8,30 @@ from core.scenario import Scenario
 '''
     It is called when the Hero looks at something.
 '''
-def look(place: str, scenario: Scenario):
-    _place = place.replace(' ', '_').lower()
+def look(element: str, scenario: Scenario):
+    __element = element.replace(' ', '_').lower()
 
-    if _place == '' or _place == 'around':
+    print('has', Hero.has_item(__element))
+    if __element == '' or __element == 'around':
         print_cinematics(
             f'You look around and you see {scenario.description}.')
-    elif _place in scenario.ambient:
+    elif __element in scenario.ambient:
         print_cinematics(
-            f'You see nothing special about the {place}.')
-    elif _place in scenario.far_away:
+            f'You see nothing special about the {element}.')
+    elif __element in scenario.far_away:
         print_cinematics(
-            f'You look at the {place}, but is too far away to see any details.')
+            f'You look at the {element}, but is too far away to see any details.')
 
-    elif hasattr(scenario, _place):
-        looking_place = getattr(scenario, _place)
+    elif hasattr(scenario, __element):
+        looking_element = getattr(scenario, __element)
         print_cinematics(
-            f'The {place} {looking_place.description}.')
-        looking_place.on_looking()
+            f'The {element} {looking_element.description}.')
+        looking_element.on_looking()
+
+    elif Hero.has_item(__element):
+            print(
+                f'The {element} on your inventory is {Hero.get_item_from_inventory(__element).description}.')
+
     else:
         print_cinematics(
             f'There is nothing to be seen.')
@@ -34,17 +41,17 @@ def look(place: str, scenario: Scenario):
 '''
     It is called when the Hero searched somewhere.
 '''
-def search(place: str, scenario: Scenario):
-    _place = place.replace(' ', '_').lower()
+def search(element: str, scenario: Scenario):
+    __element = element.replace(' ', '_').lower()
 
-    if place in scenario.ambient:
-        print_cinematics(f'You search the {place} but you find nothing.')
-    elif place in scenario.far_away:
+    if element in scenario.ambient:
+        print_cinematics(f'You search the {element} but you find nothing.')
+    elif element in scenario.far_away:
         print_cinematics(f'It is too far away.')
 
-    elif hasattr(scenario, _place):
-        searching_place = getattr(scenario, _place)
-        searching_place.on_searching()
+    elif hasattr(scenario, __element):
+        searching_element = getattr(scenario, __element)
+        searching_element.on_searching()
     else:
         print_cinematics(
             f'There is nothing to be found.')
