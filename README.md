@@ -8,6 +8,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ### Current development: basic non-combat actions
 - add quantity when getting food;
+- getting (very) tired acording to rounds of combat;
+- getting (very) tired according to time;
 - carrying bodies;
 - move/go;
 - connecting scenarios;
