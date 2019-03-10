@@ -1,14 +1,19 @@
 from typing import Dict, List, Union
 from core.elements import Item
 from pprint import pprint
+# DEFINES BASIC LOGICS FOR SCENARIOS
 
 
+# Scenario
+'''
+    CLASS used for all Scenario instances.
+'''
 class Scenario(object):
 
     def __init__(self, name: str, scene: str, short_description: str):
         self.scene: str = scene
         self.name: str = name
-        self.short_description: str = 'desert'
+        self.short_description: str = short_description
         self.description: str = 'a dull boring vast desert full of sand'
         self.encounter_rate: int = 0
         self.encounters: List[str] = []
@@ -16,22 +21,23 @@ class Scenario(object):
         self.status_on_entering: str = ''
         self.ambient: List[str] = ['sand']
         self.far_away: List[str] = []
-        self.floor: List[str] = []
+        self.floor: List[Item] = []
         self.exits: List[str] = []
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
 
-    # FUNCTION: add_to_scenario
-
+    # add_to_scenario
     '''
-    DESCRIPTION: Adds to the Scenario elements not initially interactable.
+    Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
+    def add_to_scenario(self, name: str, element: Union[Dict, List[Dict]]) -> None:
+        setattr(self, name, element)
+        setattr(element, 'scenario', self.name)
 
-    def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
-        setattr(self, field, value)
-        setattr(value, 'scenario', self.name)
-
+    def add_to_floor(self, element: Union[Dict, List[Dict]]) -> None:
+        self.floor.append(element)
+        setattr(element, 'scenario', self.name)
 
 '''
 class Scenario(object):

@@ -1,6 +1,8 @@
 import sys
 import time
 from textwrap import dedent
+# DEFINES BASIC CONFIG FOR ALL OTHER MODULES
+
 
 # This function overwrites basic "print" so the texts are print like they were being typed
 # def print(text: str) -> None:
@@ -54,3 +56,6 @@ def cinematics_block() -> None:
 
 def action_block() -> None:
     print('\n\t\t---\n')
+
+def system_name(full_name: str) -> str:
+    return full_name.replace(' ', '_').lower()
