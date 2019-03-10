@@ -2,6 +2,7 @@ from math import ceil
 from typing import Dict, List, Union
 from core.elements import Item
 from core.config import system_name
+import gameplay
 # DEFINES BASIC LOGICS FOR CHARACTERS
 
 
@@ -14,12 +15,10 @@ class Character(object):
         self.name: str = name
         self.type: str = type
         self.race: str = race
-        self.weapon: Dict[[str, str], [str, str][str, int]] = {
-            'name': '', 'type': '', 'bonus': 0}
-        self.shield: Dict[[str, str], [str, str][str, int]] = {
-            'name': '', 'type': '', 'bonus': 0}
-        self.armor: Dict[[str, str], [str, str][str, int]] = {
-            'name': '', 'type': '', 'bonus': 0}
+        self.description: str = f'This is the {name}'
+        self.weapon: Dict[[str, str], [str, str][str, int]] = None
+        self.shield: Dict[[str, str], [str, str][str, int]] = None
+        self.armor: Dict[[str, str], [str, str][str, int]] = None
         self.inventory: List[str] = []
         self.attack: int = 0
         self.defense: int = 0
@@ -32,6 +31,7 @@ class Character(object):
         if not new_status:
             if self.hp <= 0:
                 self.status = 'dead'
+                self.on_dead()
             elif self.hp == self.full_hp:
                 self.status = 'well'
             elif self.hp <= ceil(self.full_hp / 3):
@@ -137,6 +137,15 @@ class Character(object):
             else:
                 print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
 
+    def on_dead(self):
+        if type(self) == Player and gameplay.CURRENT_SCENARIO.special_death:
+            print('This scenario has a special death cinematics')
+        elif type(self) == NPC and gameplay.CURRENT_SCENARIO.special_kill:
+            print('This scenario has a special kill cinematics')
+        else:
+            self.name = f'body of {self.name}'
+            self.description = 'soaked in blood'
+            gameplay.CURRENT_SCENARIO.add_to_floor(self)
 
 # Player
 '''

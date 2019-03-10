@@ -19,7 +19,7 @@ def look(element: str, scenario: Scenario):
             print_cinematics(
                 f'Looking at the floor you find:')
             for __item in scenario.floor:
-                if issubclass(type(__item), Item) or type(__item) == Item:
+                if issubclass(type(__item), object) or type(__item) == Item:
                     print(f'\t- {__item.name}',)
                 elif type(__item) == dict:
                     print(f'\t- {__item["name"]}',)

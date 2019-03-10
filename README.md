@@ -7,6 +7,9 @@ This is a text-based Fantasy Role Playing Game.
 The aim to create a flexible backend system designed to acomodate different stories and games.
 
 ### Current development: basic non-combat actions
+- move/go;
+- connecting scenarios;
+- hide.
 
 ## Next dev:
 - First testing game.

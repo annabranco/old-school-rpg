@@ -1,12 +1,15 @@
+import cinematics
 from core.scenario import Scenario
 from core.elements import Item, Container
 import gameplay
+from db.enemies import ugly_monster
+from core.config import *
 # A TESTING SCENARIO
 # This scenario is just for testing purposes
 
 
 # CREATES A TESTING SCENARIO INSTANCE AND ADDS ITS ATTRIBUTES
-testing_forest = Scenario('testing_forest', 'scene01', 'a forest')
+testing_forest = Scenario('testing_forest', 'scene01', 'forest')
 gameplay.CURRENT_SCENARIO = testing_forest
 testing_forest.description = 'a vast green field full of trees. \
 Near you there are some bushes and far away you can see a river flowing from the left \
@@ -43,3 +46,13 @@ bushes.golden_coin = golden_coin
 # ADDS GLOBAL CONTAINERS TO THE SCENARIO INSTANCE SO THEY CAN BE INTERACTED WITH.
 testing_forest.add_to_scenario('bushes', bushes)
 testing_forest.add_to_scenario('trees', trees)
+
+# STARTING CINEMATICS
+print_cinematics(f'You are on a large green field. You hear some steps coming from behind a group of trees. ')
+print_cinematics(
+    f'You see an {ugly_monster.name} coming from behind them. It seems to be looking for something on the ground.')
+print_cinematics(
+    f'He suddently sees you and grunts unknown words approaching its hand to a heavy club hanging from its belt.')
+
+
+cinematics.start_encounter(ugly_monster)

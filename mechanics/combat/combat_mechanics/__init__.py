@@ -10,6 +10,8 @@ from cinematics import death
 from cinematics import kills
 from cinematics import damages
 from core.characters import Character, NPC
+from mechanics import actions
+import gameplay
 # DETERMINES THE MAIN COMBAT MECHANICS
 
 
@@ -26,6 +28,7 @@ def damage(successes: int, attacker: Character, defendant: Character) -> None:
             death.death_by_combat(defendant, attacker)
         else:
             kills.killed_enemy(attacker, defendant)
+            actions.basic_actions(gameplay.CURRENT_SCENARIO)
 
     elif defendant.status == 'severily wounded':
         cinematics_block()

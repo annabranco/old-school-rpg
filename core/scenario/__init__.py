@@ -13,7 +13,7 @@ class Scenario(object):
     def __init__(self, name: str, scene: str, short_description: str):
         self.scene: str = scene
         self.name: str = name
-        self.short_description: str = 'desert'
+        self.short_description: str = short_description
         self.description: str = 'a dull boring vast desert full of sand'
         self.encounter_rate: int = 0
         self.encounters: List[str] = []

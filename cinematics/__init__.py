@@ -9,6 +9,5 @@ from core.characters.Hero import Hero
     It is called when an encounter with a possible enemy starts.
 '''
 def start_encounter(enemy):
-    print_cinematics(f'You see {enemy.name}.\n')
     print_cinematics(enemy.declare_status())
     actions.encounter_reaction(enemy)
