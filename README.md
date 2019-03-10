@@ -40,12 +40,15 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ### Actions:
 * Global prompt;
-* Attack;
-* Defend;
-* Wait;
 * Look;
 * Search;
-* Get/Take (WIP);
+* Get/Take;
+* Drop.
+
+### Combat actions:
+* Attack;
+* Defend;
+* Wait.
 
 ### Database:
 * Enemies basic db;
