@@ -37,7 +37,7 @@ def damage(successes: int, attacker: Character, defendant: Character) -> None:
                 f'{attacker.name} strikes you causing great pain and damage. You feel badly hurt.\n')
         else:
             print_cinematics(
-                f'You slash your {Hero.weapon["name"]} causing a great damage on {defendant.name}. It is badly hurt.\n')
+                f'You slash your {Hero.weapon.name} causing a great damage on {defendant.name}. {defendant.pronom.title()} is badly hurt.\n')
         cinematics_block()
     else:
         damages.cause_damage(attacker, defendant, successes)

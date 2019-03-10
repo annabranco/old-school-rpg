@@ -6,6 +6,7 @@ from db.enemies import ugly_monster
 from core.config import *
 from db.food import *
 from db.valuables import *
+from core.characters.Hero import Hero
 
 
 # A TESTING SCENARIO
@@ -36,7 +37,7 @@ testing_forest.safe_places = ['bushes']
 trees = Container('trees', 'are apple trees full of apples')
 
 bushes = Container('bushes', 'are 3 feet green bushes full of leaves')
-bushes.searching_effect = ['You spend a very long time searching the bushes and start to feel tired.', 'tired']
+bushes.searching_effect = ['You spend a very long time searching the bushes and start to feel tired.', lambda : Hero.change_status('tired')]
 
 
 # SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.

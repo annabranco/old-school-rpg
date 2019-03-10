@@ -1,5 +1,7 @@
 import gameplay
 from core.config import *
+from typing import List
+
 # DEFINES BASIC LOGICS FOR ELEMENTS AND ITEMS
 
 
@@ -13,7 +15,7 @@ class Element(object):
         self.description: str = description
         self.scenario: str = ''
         self.looking_effect: str = None
-        self.searching_effect: str = None
+        self.searching_effect: List[str] = None
         self.on_hearing = None
         self.hearing_effect: str = None
         self.on_touching = None
@@ -29,14 +31,17 @@ class Element(object):
     '''
     def on_looking(self, callback=None) -> None:
         for attr, value in self.__dict__.items():
-            if type(value) == Item and value.hidden == False:
-                system_name = value.name.replace(' ', '_').lower()
-                if hasattr(gameplay.CURRENT_SCENARIO, system_name):
-                    print_cinematics(
-                        f'There is a {value.name} on the {self.name}')
-                else:
-                    gameplay.CURRENT_SCENARIO.add_to_scenario(
-                        system_name, value)
+
+            if issubclass(type(value), Item) or type(value) == Item:
+
+                if value.hidden == False:
+                    system_name = value.name.replace(' ', '_').lower()
+                    if hasattr(gameplay.CURRENT_SCENARIO, system_name):
+                        print_cinematics(
+                            f'There is a {value.name} on the {self.name}')
+                    else:
+                        gameplay.CURRENT_SCENARIO.add_to_scenario(
+                            system_name, value)
 
     # on_searching
     '''
@@ -45,8 +50,13 @@ class Element(object):
     Visible items are not found here with on_serching, but seen with on_looking.
     '''
     def on_searching(self, callback=None) -> None:
+        if self.searching_effect:
+            print_cinematics(self.searching_effect[0])
+            self.searching_effect[1]()
+
         for attr, value in self.__dict__.items():
-            if type(value) == Item and value.hidden == True:
+
+            if issubclass(type(value), Item) and value.hidden == True:
                 value.hidden = False
                 print_cinematics(f'You find {value.name}')
                 system_name = value.name.replace(' ', '_').lower()
@@ -88,7 +98,7 @@ class Container(Element):
 class Food(Item):
     def __init__(self, name: str, description: str, weight: int, quantity: int):
         self.__description: str = description
-        self.description: str = f'{description}, enough for {quantity} days'
+        self.description: str = description
         super(Food, self).__init__(name, self.description, weight)
         self.usable: bool = True
         self.quantity: int = quantity
