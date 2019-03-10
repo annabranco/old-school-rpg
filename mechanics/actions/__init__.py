@@ -113,5 +113,5 @@ def basic_actions(scenario: Scenario):
             Hero.declare_inventory()
 
         elif action.startswith('drop'):
-            what: str = action.replace('take', '').replace('get', '').lstrip()
+            what: str = action.replace('drop', '').lstrip()
             drop(what, scenario)

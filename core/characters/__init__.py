@@ -65,32 +65,35 @@ class Character(object):
             print(f'{self.name}\'s current HP: {self.hp}.')
 
     def declare_inventory(self) -> None:
-        print(f'Your inventory:')
-        # return self.inventory
-        for __item in self.inventory:
-            if issubclass(type(__item), Item) or type(__item) == Item:
-                print(f'\t- {__item.name}')
-            elif type(__item) == dict:
-                print(f'\t- {__item["name"]}')
-            else:
-                print(f'\t- {__item}')
+        if len(self.inventory) == 0:
+            print(f'You have no items on your inventory.')
+        else:
+            print(f'Your inventory:')
+            # return self.inventory
+            for __item in self.inventory:
+                if issubclass(type(__item), Item) or type(__item) == Item:
+                    print(f'\t- {__item.name}')
+                elif type(__item) == dict:
+                    print(f'\t- {__item["name"]}')
+                else:
+                    print(f'\t- {__item}')
 
     def has_item(self, object: Union[str, Item]) -> bool:
         if type(object) == str:
-            print('string')
             for __object in self.inventory:
                 if issubclass(type(__object), Item) or type(__object) == Item:
-                    print('item on inv is Item', __object.name, object)
-                    return system_name(__object.name) == system_name(object)
+                    if system_name(__object.name) == system_name(object):
+                        return True
                 elif type(__object) == str:
-                    print('item on inv is string')
-                    return __object == object
+                    if __object == object:
+                        return True
                 else:
-                    print('item on inv is Dict')
-                    return __object["name"] == object
+                    if __object["name"] == object:
+                        return True
         else:
-            print('not string')
-            return object in self.inventory
+            if object in self.inventory:
+                return True
+        return False
 
     def get_item_from_inventory(self, object: Union[str, Item]) -> Item:
         if self.has_item(object):
@@ -125,8 +128,7 @@ class Character(object):
             if self.weapon["type"] == 'blade':
                 action = ['unsheathe',  'unsheathes']
             elif self.weapon["type"] == 'range':
-                action = ['place an arrow on',
-                          'places an arrow on']
+                action = ['place an arrow on', 'places an arrow on']
             elif self.weapon["type"] == 'blunt':
                 action = ['draw', 'draws']
 
@@ -147,7 +149,7 @@ class Player(Character):
         self.carrying_capacity = 10
 
     def get_item(self, item: Union[Item, str]) -> None:
-        if type(item) == Item:
+        if issubclass(type(item), Item) or type(item) == Item:
             print(f'You got {item.name}.')
         else:
             print(f'You got {item}.')
@@ -159,20 +161,20 @@ class Player(Character):
             self.declare_inventory()
             which_item = input('> ')
             for this_item in self.inventory:
-                if type(this_item) == dict:
-                    if str(this_item["name"]).lower() == which_item.lower():
+                if type(this_item) == Item:
+                    if system_name(this_item.name) == system_name(which_item):
                         item = this_item
-                elif this_item.lower() == which_item.lower():
+                elif system_name(this_item) == system_name(which_item):
                     item = this_item
 
         if item != None:
-            if type(item) == dict:
-                print(f'You dropped {item["name"]}.')
+            if issubclass(type(item), Item) or type(item) == Item:
+                print(f'You drop {item.name}.')
             else:
-                print(f'You dropped {item}.')
+                print(f'You drop {item}.')
             self.inventory.remove(item)
         else:
-            print(f'You don\'t have {which_item} on your inventory.')
+            print(f'You don\'t have {item} on your inventory.')
 
 
 # NPC

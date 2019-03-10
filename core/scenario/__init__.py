@@ -21,7 +21,7 @@ class Scenario(object):
         self.status_on_entering: str = ''
         self.ambient: List[str] = ['sand']
         self.far_away: List[str] = []
-        self.floor: List[str] = []
+        self.floor: List[Item] = []
         self.exits: List[str] = []
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
@@ -31,10 +31,13 @@ class Scenario(object):
     Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
-    def add_to_scenario(self, field: str, value: Union[Dict, List[Dict]]) -> None:
-        setattr(self, field, value)
-        setattr(value, 'scenario', self.name)
+    def add_to_scenario(self, name: str, element: Union[Dict, List[Dict]]) -> None:
+        setattr(self, name, element)
+        setattr(element, 'scenario', self.name)
 
+    def add_to_floor(self, element: Union[Dict, List[Dict]]) -> None:
+        self.floor.append(element)
+        setattr(element, 'scenario', self.name)
 
 '''
 class Scenario(object):

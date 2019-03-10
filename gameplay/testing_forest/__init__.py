@@ -25,7 +25,7 @@ testing_forest.safe_places = ['bushes']
 
 # SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
 apples = Item('apples', 'look juicy red', 0.2)
-apples.on_taking = 'keep'
+apples.on_taking = lambda : 'keep'
 
 golden_coin = Item('golden coin', 'a very old coin made of gold', 0)
 golden_coin.hidden = True

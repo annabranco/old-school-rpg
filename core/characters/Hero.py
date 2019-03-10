@@ -5,10 +5,9 @@ from core.elements import Food, Item
 
 Hero = Player('Hero', 'human')
 Hero.weapon = {'name': 'short sword', 'type': 'blade', 'bonus': 0}
-food = Food('dry food', 'dry and untasty meat', 10)
+food = Food('food', 'dry and untasty meat', 10)
 Hero.inventory.append(food)
 
-print(issubclass(type(food), Item))
 Hero.attack = 5
 Hero.defense = 5
 Hero.full_hp = 5
