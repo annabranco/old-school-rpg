@@ -4,6 +4,10 @@ from core.elements import Item, Container
 import gameplay
 from db.enemies import ugly_monster
 from core.config import *
+from db.food import *
+from db.valuables import *
+
+
 # A TESTING SCENARIO
 # This scenario is just for testing purposes
 
@@ -20,32 +24,33 @@ to the right. The trail you\'ve been following seems to go on until a bridge on 
 testing_forest.ambient = ['trail', 'field']
 testing_forest.far_away = ['river', 'bridge']
 
+
 # ELEMENTS THAT CAN BE USED AS SAFE PLACES FOT THE HERO TO HIDE AND REST.
 testing_forest.safe_places = ['bushes']
+
 
 # EXIT POINTS THAT CONNECT TO OTHER SCENARIOS.
 
 
-# SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
-apples = Item('apples', 'look juicy red', 0.2)
-apples.on_taking = lambda : 'keep'
-
-golden_coin = Item('golden coin', 'a very old coin made of gold', 0)
-golden_coin.hidden = True
-
-
 # GLOBAL CONTAINERS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
 trees = Container('trees', 'are apple trees full of apples')
-trees.apples = apples
 
 bushes = Container('bushes', 'are 3 feet green bushes full of leaves')
 bushes.searching_effect = ['You spend a very long time searching the bushes and start to feel tired.', 'tired']
-bushes.golden_coin = golden_coin
+
+
+# SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
+trees.add_item(apples)
+apples.on_taking = lambda: 'keep'
+
+bushes.add_item(golden_coin)
+golden_coin.hidden = True
 
 
 # ADDS GLOBAL CONTAINERS TO THE SCENARIO INSTANCE SO THEY CAN BE INTERACTED WITH.
 testing_forest.add_to_scenario('bushes', bushes)
 testing_forest.add_to_scenario('trees', trees)
+
 
 # STARTING CINEMATICS
 print_cinematics(f'You are on a large green field. You hear some steps coming from behind a group of trees. ')

@@ -17,8 +17,10 @@ def take(object: str, scenario: Scenario):
 
     if __object in scenario.ambient:
         print('There\'s no point in doing it.')
+
     elif __object in scenario.far_away:
         print('Even if you could take it, it is too far away.')
+
     elif any(system_name(__object) == system_name(__item.name) for __item in scenario.floor):
         for __item in scenario.floor:
             if system_name(__object) == system_name(__item.name):
@@ -26,9 +28,10 @@ def take(object: str, scenario: Scenario):
         if Hero.has_item(this_object):
             print(f'You already have {object} on your inventory.')
         else:
-            Hero.get_item(this_object)
             if hasattr(this_object, 'on_taking') and this_object.on_taking() != 'keep':
                 scenario.floor.remove(this_object)
+            Hero.get_item(this_object)
+
     elif hasattr(scenario, __object):
         this_object: Element = getattr(scenario, __object)
         if type(this_object) == Container:
@@ -41,6 +44,7 @@ def take(object: str, scenario: Scenario):
             Hero.get_item(this_object)
             if not hasattr(this_object, 'on_taking') and this_object.on_taking != 'keep':
                 delattr(scenario, __object)
+
     else:
         print(f'You don\'t see any {object} nearby to take it.')
 

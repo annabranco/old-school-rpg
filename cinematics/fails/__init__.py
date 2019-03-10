@@ -10,7 +10,7 @@ from core.config import print_cinematics, cinematics_block
 '''
 def disastrous_fail_on_attack(fails, attacker, defendant):
     fail_types = {}
-    if attacker.weapon["type"] == 'range':
+    if attacker.weapon.type == 'range':
         if fails >= 3:
             fails = 3
         fail_types = {
@@ -23,8 +23,8 @@ def disastrous_fail_on_attack(fails, attacker, defendant):
                 f'You start laughing as you see {attacker.name} droping all his arrows when trying to reach for one.'
             ],
             3: [
-                f'As you stretch the arroy back to attack, the string just splits in half, making the {attacker.weapon["name"]} useless.',
-                f'As {attacker.name} pushes the arrow back on its {attacker.weapon["name"]}, his string just splits.',
+                f'As you stretch the arroy back to attack, the string just splits in half, making the {attacker.weapon.name} useless.',
+                f'As {attacker.name} pushes the arrow back on its {attacker.weapon.name}, his string just splits.',
             ]
         }
     else:
@@ -40,8 +40,8 @@ def disastrous_fail_on_attack(fails, attacker, defendant):
                 f'{attacker.name} misses very badly the attack and leaves the guard completely opened.'
             ],
             3: [
-                f'Your attack was very predictable and {defendant.name} parres it sending your {attacker.weapon["name"]} to the ground.',
-                f'{attacker.name}\'s attack was very predictable you take the opportunity to parry it and send its {defendant.weapon["name"]} to the ground.',
+                f'Your attack was very predictable and {defendant.name} parres it sending your {attacker.weapon.name} to the ground.',
+                f'{attacker.name}\'s attack was very predictable you take the opportunity to parry it and send its {defendant.weapon.name} to the ground.',
             ],
             4: [
                 'As you step forward to attack and misses it, you lose your balance and ungainly fall to the ground.',

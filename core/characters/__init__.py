@@ -146,6 +146,12 @@ class Character(object):
             self.name = f'body of {self.name}'
             self.description = 'soaked in blood'
             gameplay.CURRENT_SCENARIO.add_to_floor(self)
+        if self.armor:
+            self.armor.bonus = self.armor.bonus - 1
+            if self.armor.bonus == 0:
+                self.armor.name = f'destroyed {self.armor.name}'
+            else:
+                self.armor.name = f'damaged {self.armor.name}'
 
 # Player
 '''
@@ -159,9 +165,9 @@ class Player(Character):
 
     def get_item(self, item: Union[Item, str]) -> None:
         if issubclass(type(item), Item) or type(item) == Item:
-            print(f'You got {item.name}.')
+            print(f'You get the {item.name}.')
         else:
-            print(f'You got {item}.')
+            print(f'You get the {item}.')
         self.inventory.append(item)
 
     def drop_item(self, item: Union[Item, str] = None):
@@ -191,9 +197,10 @@ class Player(Character):
     CLASS used exclusively for Non Player Characters.
 '''
 class NPC(Character):
-    def __init__(self, name='Ugly Monster', race='humanoid'):
+    def __init__(self, name: str = 'Ugly Monster', race: str = 'humanoid', pronom: str = 'it'):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
+        self.pronom = pronom
 
     def set_name(self, new_name):
         self.name = new_name

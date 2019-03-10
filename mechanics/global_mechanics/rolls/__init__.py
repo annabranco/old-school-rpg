@@ -52,25 +52,25 @@ def roll_dices(dices_number: int, difficult: int, reason: str):
                           results_object, reason)
     return [results_object['final_result'], special]
 
-# roll_dices
+# print_rolls
 '''
     Prints the dice rolling step by step, giving suspense to the process.
 '''
 def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_object: Dict[str, int], reason: str) -> str:
-    time.sleep(0.01)
-    print(f'  *** {reason} ***')
-    print(f'Dices to roll: {len(rolled_results)}, difficult: {difficult}')
-    print('\n')
-    index: int = 0
-    while index < len(rolls):
-        result_num = rolls[index]
-        result_txt = rolled_results[index][result_num]
-        index += 1
-        time.sleep(1.2)
-        write_to_screen(f'{result_num} ')
-        time.sleep(0.8)
-        write_to_screen(f'{result_txt}\n')
-    print('\n')
+    # time.sleep(0.01)
+    # print(f'  *** {reason} ***')
+    # print(f'Dices to roll: {len(rolled_results)}, difficult: {difficult}')
+    # print('\n')
+    # index: int = 0
+    # while index < len(rolls):
+    #     result_num = rolls[index]
+    #     result_txt = rolled_results[index][result_num]
+    #     index += 1
+    #     time.sleep(1.2)
+    #     write_to_screen(f'{result_num} ')
+    #     time.sleep(0.8)
+    #     write_to_screen(f'{result_txt}\n')
+    # print('\n')
     special, result, final_result = define_result(results_object)
 
     print(f'\t* Result: {special.upper()} {result.upper()} ({final_result})')

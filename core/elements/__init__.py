@@ -61,15 +61,6 @@ class Element(object):
             callback()
 
 
-# Container
-'''
-    CLASS used exclusively for elements that contain another elements (ej. a chest).
-'''
-class Container(Element):
-    def __init__(self, name: str, description: str):
-        super(Container, self).__init__(name, description)
-
-
 # Item
 '''
     CLASS used exclusively for items that can be taken and/or used by the Hero.
@@ -82,23 +73,50 @@ class Item(Element):
         self.weight: int = weight
 
 
+# Container
+'''
+    CLASS used exclusively for elements that contain another elements (ej. a chest).
+'''
+class Container(Element):
+    def __init__(self, name: str, description: str):
+        super(Container, self).__init__(name, description)
+
+    def add_item(self, item: Item):
+        setattr(self, item.name, item)
+
+
 class Food(Item):
-    def __init__(self, name: str, description: str, quantity: int):
+    def __init__(self, name: str, description: str, weight: int, quantity: int):
+        self.__description: str = description
         self.description: str = f'{description}, enough for {quantity} days'
-        super(Item, self).__init__(name, self.description)
+        super(Food, self).__init__(name, self.description, weight)
         self.usable: bool = True
         self.quantity: int = quantity
-        self.weight: int = quantity
+        self.unity_weight: int = weight
+        self.weight: int = weight * quantity
+
+    def add(self, quantity: int):
+        self.quantity = self.quantity + quantity
+        self.update_quantity()
+
+    def remove(self, quantity: int):
+        self.quantity = self.quantity - quantity
+        self.update_quantity()
+
+    def update_quantity(self):
+        self.weight = self.unity_weight * self.quantity
+        self.description: str = f'{self.__description}, enough for {self.quantity} days'
+
 
 # Weapon
 '''
     CLASS used exclusively for Weapons.
 '''
 class Weapon(Item):
-    def __init__(self, name: str, description: str):
-        super(Weapon, self).__init__(name, description)
-        self.type: str = ''
-        self.bonus: int = 0
+    def __init__(self, name: str, description: str, weight: int, weapon_type: str, bonus: int):
+        super(Weapon, self).__init__(name, description, weight)
+        self.type: str = weapon_type
+        self.bonus: str = bonus
 
 
 # Shield
@@ -106,10 +124,9 @@ class Weapon(Item):
     CLASS used exclusively for Shields.
 '''
 class Shield(Item):
-    def __init__(self, name: str, description: str):
-        super(Shield, self).__init__(name, description)
-        self.type: str = ''
-        self.bonus: int = 0
+    def __init__(self, name: str, description: str, weight: int, bonus: int):
+        super(Shield, self).__init__(name, description, weight)
+        self.bonus: int = bonus
 
 
 # Armor
@@ -117,10 +134,9 @@ class Shield(Item):
     CLASS used exclusively for Armors.
 '''
 class Armor(Item):
-    def __init__(self, name: str, description: str):
-        super(Armor, self).__init__(name, description)
-        self.type: str = ''
-        self.bonus: int = 0
+    def __init__(self, name: str, description: str, weight: int, bonus: int):
+        super(Armor, self).__init__(name, description, weight)
+        self.bonus: int = bonus
 
 
 '''

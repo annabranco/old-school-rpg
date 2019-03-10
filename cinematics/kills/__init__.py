@@ -22,7 +22,7 @@ def victory():
 def killed_enemy(you, enemy):
     cinematics_block()
     print_cinematics(
-        f'You give a mortal thrust of your {you.weapon["name"]} and {enemy.name} falls dead.\n')
+        f'You give a mortal thrust of your {you.weapon.name} and {enemy.name} falls dead.\n')
     victory()
 
 

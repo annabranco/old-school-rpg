@@ -64,20 +64,20 @@ def encounter_reaction_unaware(action: str, enemy: NPC):
 def encounter_reaction_aware(action: str, enemy: NPC):
     if action == 'attack':
         print_cinematics(
-            f'You draw your {Hero.weapon["name"]} and quickly strike {enemy.name}.')
+            f'You draw your {Hero.weapon.name} and quickly strike {enemy.name}.')
         mechanics_block('COMBAT')
         attack.attack(enemy, 0, False)
 
     elif action == 'wait':
         print_cinematics(
-            f'You wait to see the reaction of {enemy.name}. He draws a {enemy.weapon["name"]} and comes to attack you.')
+            f'You wait to see the reaction of {enemy.name}. He draws a {enemy.weapon.name} and comes to attack you.')
         print_cinematics(
-            f'You draw your {Hero.weapon["name"]} and prepare to face him.')
+            f'You draw your {Hero.weapon.name} and prepare to face him.')
         initiative.initiative(enemy, 0)
 
     elif action == 'defend':
         print_cinematics(
-            f'You draw your {Hero.weapon["name"]} and put yourself on a defensive stance while the {enemy.name} draws a {enemy.weapon["name"]} and comes to attack you.')
+            f'You draw your {Hero.weapon.name} and put yourself on a defensive stance while the {enemy.name} draws a {enemy.weapon.name} and comes to attack you.')
         mechanics_block('COMBAT')
         combat_rounds.took_action['Hero'] = True
         defend.defend(enemy, 0, True)
@@ -88,7 +88,6 @@ def encounter_reaction_aware(action: str, enemy: NPC):
     It is called to check Player decisions related to no-combat actions.
 '''
 def basic_actions(scenario: Scenario):
-    print_cinematics(f'You are on a {scenario.short_description}.')
     print_cinematics('What do you do?')
     while True:
         action = await_for_action()
