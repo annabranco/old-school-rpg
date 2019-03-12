@@ -49,7 +49,6 @@ def look(element: str, scenario: Scenario):
 
     elif Hero.has_item(__element):
         my_item = Hero.get_item_from_inventory(__element)
-        print(type(my_item))
         enough_for = ''
         if type(my_item) == Food:
             # I consider that 1weight of food is enough for a full day, so multiplying quantity by the food weight returns for how many days one portion of this food is capable of sustaining the Hero.
@@ -114,11 +113,11 @@ def looking_body(body: NPC, scenario: Scenario):
 
 
 def search(element: str, scenario: Scenario):
-    __element = element.replace(' ', '_').lower()
+    __element = system_name(element)
 
-    if element in scenario.ambient:
+    if __element in scenario.ambient:
         print_cinematics(f'You search the {element} but you find nothing.')
-    elif element in scenario.far_away:
+    elif __element in scenario.far_away:
         print_cinematics(f'It is too far away.')
 
     elif hasattr(scenario, __element):
@@ -126,11 +125,34 @@ def search(element: str, scenario: Scenario):
         searching_element.on_searching()
 
     elif __element == 'body':
-        for __something in __element.inventory:
+        for __something in scenario.floor:
             if system_name(__something.name).startswith(__element):
-                print(
-                    f'The {__something.name} laying on the floor is {__something.description}.')
+                __something.declare_inventory()
+                for __item in __something.inventory:
+                    scenario.add_to_floor(__item)
+                    __something.inventory.remove(__item)
+                searching_body(__something, scenario)
 
     else:
         print_cinematics(
             f'There is nothing to be found.')
+
+
+def searching_body(body: NPC, scenario: Scenario):
+    if body.armor:
+        print(
+            f'\t- {body.armor.name}')
+        scenario.add_to_floor(body.armor)
+        body.armor = None
+
+    if body.weapon:
+        print(
+            f'\t- {body.weapon.name}')
+        scenario.add_to_floor(body.weapon)
+        body.weapon = None
+
+    if body.shield:
+        print(
+            f'\t - {body.shield.name}')
+        scenario.add_to_floor(body.shield)
+        body.shield = None
