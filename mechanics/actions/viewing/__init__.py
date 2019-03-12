@@ -1,16 +1,17 @@
 from core.config import *
 from core.scenario import Scenario
 from core.characters.Hero import Hero
-from core.elements import Item
+from core.elements import Item, Food
 from core.characters import NPC
 
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
-
 
 # look
 '''
     It is called when the Hero looks at something.
 '''
+
+
 def look(element: str, scenario: Scenario):
     __element = system_name(element)
 
@@ -40,7 +41,6 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'You look at the {element}, but is too far away to see any details.')
 
-
     elif hasattr(scenario, __element):
         looking_element = getattr(scenario, __element)
         print_cinematics(
@@ -48,8 +48,14 @@ def look(element: str, scenario: Scenario):
         looking_element.on_looking()
 
     elif Hero.has_item(__element):
+        my_item = Hero.get_item_from_inventory(__element)
+        print(type(my_item))
+        enough_for = ''
+        if type(my_item) == Food:
+            # I consider that 1weight of food is enough for a full day, so multiplying quantity by the food weight returns for how many days one portion of this food is capable of sustaining the Hero.
+            enough_for = f', enough for {int(my_item.quantity * my_item.unity_weight)} days'
         print(
-            f'The {element} on your inventory is {Hero.get_item_from_inventory(__element).description}.')
+            f'The {element} on your inventory is {my_item.description}{enough_for}.')
 
     elif __element == 'body':
         for __something in scenario.floor:
@@ -72,11 +78,14 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'There is nothing to be seen.')
 
-
 # looking_body
+
+
 '''
     It is called when the Hero look to an enemy dead body.
 '''
+
+
 def looking_body(body: NPC, scenario: Scenario):
     if body.armor:
         print(
@@ -96,11 +105,14 @@ def looking_body(body: NPC, scenario: Scenario):
         scenario.add_to_floor(body.shield)
         body.shield = None
 
-
 # search
+
+
 '''
     It is called when the Hero searched somewhere.
 '''
+
+
 def search(element: str, scenario: Scenario):
     __element = element.replace(' ', '_').lower()
 

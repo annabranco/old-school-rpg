@@ -4,12 +4,14 @@ from typing import List
 
 # DEFINES BASIC LOGICS FOR ELEMENTS AND ITEMS
 
-
 # Element
 '''
     CLASS used for all interactable elements on the game.
 '''
+
+
 class Element(object):
+
     def __init__(self, name, description):
         self.name: str = name
         self.description: str = description
@@ -24,11 +26,13 @@ class Element(object):
         self.tasting_effect: str = None
 
     # on_looking
+
     '''
         If the place looked upon has visible elements (ej. apples on trees),
         the items are added to the Scenario instance and can now be also interacted to with.
         Hidden elements are only found with on_serching.
     '''
+
     def on_looking(self, callback=None) -> None:
         for attr, value in self.__dict__.items():
 
@@ -44,11 +48,13 @@ class Element(object):
                             system_name, value)
 
     # on_searching
+
     '''
     If the place looked upon has hidden items,
     they are added to the Scenario instance and can now be also interacted to with.
     Visible items are not found here with on_serching, but seen with on_looking.
     '''
+
     def on_searching(self, callback=None) -> None:
         if self.searching_effect:
             print_cinematics(self.searching_effect[0])
@@ -66,28 +72,36 @@ class Element(object):
                 return
         print_cinematics(f'You search the {self.name} but you find nothing.')
 
-    def on_taking(self, callback = None):
+    def on_taking(self, callback=None):
         if callback:
             callback()
 
-
 # Item
+
+
 '''
     CLASS used exclusively for items that can be taken and/or used by the Hero.
 '''
+
+
 class Item(Element):
+
     def __init__(self, name: str, description: str, weight: int):
         super(Item, self).__init__(name, description)
         self.hidden: bool = False
         self.usable: bool = False
         self.weight: int = weight
 
-
 # Container
+
+
 '''
     CLASS used exclusively for elements that contain another elements (ej. a chest).
 '''
+
+
 class Container(Element):
+
     def __init__(self, name: str, description: str):
         super(Container, self).__init__(name, description)
 
@@ -96,8 +110,8 @@ class Container(Element):
 
 
 class Food(Item):
+
     def __init__(self, name: str, description: str, weight: int, quantity: int):
-        self.__description: str = description
         self.description: str = description
         super(Food, self).__init__(name, self.description, weight)
         self.usable: bool = True
@@ -115,35 +129,46 @@ class Food(Item):
 
     def update_quantity(self):
         self.weight = self.unity_weight * self.quantity
-        self.description: str = f'{self.__description}, enough for {self.quantity} days'
-
 
 # Weapon
+
+
 '''
     CLASS used exclusively for Weapons.
 '''
+
+
 class Weapon(Item):
+
     def __init__(self, name: str, description: str, weight: int, weapon_type: str, bonus: int):
         super(Weapon, self).__init__(name, description, weight)
         self.type: str = weapon_type
         self.bonus: str = bonus
 
-
 # Shield
+
+
 '''
     CLASS used exclusively for Shields.
 '''
+
+
 class Shield(Item):
+
     def __init__(self, name: str, description: str, weight: int, bonus: int):
         super(Shield, self).__init__(name, description, weight)
         self.bonus: int = bonus
 
-
 # Armor
+
+
 '''
     CLASS used exclusively for Armors.
 '''
+
+
 class Armor(Item):
+
     def __init__(self, name: str, description: str, weight: int, bonus: int):
         super(Armor, self).__init__(name, description, weight)
         self.bonus: int = bonus
