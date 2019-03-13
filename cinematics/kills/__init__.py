@@ -11,7 +11,7 @@ from core.characters.Hero import Hero
 '''
 def victory():
     cinematics_block()
-    Hero.declare_status()
+    print_cinematics(Hero.declare_status)
     print_cinematics('You win!\n')
 
 

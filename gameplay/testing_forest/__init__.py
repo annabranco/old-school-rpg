@@ -28,9 +28,9 @@ testing_forest.safe_places = ['bushes']
 # EXIT POINTS THAT CONNECT TO OTHER SCENARIOS.
 
 # GLOBAL CONTAINERS FROM THE SCENARIO THAT CAN BE IMMEDIATELLY INTERACTED WITH.
-trees = Container('trees', 'are big and very green apple trees')
+trees = Container('trees', 'big and very green apple trees')
 
-bushes = Container('bushes', 'are 3 feet green bushes full of leaves')
+bushes = Container('bushes', '3 feet green bushes full of leaves')
 bushes.searching_effect = [
     'You spend a very long time searching the bushes and start to feel tired.', lambda: Hero.set_status('tired')]
 
@@ -49,8 +49,8 @@ testing_forest.add_to_scenario('trees', trees)
 print_cinematics(
     f'You are on a large green field. You hear some steps coming from behind a group of trees. ')
 print_cinematics(
-    f'You see an {ugly_monster.name} coming from behind them. It seems to be looking for something on the ground.')
+    f'You see {ugly_monster.article[0]}{ugly_monster.name} coming from behind them. {ugly_monster.pronom[0].title()} seems to be looking for something on the ground.')
 print_cinematics(
-    f'He suddently sees you and grunts unknown words approaching its hand to a heavy club hanging from its belt.')
+    f'{ugly_monster.pronom[0].title()} suddently sees you and grunts unknown words approaching {ugly_monster.pronom[1]} hand to a heavy club hanging from {ugly_monster.pronom[1]} belt.')
 
 cinematics.start_encounter(ugly_monster)

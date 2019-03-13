@@ -33,11 +33,12 @@ class Character(object):
     def status(self) -> str:
         return self.__status
 
+    @property
     def declare_status(self) -> None:
         if self.type == 'Player':
-            print(f'You are {self.__status}')
+            return f'You are {self.__status}'
         else:
-            print(f'{self.name} looks {self.__status}.')
+            return f'{self.name} looks {self.__status}.'
 
     @status.setter
     def status(self, new_status: str=None) -> None:
@@ -81,7 +82,7 @@ class Character(object):
                 'You have no items on your inventory.', 'On your inventory you have']
         else:
             searching_result_message = [
-                f'Searching the {self.name} you find nothing worth taking.',
+                f'Searching the {self.name} you find nothing worth taking',
                 f'Searching the {self.name} you find']
 
         if len(self.inventory) == 0:
@@ -93,29 +94,23 @@ class Character(object):
         elif len(self.inventory) == 1:
             if self.type == 'Player':
                 print_cinematics(
-                    f'{searching_result_message[1]} {self.inventory[0].article}{self.inventory[0].name}.')
+                    f'{searching_result_message[1]} {self.inventory[0].article[0]}{self.inventory[0].name}.')
             else:
-                return f'{searching_result_message[1]} {self.inventory[0].article}{self.inventory[0].name}.'
+                return f'{searching_result_message[1]} {self.inventory[0].article[0]}{self.inventory[0].name}.'
 
         else:
             if self.type == 'Player':
                 print_cinematics(
-                    f'{searching_result_message[1]} {", ".join(f"{item.article} {item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article} {self.inventory[-1].name}"}.')
+                    f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name}"}.')
             else:
-                return f'{searching_result_message[1]} {", ".join(f"{item.article} {item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article} {self.inventory[-1].name}"}.'
+                return f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name}"}.'
 
     def has_item(self, object: Union[str, Item]) -> bool:
         if type(object) == str:
             for __object in self.inventory:
-                if issubclass(type(__object), Item) or type(__object) == Item:
-                    if system_name(__object.name) == system_name(object):
-                        return True
-                elif type(__object) == str:
-                    if __object == object:
-                        return True
-                else:
-                    if __object["name"] == object:
-                        return True
+                if system_name(__object.name) == system_name(object):
+                    return True
+
         else:
             if object in self.inventory:
                 return True
@@ -125,15 +120,9 @@ class Character(object):
         if self.has_item(object):
             if type(object) == str:
                 for __object in self.inventory:
-                    if issubclass(type(__object), Item) or type(__object) == Item:
-                        if system_name(__object.name) == system_name(object):
-                            return __object
-                    elif type(__object) == str:
-                        if system_name(__object) == system_name(object):
-                            return __object
-                    else:
-                        if system_name(__object["name"]) == system_name(object):
-                            return __object
+                    if system_name(__object.name) == system_name(object):
+                        return __object
+
             else:
                 return object in self.inventory
         else:
@@ -195,10 +184,7 @@ class Player(Character):
         self.carrying_capacity = 10
 
     def get_item(self, item: Union[Item, str]) -> None:
-        if issubclass(type(item), Item) or type(item) == Item:
-            print(f'You get the {item.name}.')
-        else:
-            print(f'You get the {item}.')
+        print(f'You get the {item.name}.')
         self.inventory.append(item)
 
     def drop_item(self, item: Union[Item, str]=None):
@@ -235,12 +221,37 @@ class NPC(Character):
     def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str='it'):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
-        self.pronom = pronom
-        self.article = 'the '
+        self.__pronom = pronom
+        self.pronom = self.set_pronom()
+        self.verb = ''
+
+    def set_pronom(self):
+        if self.__pronom == 'she':
+            self.verb = 'is'
+            return ('she', 'her')
+        elif self.__pronom == 'he':
+            self.verb = 'is'
+            return ('he', 'his')
+        elif self.__pronom == 'it':
+            self.verb = 'is'
+            return ('it', 'its')
+        else:
+            self.verb = 'are'
+            return ('they', 'their')
+
+    @property
+    def article(self) -> str:
+        if self.name.endswith('s') or self.name.endswith('food'):
+            first_time = ''
+        elif self.name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
+            first_time = 'an '
+        else:
+            first_time = 'a '
+        return (first_time, 'the ')
 
     def set_name(self, new_name):
         self.name = new_name
-        print(f'The {self.race} tells you his name is {self.name}.')
+        print(f'The {self.race} tells you {self.pronom[1]} name is {self.name}.')
 
     def declare_action(self, action):
-        print(f'{self.name} is {action}.')
+        print(f'{self.name} {self.verb} {action}.')

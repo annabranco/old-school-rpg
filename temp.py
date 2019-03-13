@@ -8,7 +8,7 @@ from gameplay.testing_forest import testing_forest
 # Hero.status = 'happy'
 # print(Hero.get_status)
 # print(Hero.name)
-# print(Hero.declare_status())
+# print(Hero.declare_status)
 
 # print(getattr(testing_forest, 'apples'))
 basic_actions(testing_forest)

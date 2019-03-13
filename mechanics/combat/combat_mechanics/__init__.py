@@ -68,8 +68,8 @@ def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_ene
     print(f'You: {Hero.hp}')
     print(f'{enemy.name}: {enemy.hp}')
 
-    Hero.declare_status()
-    enemy.declare_status()
+    print_cinematics(Hero.declare_status)
+    print_cinematics(enemy.declare_status)
 
     if Hero.status == 'dead' and enemy.status == 'dead':
         death.mutual_death_by_combat(enemy)
@@ -111,13 +111,13 @@ def next_round(attacker: Character, defendant: Character) -> None:
     elif combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
         initiative.initiative(defendant, 0)
     elif defendant == Hero and combat_rounds.took_action['enemy']:
-        attacker.declare_status()
-        Hero.declare_status()
+        print_cinematics(attacker.declare_status)
+        print_cinematics(Hero.declare_status)
         action_block()
         attack.attack(attacker, 0, False)
     elif attacker == Hero and combat_rounds.took_action['Hero']:
-        defendant.declare_status()
-        Hero.declare_status()
+        print_cinematics(defendant.declare_status)
+        print_cinematics(Hero.declare_status)
         action_block()
         defend.defend(defendant, 0, False)
     else:

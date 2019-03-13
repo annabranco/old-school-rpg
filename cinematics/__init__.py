@@ -10,5 +10,5 @@ from core.characters.Hero import Hero
 
 
 def start_encounter(enemy):
-    print_cinematics(enemy.status)
+    print_cinematics(enemy.declare_status)
     actions.encounter_reaction(enemy)

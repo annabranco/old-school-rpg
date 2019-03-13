@@ -36,11 +36,18 @@ class Element(object):
     @property
     def article(self) -> str:
         if self.name.endswith('s') or self.name.endswith('food'):
-            return ''
+            return ('','')
         elif self.name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
-            return 'an '
+            return ('an ', 'an ')
         else:
-            return 'a '
+            return ('a ', 'a ')
+
+    @property
+    def verb(self) -> str:
+        if self.name.endswith('s') or self.name.endswith('food'):
+            return 'are'
+        else:
+            return 'is'
 
     def on_looking(self) -> None:
         for attr, value in self.__dict__.items():
@@ -134,10 +141,20 @@ class Food(Item):
         self.quantity = self.quantity - quantity
         self.update_quantity()
 
+    @property
+    def verb(self) -> str:
+        if self.quantity < 1 and not self.name.endswith('food'):
+            return 'look'
+        else:
+            return 'looks'
+
     def update_quantity(self):
         self.weight = self.unity_weight * self.quantity
-        if self.quantity > 1 and not self.name.endswith('food'):
+        if self.quantity < 1 and not self.name.endswith('food'):
+            self.name -= 's'
+        elif self.quantity > 1 and not self.name.endswith('food'):
             self.name += 's'
+        self.verb
 
 # Weapon
 

@@ -135,7 +135,7 @@ def basic_actions(scenario: Scenario):
             Hero.declare_inventory()
 
         elif 'status' in action in action:
-            Hero.declare_status()
+            print_cinematics(Hero.declare_status)
 
         elif action.startswith('drop'):
             what: str = action.replace('drop', '').lstrip()
