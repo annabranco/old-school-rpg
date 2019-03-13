@@ -5,7 +5,6 @@ from db.food import *
 
 # DEFINES DATABASE FOR ALL ENEMIES
 
-
 # Ugly Monster
 '''
     This is a generic unpleasant monster, for combat testing.
@@ -14,7 +13,8 @@ from db.food import *
 ugly_monster = NPC('Ugly Monster', 'monster', 'it')
 ugly_monster.weapon = club
 ugly_monster.armor = leather_armor
-ugly_monster.armor.on_taking = lambda: print(f'You remove {leather_armor.name} from the {ugly_monster.name}.')
+ugly_monster.armor.on_taking = lambda: print(
+    f'You remove {leather_armor.name} from the {ugly_monster.name}.')
 
 ugly_monster.inventory.append(smelly_meat)
 smelly_meat.add(10)
@@ -24,7 +24,6 @@ ugly_monster.attack = 2
 ugly_monster.defense = 2
 ugly_monster.speed = 2
 ugly_monster.status = 'angry'
-
 
 # Strong Monster
 '''

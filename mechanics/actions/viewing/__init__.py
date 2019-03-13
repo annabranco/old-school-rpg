@@ -22,10 +22,10 @@ def look(element: str, scenario: Scenario):
             message = 'Looking at the floor you see'
             if len(scenario.floor) == 1:
                 print_cinematics(
-                    f'{message} {scenario.floor[0].article} {scenario.floor[0].name}.')
+                    f'{message} {scenario.floor[0].article}{scenario.floor[0].name}.')
             else:
                 print_cinematics(
-                    f'{message} {", ".join(f"{item.article} {item.name}" for item in scenario.floor[: -1])} and {f"{scenario.floor[-1].article} {scenario.floor[-1].name}"}.')
+                    f'{message} {", ".join(f"{item.article}{item.name}" for item in scenario.floor[: -1])} and {f"{scenario.floor[-1].article}{scenario.floor[-1].name}"}.')
 
     elif __element == '' or __element == 'around':
         print_cinematics(
@@ -84,23 +84,30 @@ def look(element: str, scenario: Scenario):
 
 
 def looking_body(body: NPC, scenario: Scenario):
+    message = []
     if body.armor:
-        print(
-            f'It is wearing a {body.armor.name}.')
+        message.append(f'it is wearing {body.armor.article}{body.armor.name}')
         scenario.add_to_floor(body.armor)
         body.armor = None
 
     if body.weapon:
-        print(
-            f'On the body you you see a {body.weapon.name}.')
+        message.append(
+            f'{body.weapon.article}{body.weapon.name}')
         scenario.add_to_floor(body.weapon)
         body.weapon = None
 
     if body.shield:
-        print(
-            f' And also a {body.shield.name}.')
+        message.append(f'{body.shield.article}{body.shield.name}.')
         scenario.add_to_floor(body.shield)
         body.shield = None
+
+    if len(message) == 0:
+        return
+    elif len(message) == 1:
+        print_cinematics(f'You see {message[0]}.')
+    else:
+        print_cinematics(
+            f'You see {", ".join(message[:-1])} and {message[-1]}.')
 
 # search
 
@@ -125,32 +132,40 @@ def search(element: str, scenario: Scenario):
     elif __element == 'body':
         for __something in scenario.floor:
             if system_name(__something.name).startswith(__element):
-                __something.declare_inventory()
+                in_inventory = __something.declare_inventory()
                 for __item in __something.inventory:
                     scenario.add_to_floor(__item)
                     __something.inventory.remove(__item)
-                searching_body(__something, scenario)
+                searching_body(in_inventory, __something, scenario)
 
     else:
         print_cinematics(
             f'There is nothing to be found.')
 
 
-def searching_body(body: NPC, scenario: Scenario):
+def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
+    message = []
     if body.armor:
-        print(
-            f'\t- {body.armor.name}')
+        message.append(f'it is wearing {body.armor.article}{body.armor.name}')
         scenario.add_to_floor(body.armor)
         body.armor = None
 
     if body.weapon:
-        print(
-            f'\t- {body.weapon.name}')
+        message.append(
+            f'{body.weapon.article}{body.weapon.name}')
         scenario.add_to_floor(body.weapon)
         body.weapon = None
 
     if body.shield:
-        print(
-            f'\t - {body.shield.name}')
+        message.append(f'{body.shield.article}{body.shield.name}.')
         scenario.add_to_floor(body.shield)
         body.shield = None
+
+    if len(message) == 0:
+        print_cinematics(in_inventory)
+    elif len(message) == 1:
+        print_cinematics(f'{in_inventory} You also see {message[0]}.')
+
+    else:
+        print_cinematics(
+            f'{in_inventory}\n\t\tYou also see {", ".join(message[:-1])} and {message[-1]}.')

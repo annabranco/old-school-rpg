@@ -1,7 +1,7 @@
 from math import ceil
 from typing import Dict, List, Union
 from core.elements import Item
-from core.config import system_name
+from core.config import*
 import gameplay
 # DEFINES BASIC LOGICS FOR CHARACTERS
 
@@ -40,10 +40,10 @@ class Character(object):
             print(f'{self.name} looks {self.__status}.')
 
     @status.setter
-    def status(self, new_status: str = None) -> None:
+    def status(self, new_status: str=None) -> None:
         self.set_status(new_status)
 
-    def set_status(self, new_status: str = None) -> None:
+    def set_status(self, new_status: str=None) -> None:
         if not new_status:
             if self.hp <= 0:
                 self.__status = 'dead'
@@ -74,24 +74,35 @@ class Character(object):
         self.declare_hp()
         self.set_status()
 
-    def declare_inventory(self) -> None:
+    def declare_inventory(self) -> Union[None, str]:
 
         if self.type == 'Player':
             searching_result_message = [
-                'You have no items on your inventory.', 'Your inventory:']
+                'You have no items on your inventory.', 'On your inventory you have']
         else:
             searching_result_message = [
-                f'Searching the {self.name}, you find nothing worth taking.',
-                f'Searching the {self.name}, you find:']
+                f'Searching the {self.name} you find nothing worth taking.',
+                f'Searching the {self.name} you find']
 
         if len(self.inventory) == 0:
-            print(searching_result_message[0])
+            if self.type == 'Player':
+                print_cinematics(f' {searching_result_message[0]}.')
+            else:
+                return f' {searching_result_message[0]}.'
+
+        elif len(self.inventory) == 1:
+            if self.type == 'Player':
+                print_cinematics(
+                    f'{searching_result_message[1]} {self.inventory[0].article}{self.inventory[0].name}.')
+            else:
+                return f'{searching_result_message[1]} {self.inventory[0].article}{self.inventory[0].name}.'
 
         else:
-            print(searching_result_message[1])
-            # return self.inventory
-            for __item in self.inventory:
-                print(f'\t- {__item.name}')
+            if self.type == 'Player':
+                print_cinematics(
+                    f'{searching_result_message[1]} {", ".join(f"{item.article} {item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article} {self.inventory[-1].name}"}.')
+            else:
+                return f'{searching_result_message[1]} {", ".join(f"{item.article} {item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article} {self.inventory[-1].name}"}.'
 
     def has_item(self, object: Union[str, Item]) -> bool:
         if type(object) == str:
@@ -190,7 +201,7 @@ class Player(Character):
             print(f'You get the {item}.')
         self.inventory.append(item)
 
-    def drop_item(self, item: Union[Item, str] = None):
+    def drop_item(self, item: Union[Item, str]=None):
         if item == None:
             print('Which item would you like to drop?')
             self.declare_inventory()
@@ -221,11 +232,11 @@ class Player(Character):
 
 class NPC(Character):
 
-    def __init__(self, name: str = 'Ugly Monster', race: str = 'humanoid', pronom: str = 'it'):
+    def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str='it'):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
         self.pronom = pronom
-        self.article = 'the'
+        self.article = 'the '
 
     def set_name(self, new_name):
         self.name = new_name

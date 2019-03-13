@@ -35,12 +35,12 @@ class Element(object):
 
     @property
     def article(self) -> str:
-        if self.name.endswith('s'):
-            return
+        if self.name.endswith('s') or self.name.endswith('food'):
+            return ''
         elif self.name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
-            return 'an'
+            return 'an '
         else:
-            return 'a'
+            return 'a '
 
     def on_looking(self) -> None:
         for attr, value in self.__dict__.items():
@@ -136,6 +136,8 @@ class Food(Item):
 
     def update_quantity(self):
         self.weight = self.unity_weight * self.quantity
+        if self.quantity > 1 and not self.name.endswith('food'):
+            self.name += 's'
 
 # Weapon
 
