@@ -8,10 +8,12 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ### Current development: basic non-combat actions
 - add quantity when getting food;
+- inventory should display quantity of items;
+- weight limit when getting;
 - getting (very) tired acording to rounds of combat;
 - getting (very) tired according to time;
-- carrying bodies;
 - move/go;
+- carrying bodies;
 - connecting scenarios;
 - hide.
 
@@ -31,7 +33,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Food constructor;
 * Weapons constructor;
 * Armors constructor;
-* Shields constructor.
+* Shields constructor;
+* Articles and pronoms.
 
 ### Global mechanics:
 * Dice rolls;

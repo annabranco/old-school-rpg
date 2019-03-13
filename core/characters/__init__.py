@@ -222,22 +222,24 @@ class NPC(Character):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
         self.__pronom = pronom
-        self.pronom = self.set_pronom()
-        self.verb = ''
 
-    def set_pronom(self):
+    @property
+    def pronom(self):
         if self.__pronom == 'she':
-            self.verb = 'is'
             return ('she', 'her')
         elif self.__pronom == 'he':
-            self.verb = 'is'
             return ('he', 'his')
         elif self.__pronom == 'it':
-            self.verb = 'is'
             return ('it', 'its')
         else:
-            self.verb = 'are'
             return ('they', 'their')
+
+    @property
+    def verb(self):
+        if self.__pronom in ('she', 'he', 'it'):
+            return 'is'
+        else:
+            return 'are'
 
     @property
     def article(self) -> str:

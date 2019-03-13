@@ -55,15 +55,7 @@ def look(element: str, scenario: Scenario):
         print(
             f'The {element} on your inventory {my_item.verb} {my_item.description}{enough_for}.')
 
-    elif __element == 'body':
-        for __something in scenario.floor:
-            if system_name(__something.name).startswith(__element):
-                print(
-                    f'The {__something.name} laying on the floor {__something.verb} {__something.description}.')
-
-                if type(__something) == NPC:
-                    looking_body(__something, scenario)
-
+    # elements lying on the floor can be accessed by the final or initial word of their names (ej. "sword" matches for "short sword")
     elif any(__something.name.endswith(__element) for __something in scenario.floor) or \
             any(__something.name.startswith(__element) for __something in scenario.floor):
         for __something in scenario.floor:
