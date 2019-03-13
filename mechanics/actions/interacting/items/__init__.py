@@ -21,14 +21,17 @@ def take(object: str, scenario: Scenario):
     elif __object in scenario.far_away:
         print('Even if you could take it, it is too far away.')
 
-    elif any(system_name(__object) == system_name(__item.name) for __item in scenario.floor):
+    elif any(__item.name.endswith(__object) for __item in scenario.floor) or \
+        any(__item.name.startswith(__object) for __item in scenario.floor):
         for __item in scenario.floor:
-            if system_name(__object) == system_name(__item.name):
+            if __item.name.endswith(__object) or __item.name.startswith(__object):
                 this_object: Item = __item
         if Hero.has_item(this_object):
             print(f'You already have {object} on your inventory.')
         else:
-            if hasattr(this_object, 'on_taking') and this_object.on_taking() != 'keep':
+            if hasattr(this_object, 'on_taking') and this_object.on_taking() == 'keep':
+                pass
+            else:
                 scenario.floor.remove(this_object)
             Hero.get_item(this_object)
 
