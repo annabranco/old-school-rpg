@@ -19,15 +19,13 @@ def look(element: str, scenario: Scenario):
         if len(scenario.floor) == 0:
             print('There\'s nothing special on the floor.')
         else:
-            print_cinematics(
-                f'Looking at the floor you find:')
-            for __item in scenario.floor:
-                if issubclass(type(__item), object) or type(__item) == Item:
-                    print(f'\t- {__item.name}',)
-                elif type(__item) == dict:
-                    print(f'\t- {__item["name"]}',)
-                else:
-                    print(f'\t- {__item}',)
+            message = 'Looking at the floor you see'
+            if len(scenario.floor) == 1:
+                print_cinematics(
+                    f'{message} {scenario.floor[0].article} {scenario.floor[0].name}.')
+            else:
+                print_cinematics(
+                    f'{message} {", ".join(f"{item.article} {item.name}" for item in scenario.floor[: -1])} and {f"{scenario.floor[-1].article} {scenario.floor[-1].name}"}.')
 
     elif __element == '' or __element == 'around':
         print_cinematics(

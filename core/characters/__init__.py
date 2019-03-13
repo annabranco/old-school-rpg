@@ -27,23 +27,43 @@ class Character(object):
         self.full_hp: int = 0
         self.hp: int = 0
         self.speed: int = 0
-        self.status: str = 'unknown'
+        self.__status: str = 'unknown'
 
-    def change_status(self, new_status: str=None) -> None:
+    @property
+    def status(self) -> str:
+        return self.__status
+
+    def declare_status(self) -> None:
+        if self.type == 'Player':
+            print(f'You are {self.__status}')
+        else:
+            print(f'{self.name} looks {self.__status}.')
+
+    @status.setter
+    def status(self, new_status: str = None) -> None:
+        self.set_status(new_status)
+
+    def set_status(self, new_status: str = None) -> None:
         if not new_status:
             if self.hp <= 0:
-                self.status = 'dead'
+                self.__status = 'dead'
                 self.on_dead()
             elif self.hp == self.full_hp:
-                self.status = 'well'
+                self.__status = 'well'
             elif self.hp <= ceil(self.full_hp / 3):
-                self.status = 'severily wounded'
+                self.__status = 'severily wounded'
             elif self.hp <= ceil(self.full_hp * 2 / 3):
-                self.status = 'wounded'
+                self.__status = 'wounded'
             else:
-                self.status = 'lightly wounded'
+                self.__status = 'lightly wounded'
         else:
-            self.status = new_status
+            self.__status = new_status
+
+    def declare_hp(self) -> None:
+        if self.type == 'Player':
+            print(f'Your current HP: {self.hp}')
+        else:
+            print(f'{self.name}\'s current HP: {self.hp}.')
 
     def take_damage(self, damage: int) -> None:
         self.hp = self.hp - damage
@@ -52,37 +72,26 @@ class Character(object):
         else:
             print(f'{self.name} takes {damage} damage.')
         self.declare_hp()
-        self.change_status()
-
-    def declare_status(self) -> None:
-        if self.type == 'Player':
-            print(f'You are {self.status}')
-        else:
-            print(f'{self.name} looks {self.status}.')
-
-    def declare_hp(self) -> None:
-        if self.type == 'Player':
-            print(f'Your current HP: {self.hp}')
-        else:
-            print(f'{self.name}\'s current HP: {self.hp}.')
+        self.set_status()
 
     def declare_inventory(self) -> None:
 
         if self.type == 'Player':
-            searching_result_message = ['You have no items on your inventory.', 'Your inventory:']
+            searching_result_message = [
+                'You have no items on your inventory.', 'Your inventory:']
         else:
             searching_result_message = [
                 f'Searching the {self.name}, you find nothing worth taking.',
                 f'Searching the {self.name}, you find:']
 
         if len(self.inventory) == 0:
-                print(searching_result_message[0])
+            print(searching_result_message[0])
 
         else:
             print(searching_result_message[1])
             # return self.inventory
             for __item in self.inventory:
-                    print(f'\t- {__item.name}')
+                print(f'\t- {__item.name}')
 
     def has_item(self, object: Union[str, Item]) -> bool:
         if type(object) == str:
@@ -148,7 +157,8 @@ class Character(object):
         elif type(self) == NPC and gameplay.CURRENT_SCENARIO.special_kill:
             print('This scenario has a special kill cinematics')
         else:
-            self.name = f'body of {self.name}'
+            self.name = f'body of {self.name}' if type(
+                self) == Player else f'body of the {self.name}'
             self.description = 'soaked in blood'
             gameplay.CURRENT_SCENARIO.add_to_floor(self)
         if self.armor:
@@ -180,7 +190,7 @@ class Player(Character):
             print(f'You get the {item}.')
         self.inventory.append(item)
 
-    def drop_item(self, item: Union[Item, str]=None):
+    def drop_item(self, item: Union[Item, str] = None):
         if item == None:
             print('Which item would you like to drop?')
             self.declare_inventory()
@@ -211,10 +221,11 @@ class Player(Character):
 
 class NPC(Character):
 
-    def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str='it'):
+    def __init__(self, name: str = 'Ugly Monster', race: str = 'humanoid', pronom: str = 'it'):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
         self.pronom = pronom
+        self.article = 'the'
 
     def set_name(self, new_name):
         self.name = new_name

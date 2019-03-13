@@ -3,11 +3,12 @@ from mechanics import actions
 from core.characters.Hero import Hero
 # Prints cinematics of the actions.
 
-
 # start_encounter
 '''
     It is called when an encounter with a possible enemy starts.
 '''
+
+
 def start_encounter(enemy):
-    print_cinematics(enemy.declare_status())
+    print_cinematics(enemy.status)
     actions.encounter_reaction(enemy)

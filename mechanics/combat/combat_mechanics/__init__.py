@@ -14,12 +14,13 @@ from mechanics import actions
 import gameplay
 # DETERMINES THE MAIN COMBAT MECHANICS
 
-
 # damage
 '''
     It is called whenever someone is hurt from an attack.
     Calculates damage, checks if the victim is hurt or dead and calls next round.
 '''
+
+
 def damage(successes: int, attacker: Character, defendant: Character) -> None:
     defendant.take_damage(abs(successes))
 
@@ -44,21 +45,24 @@ def damage(successes: int, attacker: Character, defendant: Character) -> None:
 
     next_round(attacker, defendant)
 
-
 # simultaneous_damage
+
+
 '''
     It is called whenever the Hero and the enemy cause mutual damage.
     Calculates damage, checks if both are hurt or dead and calls next round.
 '''
+
+
 def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_enemy: int, enemy: NPC) -> None:
 
     new_hero_hp = Hero.hp - abs(results_number_enemy)
     Hero.hp = new_hero_hp
-    Hero.change_status()
+    Hero.set_status()
 
     new_enemy_hp = enemy.hp - abs(results_number_hero)
     enemy.hp = new_enemy_hp
-    enemy.change_status()
+    enemy.set_status()
 
     print('Current HPs after the simultaneous attack:')
     print(f'You: {Hero.hp}')
@@ -91,12 +95,15 @@ def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_ene
         print('\nStart next round.\n')
         next_round(Hero, enemy)
 
-
 # next_round
+
+
 '''
     It is called whenever someone finishes its attacking round.
     Determines who is the next to attack or call initiative if both have attacked on the current round.
 '''
+
+
 def next_round(attacker: Character, defendant: Character) -> None:
     if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
         print('\nStart next round.\n')
@@ -116,11 +123,14 @@ def next_round(attacker: Character, defendant: Character) -> None:
     else:
         print('something went wrong')
 
-
 # missed
+
+
 '''
     It is called whenever someone misses an attack.
 '''
+
+
 def missed(attacker: Character, defendant: Character) -> None:
     cinematics_block()
     if attacker == Hero:

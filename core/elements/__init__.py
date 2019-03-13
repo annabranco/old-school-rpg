@@ -33,19 +33,25 @@ class Element(object):
         Hidden elements are only found with on_serching.
     '''
 
-    def on_looking(self, callback=None) -> None:
+    @property
+    def article(self) -> str:
+        if self.name.endswith('s'):
+            return
+        elif self.name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
+            return 'an'
+        else:
+            return 'a'
+
+    def on_looking(self) -> None:
         for attr, value in self.__dict__.items():
 
             if issubclass(type(value), Item) or type(value) == Item:
-
                 if value.hidden == False:
-                    system_name = value.name.replace(' ', '_').lower()
-                    if hasattr(gameplay.CURRENT_SCENARIO, system_name):
+                    if not hasattr(gameplay.CURRENT_SCENARIO, attr):
                         print_cinematics(
-                            f'There is a {value.name} on the {self.name}')
-                    else:
+                            f'You see {value.name} on the {self.name}')
                         gameplay.CURRENT_SCENARIO.add_to_scenario(
-                            system_name, value)
+                            attr, value)
 
     # on_searching
 
@@ -55,7 +61,7 @@ class Element(object):
     Visible items are not found here with on_serching, but seen with on_looking.
     '''
 
-    def on_searching(self, callback=None) -> None:
+    def on_searching(self) -> None:
         if self.searching_effect:
             print_cinematics(self.searching_effect[0])
             self.searching_effect[1]()
@@ -72,6 +78,7 @@ class Element(object):
                 return
         print_cinematics(f'You search the {self.name} but you find nothing.')
 
+# called when Hero takes an item with on_taking attribute
     def on_taking(self, callback=None):
         if callback:
             callback()
