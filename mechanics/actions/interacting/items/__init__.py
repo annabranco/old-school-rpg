@@ -87,6 +87,6 @@ def drop(element: str, scenario: Scenario):
         else:
             print('You can\'t drop items that you don\'t have.')
 
-
+# TODO NOW - items and characters
 def equip(item: str):
     Hero.equip(item)
