@@ -7,66 +7,78 @@ import gameplay
 from core.config import system_name
 # DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 
-
 # take
 '''
     It is called when the Hero tries to get something from the Scenario.
 '''
-def take(object: str, scenario: Scenario):
-    __object: str = object.replace(' ', '_').lower()
 
-    if __object in scenario.ambient:
+
+def take(element: str, scenario: Scenario):
+    __element: str = element.replace(' ', '_').lower()
+
+    if any(__item.endswith(element) for __item in scenario.ambient):
         print('There\'s no point in doing it.')
 
-    elif __object in scenario.far_away:
+    elif any(__item.endswith(element) for __item in scenario.far_away):
         print('Even if you could take it, it is too far away.')
 
-    elif any(__item.name.endswith(__object) for __item in scenario.floor) or \
-        any(__item.name.startswith(__object) for __item in scenario.floor):
+    elif any(__item.name.endswith(element) for __item in scenario.floor) or \
+        any(__item.name.startswith('body') for __item in scenario.floor):
         for __item in scenario.floor:
-            if __item.name.endswith(__object) or __item.name.startswith(__object):
-                this_object: Item = __item
-        if Hero.has_item(this_object):
-            print(f'You already have {object} on your inventory.')
+            if __item.name.endswith(__element) or __item.name.startswith('body'):
+                this_element: Item = __item
+        if Hero.has_item(this_element):
+            print(f'You already have {element} on your inventory.')
         else:
-            if hasattr(this_object, 'on_taking') and this_object.on_taking() == 'keep':
+            if hasattr(this_element, 'on_taking') and this_element.on_taking() == 'keep':
                 pass
             else:
-                scenario.floor.remove(this_object)
-            Hero.get_item(this_object)
+                scenario.floor.remove(this_element)
+            Hero.get_item(this_element)
 
-    elif hasattr(scenario, __object):
-        this_object: Element = getattr(scenario, __object)
-        if type(this_object) == Container:
+    elif any(__item.name.endswith(element) for __item in scenario.elements):
+        this_element: Element = scenario.get_element(element)
+
+        if type(this_element) == Container:
             print('You cannot take it.')
-        elif this_object.weight >= Hero.carrying_capacity:
+
+        elif this_element.weight >= Hero.carrying_capacity: # TODO
             print('It is too much for you to carry.')
-        elif Hero.has_item(this_object):
-                print(f'You already have {object} on your inventory.')
+
+        elif Hero.has_item(this_element): # TODO
+                print(f'You already have {element} on your inventory.')
+
         else:
-            Hero.get_item(this_object)
-            if not hasattr(this_object, 'on_taking') and this_object.on_taking != 'keep':
-                delattr(scenario, __object)
+            Hero.get_item(this_element)
+            if not hasattr(this_element, 'on_taking') and this_element.on_taking != 'keep':
+                delattr(scenario, __element)
 
     else:
-        print(f'You don\'t see any {object} nearby to take it.')
+        print(f'You don\'t see any {element} nearby to take it.')
 
 # take
+
+
 '''
     Generic function to check if the Hero has an Item in the inventory.
 '''
-def drop(object: str, scenario: Scenario):
-    if not object:
+
+
+def drop(element: str, scenario: Scenario):
+    if not element:
         print('Which item would you like to drop?')
         Hero.declare_inventory()
         which_item = input('> ')
-        __object: str = which_item.replace(' ', '_').lower()
+        __element: str = which_item.lower()
 
     else:
-        __object: str = object.replace(' ', '_').lower()
+        __element: str = element.lower()
 
-    this_object: Item = Hero.get_item_from_inventory(__object)
-    if this_object:
-        if this_object not in gameplay.CURRENT_SCENARIO.floor:
-            gameplay.CURRENT_SCENARIO.add_to_floor(this_object)
-        Hero.drop_item(this_object)
+    this_element: Item = Hero.get_item_from_inventory(__element)
+    if this_element:
+        if this_element not in scenario.floor:
+            scenario.add_to_floor(this_element)
+        Hero.drop_item(this_element)
+
+def equip(item: str):
+    Hero.equip(item)

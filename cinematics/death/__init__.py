@@ -52,7 +52,7 @@ def death_by_simultaneous_attack(enemy, results_number_hero):
     else:
         print_cinematics(f'''
         You feel a milisecond of joy when your {Hero.weapon.name} pierces the body of {enemy.name}.
-        But you have no time to celebrate, as his weapon falls heavily on the top of your head crushing your skull and brains on a bloody mess.
+        But you have no time to celebrate, as {enemy.pronom[1]} weapon falls heavily on the top of your head crushing your skull and brains on a bloody mess.
                 ''')
     the_end()
 

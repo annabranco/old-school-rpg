@@ -83,7 +83,7 @@ class Element(object):
                     system_name, value)
                 # delattr(self, system_name)
                 return
-        print_cinematics(f'You search the {self.name} but you find nothing.')
+        print_cinematics(f'You search the {self.name} but you find nothing special.')
 
 # called when Hero takes an item with on_taking attribute
     def on_taking(self, callback=None):

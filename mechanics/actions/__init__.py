@@ -10,7 +10,7 @@ from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
-from mechanics.actions.interacting.items import take, drop
+from mechanics.actions.interacting.items import take, drop, equip
 # DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
 # ask_for_action
@@ -25,7 +25,7 @@ def ask_for_action() -> str:
 
 
 def await_for_action() -> str:
-    return input('\n\t\t> ')
+    return input('\n\t\t> ').lower()
 
 # encounter_reaction
 
@@ -116,16 +116,16 @@ def basic_actions(scenario: Scenario):
         action = await_for_action()
 
         if action.startswith('look'):
-            what = action.replace('look', '').lstrip()
+            what = action.replace('look', '').replace(' at ', '').replace(' the ', '').lstrip()
             look(what, scenario)
 
         elif action.startswith('search'):
             if action == 'search':
-                print('Where would you like to search?')
-                place = input('> ')
+                print('You need to tell where would you like to search.')
+
             else:
-                place: str = action.replace('search', '').lstrip()
-            search(place, scenario)
+                place: str = action.replace( 'search', '').replace('the', '').lstrip()
+                search(place, scenario)
 
         elif action.startswith('take') or action.startswith('get'):
             what: str = action.replace('take', '').replace('get', '').lstrip()
@@ -140,6 +140,10 @@ def basic_actions(scenario: Scenario):
         elif action.startswith('drop'):
             what: str = action.replace('drop', '').lstrip()
             drop(what, scenario)
+
+        elif action.startswith('equip'):
+            what: str = action.replace('equip', '').lstrip()
+            equip(what)
 
         else:
             print('You can\'t do that.')

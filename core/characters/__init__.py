@@ -1,6 +1,6 @@
 from math import ceil
 from typing import Dict, List, Union
-from core.elements import Item
+from core.elements import Item, Weapon, Shield, Armor
 from core.config import*
 import gameplay
 # DEFINES BASIC LOGICS FOR CHARACTERS
@@ -18,9 +18,9 @@ class Character(object):
         self.type: str = type
         self.race: str = race
         self.description: str = f'This is the {name}'
-        self.weapon: Dict[[str, str], [str, str][str, int]] = None
-        self.shield: Dict[[str, str], [str, str][str, int]] = None
-        self.armor: Dict[[str, str], [str, str][str, int]] = None
+        self.__weapon: Dict[[str, str], [str, str][str, int]] = None
+        self.__shield: Dict[[str, str], [str, str][str, int]] = None
+        self.__armor: Dict[[str, str], [str, str][str, int]] = None
         self.inventory: List[str] = []
         self.attack: int = 0
         self.defense: int = 0
@@ -105,31 +105,103 @@ class Character(object):
             else:
                 return f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name}"}.'
 
-    def has_item(self, object: Union[str, Item]) -> bool:
-        if type(object) == str:
-            for __object in self.inventory:
-                if system_name(__object.name) == system_name(object):
-                    return True
-
+    def has_item(self, element: Union[str, Item]) -> bool:
+        if type(element) == str:
+            for __element in self.inventory:
+                if __element.name.endswith(element) or \
+                    __element.name.startswith('body') and element.startswith('body'):
+                        return True
+            if self.weapon and self.weapon.name.endswith(element):
+                return True
+            if self.shield and self.shield.name.endswith(element):
+                return True
+            if self.armor and self.armor.name.endswith(element):
+                return True
         else:
-            if object in self.inventory:
+            if element in self.inventory:
                 return True
         return False
 
-    def get_item_from_inventory(self, object: Union[str, Item]) -> Item:
-        if self.has_item(object):
-            if type(object) == str:
-                for __object in self.inventory:
-                    if system_name(__object.name) == system_name(object):
-                        return __object
+    def get_item_from_inventory(self, element: Union[str, Item]) -> Item:
+        if self.has_item(element):
+            if type(element) == str:
+                for __element in self.inventory:
+                    if __element.name.endswith(element) or \
+                       __element.name.startswith('body') and element.startswith('body'):
+                        return __element
 
             else:
-                return object in self.inventory
+                return element in self.inventory
         else:
             if type(self) == Player:
-                print(f'You don\'t have {object} on your inventory.')
+                print(f'You don\'t have {element} on your inventory.')
             else:
-                print(f'{self.name} doesn\'t seem to have {object}')
+                print(f'{self.name} doesn\'t seem to have {element}')
+
+    @property
+    def shield(self) -> Shield:
+        if self.__shield:
+            return self.__shield
+
+    @shield.setter
+    def shield(self, this_shield: Shield) -> None:
+        if self.__shield:
+            self.inventory.append(self.__shield)
+        self.__shield = this_shield
+
+    @property
+    def armor(self) -> Armor:
+        if self.__armor:
+            return self.__armor
+
+    @armor.setter
+    def armor(self, this_armor: Armor) -> None:
+        if self.__armor:
+            self.inventory.append(self.__armor)
+        self.__armor = this_armor
+
+    @property
+    def weapon(self) -> Weapon:
+        if self.__weapon:
+            return self.__weapon
+
+    @weapon.setter
+    def weapon(self, this_weapon: Weapon) -> None:
+        if self.__weapon:
+            self.inventory.append(self.__weapon)
+        self.__weapon = this_weapon
+
+    def equip(self, item: Item) -> None:
+        this_item = self.get_item_from_inventory(item)
+        if this_item:
+            if type(this_item) == Weapon:
+                self.weapon = this_item
+                if self.weapon.type == 'blunt':
+                    print_cinematics(f'You hang it on your belt.')
+                    print_cinematics(f'The {self.weapon.name} is now your main weapon.')
+                if self.weapon.type == 'blade':
+                    print_cinematics(f'You sheathe it carrefully.')
+                    print_cinematics(f'The {self.weapon.name} is now your main weapon.')
+                if self.weapon.type == 'range':
+                    print_cinematics(f'You place it on your back ready for a quick draw.')
+                    print_cinematics(f'The {self.weapon.name} is now your main weapon.')
+            elif type(this_item) == Shield:
+                self.shield = this_item
+                print_cinematics(f'You strap it in your arm.')
+                print_cinematics(f'You are now using the {self.shield.name}.')
+            elif type(this_item) == Armor:
+                old_one = ''
+                if self.armor:
+                    old_one = f'strip yourself of the {self.armor.name} and '
+                print_cinematics(f'You {old_one}wear the {this_item.name}.')
+                self.armor = this_item
+            else:
+                print(f'You can\'t equip {this_item.article[0]}{this_item.name}.')
+
+            self.inventory.remove(this_item)
+
+        else:
+                print('You can only equip items that you have on your inventory.')
 
     def draw_weapon(self) -> None:
         if not self.weapon["name"]:
@@ -168,6 +240,14 @@ class Character(object):
             else:
                 self.armor.name = f'damaged {self.armor.name}'
 
+    def drop_item(self, item: Item = None):
+        if self.has_item(item):
+            print(f'{self.name} drops drop {item.name}.')
+            self.inventory.remove(item)
+            return item
+        else:
+            print(f'You don\'t have {item} on your inventory.')
+
 # Player
 
 
@@ -187,23 +267,9 @@ class Player(Character):
         print(f'You get the {item.name}.')
         self.inventory.append(item)
 
-    def drop_item(self, item: Union[Item, str]=None):
-        if item == None:
-            print('Which item would you like to drop?')
-            self.declare_inventory()
-            which_item = input('> ')
-            for this_item in self.inventory:
-                if type(this_item) == Item:
-                    if system_name(this_item.name) == system_name(which_item):
-                        item = this_item
-                elif system_name(this_item) == system_name(which_item):
-                    item = this_item
-
-        if item != None:
-            if issubclass(type(item), Item) or type(item) == Item:
-                print(f'You drop {item.name}.')
-            else:
-                print(f'You drop {item}.')
+    def drop_item(self, item: Item):
+        if self.has_item(item):
+            print(f'You drop {item.name}.')
             self.inventory.remove(item)
         else:
             print(f'You don\'t have {item} on your inventory.')
@@ -226,13 +292,13 @@ class NPC(Character):
     @property
     def pronom(self):
         if self.__pronom == 'she':
-            return ('she', 'her')
+            return ('she', 'her', 'her')
         elif self.__pronom == 'he':
-            return ('he', 'his')
+            return ('he', 'his', 'him')
         elif self.__pronom == 'it':
-            return ('it', 'its')
+            return ('it', 'its', 'it')
         else:
-            return ('they', 'their')
+            return ('they', 'their', 'them')
 
     @property
     def verb(self):

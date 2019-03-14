@@ -18,6 +18,6 @@ def cause_damage(attacker: Character, defendant: Character, severity: int):
             f'You strike a blow on {defendant.name}, causing some blood to spill.\n')
     else:
         print_cinematics(
-            f'{attacker.name} hit you causing a painful bruise.\n')
+            f'{attacker.name} hits you causing a painful bruise.\n')
 
     cinematics_block()

@@ -13,6 +13,7 @@ from core.characters import NPC
 
 
 def look(element: str, scenario: Scenario):
+    element = element.lower()
     __element = system_name(element)
 
     if __element == 'floor':
@@ -31,37 +32,38 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'You look around and you see {scenario.description}.')
 
-    elif __element in scenario.ambient:
+    elif any(__item.lower().endswith(element) for __item in scenario.ambient):
         print_cinematics(
             f'You see nothing special about the {element}.')
 
-    elif __element in scenario.far_away:
+    elif any(__item.lower().endswith(element) for __item in scenario.far_away):
         print_cinematics(
             f'You look at the {element}, but is too far away to see any details.')
 
-    elif hasattr(scenario, __element):
-        looking_element = getattr(scenario, __element)
+    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
+        looking_element = scenario.get_element(element)
         print_cinematics(
             f'The {element} {looking_element.verb} {looking_element.description}.')
         looking_element.on_looking()
 
-    elif Hero.has_item(__element):
-        my_item = Hero.get_item_from_inventory(__element)
+    elif Hero.has_item(element):
+        this_item = Hero.get_item_from_inventory(__element)
         enough_for = ''
-        if type(my_item) == Food:
+        if type(this_item) == Food:
             # I consider that 1weight of food is enough for a full day, so multiplying quantity by the food weight returns for how many days one portion of this food is capable of sustaining the Hero.
-            enough_for = f', enough for {int(my_item.quantity * my_item.unity_weight)} days'
+            enough_for = f', enough for {int(this_item.quantity * this_item.unity_weight)} days'
 
         print(
-            f'The {element} on your inventory {my_item.verb} {my_item.description}{enough_for}.')
+            f'The {this_item.name} on your inventory {this_item.verb} {this_item.description}{enough_for}.')
 
-    # elements lying on the floor can be accessed by the final or initial word of their names (ej. "sword" matches for "short sword")
-    elif any(__something.name.endswith(__element) for __something in scenario.floor) or \
-            any(__something.name.startswith(__element) for __something in scenario.floor):
+    # elements lying on the floor can be accessed by the final word of their names (ej. "sword" matches for "short sword")
+    elif any(__something.name.lower().endswith(element) for __something in scenario.floor) or \
+            any(__something.name.lower().startswith('body') for __something in scenario.floor):
         for __something in scenario.floor:
-            if __something.name.startswith(__element) or __something.name.endswith(__element):
+            if element.startswith('body') and __something.name.lower().startswith('body') or \
+                __something.name.lower().endswith(__element):
                 print(
-                    f'The {element} laying on the floor {__something.verb} {__something.description}.')
+                    f'The {__something.name} laying on the floor {__something.verb} {__something.description}.')
                 if type(__something) == NPC:
                     looking_body(__something, scenario)
 
@@ -80,7 +82,8 @@ def look(element: str, scenario: Scenario):
 def looking_body(body: NPC, scenario: Scenario):
     message = []
     if body.armor:
-        message.append(f'it is wearing {body.armor.article[0]}{body.armor.name}')
+        message.append(
+            f'it is wearing {body.armor.article[0]}{body.armor.name}')
         scenario.add_to_floor(body.armor)
         body.armor = None
 
@@ -114,23 +117,37 @@ def looking_body(body: NPC, scenario: Scenario):
 def search(element: str, scenario: Scenario):
     __element = system_name(element)
 
-    if __element in scenario.ambient:
+    if any(__item.lower().endswith(element) for __item in scenario.ambient):
         print_cinematics(f'You search the {element} but you find nothing.')
-    elif __element in scenario.far_away:
+
+    elif any(__item.lower().endswith(element) for __item in scenario.far_away):
         print_cinematics(f'It is too far away.')
 
-    elif hasattr(scenario, __element):
-        searching_element = getattr(scenario, __element)
+    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
+        searching_element = scenario.get_element(element)
         searching_element.on_searching()
 
-    elif __element == 'body':
+    elif any(__item.name.lower().startswith('body') for __item in Hero.inventory) and \
+        element.startswith('body'):
+        print_cinematics(
+            f'You can\'t search the body while you are carrying it.')
+
+    elif any(__item.name.lower().endswith(element) for __item in Hero.inventory):
+        __item_from_inv: Item = Hero.get_item_from_inventory(element)
+        __item_from_inv.on_searching()
+
+    elif any(__something.name.lower().endswith(element) for __something in scenario.floor) or \
+            any(__something.name.lower().startswith('body') for __something in scenario.floor):
         for __something in scenario.floor:
-            if system_name(__something.name).startswith(__element):
-                in_inventory = __something.declare_inventory()
+            if element.startswith('body') and __something.name.lower().startswith('body') :
                 for __item in __something.inventory:
                     scenario.add_to_floor(__item)
                     __something.inventory.remove(__item)
+                in_inventory = __something.declare_inventory()
                 searching_body(in_inventory, __something, scenario)
+
+            elif __something.name.lower().endswith(element):
+                __something.on_searching()
 
     else:
         print_cinematics(
@@ -140,7 +157,8 @@ def search(element: str, scenario: Scenario):
 def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
     message = []
     if body.armor:
-        message.append(f'it is wearing {body.armor.article[0]}{body.armor.name}')
+        message.append(
+            f'it is wearing {body.armor.article[0]}{body.armor.name}')
         scenario.add_to_floor(body.armor)
         body.armor = None
 

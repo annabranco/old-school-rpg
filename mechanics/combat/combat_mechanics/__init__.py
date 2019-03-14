@@ -12,6 +12,7 @@ from cinematics import damages
 from core.characters import Character, NPC
 from mechanics import actions
 import gameplay
+from mechanics.combat.combat_rounds.combat_rounds import reset_rounds
 # DETERMINES THE MAIN COMBAT MECHANICS
 
 # damage
@@ -38,7 +39,7 @@ def damage(successes: int, attacker: Character, defendant: Character) -> None:
                 f'{attacker.name} strikes you causing great pain and damage. You feel badly hurt.\n')
         else:
             print_cinematics(
-                f'You slash your {Hero.weapon.name} causing a great damage on {defendant.name}. {defendant.pronom.title()} is badly hurt.\n')
+                f'You slash your {Hero.weapon.name} causing a great damage on {defendant.name}. {defendant.pronom[0].title()} is badly hurt.\n')
         cinematics_block()
     else:
         damages.cause_damage(attacker, defendant, successes)
@@ -72,10 +73,13 @@ def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_ene
     print_cinematics(enemy.declare_status)
 
     if Hero.status == 'dead' and enemy.status == 'dead':
+        reset_rounds()
         death.mutual_death_by_combat(enemy)
     elif Hero.status == 'dead':
+        reset_rounds()
         death.death_by_simultaneous_attack(enemy, results_number_hero)
     elif enemy.status == 'dead':
+        reset_rounds()
         kills.killed_enemy_on_simultaneous_attack(Hero, enemy)
     else:
         cinematics_block()
@@ -84,7 +88,7 @@ def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_ene
                 f'You and {enemy.name} hit each other at the same time, causing mutual damage.')
         elif results_number_hero > 0:
             print_cinematics(
-                f'You parry the {enemy.name} attack and hit it, causing some damage.')
+                f'You parry the {enemy.name} attack and hit {enemy.pronom[3]}, causing some damage.')
         elif results_number_enemy > 0:
             print_cinematics(
                 f'Taking advantage of your innefective attack, {enemy.name} strikes you a blow.')

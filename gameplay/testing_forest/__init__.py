@@ -20,7 +20,7 @@ to the right. The trail you\'ve been following seems to go on until a bridge on 
 
 # ELEMENTS THAT CAN BE LIMITEDLY INTERACTED WITH.
 testing_forest.ambient = ['trail', 'field']
-testing_forest.far_away = ['river', 'bridge']
+testing_forest.far_away = ['river', 'old bridge']
 
 # ELEMENTS THAT CAN BE USED AS SAFE PLACES FOT THE HERO TO HIDE AND REST.
 testing_forest.safe_places = ['bushes']

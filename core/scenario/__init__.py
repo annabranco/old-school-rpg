@@ -1,13 +1,14 @@
 from typing import Dict, List, Union
-from core.elements import Item
-from pprint import pprint
-# DEFINES BASIC LOGICS FOR SCENARIOS
+from core.elements import Item, Element
 
+# DEFINES BASIC LOGICS FOR SCENARIOS
 
 # Scenario
 '''
     CLASS used for all Scenario instances.
 '''
+
+
 class Scenario(object):
 
     def __init__(self, name: str, scene: str, short_description: str):
@@ -21,23 +22,33 @@ class Scenario(object):
         self.status_on_entering: str = ''
         self.ambient: List[str] = ['sand']
         self.far_away: List[str] = []
+        self.elements: List[Element] = []
         self.floor: List[Item] = []
         self.exits: List[str] = []
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
 
     # add_to_scenario
+
     '''
     Adds to the Scenario elements not initially interactable.
     Normally called upon looking or discovering something new.
     '''
+
     def add_to_scenario(self, name: str, element: Union[Dict, List[Dict]]) -> None:
-        setattr(self, name, element)
+        self.elements.append(element)
         setattr(element, 'scenario', self.name)
 
     def add_to_floor(self, element: Union[Dict, List[Dict]]) -> None:
         self.floor.append(element)
         setattr(element, 'scenario', self.name)
+
+    def get_element(self, element: str) -> Element:
+        for __element in self.elements:
+            if __element.name.endswith(element) or \
+                    __element.name.endswith('body') and element.startswith('body'):
+                return __element
+
 
 '''
 class Scenario(object):
