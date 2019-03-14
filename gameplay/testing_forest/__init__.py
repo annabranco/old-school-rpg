@@ -45,12 +45,15 @@ golden_coin.hidden = True
 testing_forest.add_to_scenario('bushes', bushes)
 testing_forest.add_to_scenario('trees', trees)
 
+# ADDS AN ENEMY
+npc = ugly_monster
+
 # STARTING CINEMATICS
 print_cinematics(
     f'You are on a large green field. You hear some steps coming from behind a group of trees. ')
 print_cinematics(
-    f'You see {ugly_monster.article[0]}{ugly_monster.name} coming from behind them. {ugly_monster.pronom[0].title()} seems to be looking for something on the ground.')
+    f'You see {npc.article[0]}{npc.name} coming from behind them. {npc.pronom[0].title()} seems to be looking for something on the ground.')
 print_cinematics(
-    f'{ugly_monster.pronom[0].title()} suddently sees you and grunts unknown words approaching {ugly_monster.pronom[1]} hand to a heavy club hanging from {ugly_monster.pronom[1]} belt.')
+    f'{npc.pronom[0].title()} suddently sees you and grunts unknown words approaching {npc.pronom[1]} hand to {npc.weapon.article[0]}{npc.weapon.name} hanging on {npc.pronom[1]} back.')
 
-cinematics.start_encounter(ugly_monster)
+cinematics.start_encounter(npc)

@@ -8,6 +8,7 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ### Current development: basic non-combat actions
 - add quantity when getting food;
+- Threat level;
 - inventory should display quantity of items;
 - weight limit when getting;
 - getting (very) tired acording to rounds of combat;
@@ -63,7 +64,9 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Drop;
 * Check inventory/items;
 * Check own status;
-* Equip weapon/shield/armor.
+* Equip weapon/shield/armor;
+* Check own appearance (wip);
+* Draw weapon (wip).
 
 ### Combat actions:
 * Attack;

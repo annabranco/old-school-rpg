@@ -53,14 +53,13 @@ def encounter_reaction(enemy: NPC):
 
 def encounter_reaction_unaware(action: str, enemy: NPC):
     if action.startswith('attack') or action.startswith('kill'):
-        print_cinematics(
-            f'You draw your {Hero.weapon["name"]} and strike before {enemy.name} has a chance to understand what is happening.')
+        print_cinematics(f'{Hero.draw_weapon} and strike before {enemy.name} has a chance to understand what is happening.')
         mechanics_block('SNEAK ATTACK')
         attack.attack(enemy, 2, True)
         combat_rounds.took_action['enemy'] = True
     elif action == 'wait' or action == 'defend':
         print_cinematics(
-            f'You stand on your position, but {enemy.name} just doesn\'t notice you.')
+            f'You stand on your position, but the {enemy.name} just doesn\'t notice you.')
         encounter_reaction(enemy)
 
 # encounter_reaction_unaware
@@ -78,22 +77,21 @@ def encounter_reaction_aware(action: str, enemy: NPC):
         if action.startswith('attack') or action.startswith('kill'):
             decision_taken = True
             print_cinematics(
-                f'You draw your {Hero.weapon.name} and quickly strike {enemy.name}.')
+                f'{Hero.draw_weapon} and quickly strike {enemy.name}.')
             mechanics_block('COMBAT')
             attack.attack(enemy, 0, False)
 
         elif action.startswith('wait'):
             decision_taken = True
-            print_cinematics(
-                f'You wait to see the reaction of {enemy.name}. He draws a {enemy.weapon.name} and comes to attack you.')
-            print_cinematics(
-                f'You draw your {Hero.weapon.name} and prepare to face him.')
+            print_cinematics(f'You wait to see {enemy.pronom[1]} reaction.')
+            print_cinematics(f'{enemy.draw_weapon} and comes to attack you.')
+            print_cinematics(f'{Hero.draw_weapon} and prepare to face {enemy.pronom[2]}.')
             initiative.initiative(enemy, 0)
 
         elif action.startswith('defend'):
             decision_taken = True
             print_cinematics(
-                f'You draw your {Hero.weapon.name} and put yourself on a defensive stance while the {enemy.name} draws a {enemy.weapon.name} and comes to attack you.')
+                f'{Hero.draw_weapon} and put yourself on a defensive stance while the {enemy.draw_weapon} and comes to attack you.')
             mechanics_block('COMBAT')
             combat_rounds.took_action['Hero'] = True
             defend.defend(enemy, 0, True)
@@ -136,6 +134,22 @@ def basic_actions(scenario: Scenario):
 
         elif 'status' in action in action:
             print_cinematics(Hero.declare_status)
+
+        elif action.startswith('how am I'):
+            status = Hero.status
+            appearance = f' and {Hero.appearance}'
+            print_cinematics(f'You are {status}{appearance}.')
+
+        elif action.startswith('draw'):
+            item: str = action.replace('draw', '').replace('weapon', '').lstrip()
+            if not Hero.weapon:
+                print('You have no weapons.')
+            else:
+                weapon = Hero.get_equiped_item(item)
+                if not weapon:
+                    print(f'{item.title()} is not your main weapon.')
+                else:
+                    print(f'{Hero.draw_weapon}.')
 
         elif action.startswith('drop'):
             what: str = action.replace('drop', '').lstrip()

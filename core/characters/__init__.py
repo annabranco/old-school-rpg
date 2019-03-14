@@ -36,7 +36,7 @@ class Character(object):
     @property
     def declare_status(self) -> None:
         if self.type == 'Player':
-            return f'You are {self.__status}'
+            return f'You are {self.__status}.'
         else:
             return f'{self.name} looks {self.__status}.'
 
@@ -210,35 +210,36 @@ class Character(object):
                 print('You can only equip items that you have on your inventory.')
 
     def get_equiped_item(self, item: str) -> Union[Weapon, Shield, Armor]:
-        if self.weapon.name.lower().endswith(item):
+        if self.weapon and self.weapon.name.lower().endswith(item):
             return self.weapon
-        elif self.shield.name.lower().endswith(item):
+        elif self.shield and self.shield.name.lower().endswith(item):
             return self.shield
-        elif self.armor.name.lower().endswith(item):
+        elif self.armor and self.armor.name.lower().endswith(item):
             return self.armor
         else:
             return None
 
-
-    def draw_weapon(self) -> None:
-        if not self.weapon["name"]:
+    @property
+    def draw_weapon(self) -> str:
+        if not self.weapon:
             if self.type == 'Player':
                 print(f'You have no weapon.')
             else:
-                exit(
-                    f'{self.name} doesn\'t have a weapon. This is probably a mistake on your code.')
+                exit(f'{self.name} doesn\'t have a weapon. This is probably a mistake on your code.')
         else:
-            if self.weapon["type"] == 'blade':
+            if self.weapon.type == 'blade':
                 action = ['unsheathe', 'unsheathes']
-            elif self.weapon["type"] == 'range':
-                action = ['place an arrow on', 'places an arrow on']
-            elif self.weapon["type"] == 'blunt':
+            elif self.weapon.type == 'range':
+                action = [f'get an arrow and draw', 'gets an arrow and draws']
+            elif self.weapon.type == 'blunt':
                 action = ['draw', 'draws']
 
             if self.type == 'Player':
-                print(f'You {action[0]} your {self.weapon["name"]}.')
+                return f'You {action[0]} your {self.weapon.name}'
             else:
-                print(f'{self.name} {action[1]} a {self.weapon["name"]}.')
+                return f'{self.name} {action[1]} {self.pronom[1]} {self.weapon.name}'
+
+# TODO NOW: change threat level when drawn. tired when drawn for a while. not draw twice. def put away
 
     def on_dead(self):
         if type(self) == Player and gameplay.CURRENT_SCENARIO.special_death:
@@ -338,7 +339,7 @@ class Player(Character):
 
 class NPC(Character):
 
-    def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str='it'):
+    def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str = 'it'):
         super(NPC, self).__init__(name, 'NPC', race)
         self.weight: int = 8
         self.__pronom = pronom
