@@ -257,8 +257,8 @@ class Character(object):
             else:
                 self.armor.name = f'damaged {self.armor.name}'
 
-    def drop_item(self, item: Item = None) -> Item:
-        if self.has_item(item):
+    def drop_item(self, item: Item = None) -> Union[Item, List[Item]]:
+        if item and self.has_item(item):
             equiped_item = self.get_equiped_item(item)
             print('$$$', equiped_item)
             if equiped_item:
@@ -287,6 +287,17 @@ class Character(object):
                     print(f'{self.name} drops the {item.name} to the ground.')
                 self.inventory.remove(item)
                 return item
+
+        elif item == None: # This is only called when a body is moved and drops the items it was holding
+            items_body_has_equiped = []
+            if self.weapon:
+                items_body_has_equiped.append(self.weapon)
+                self.weapon = None
+            if self.shield:
+                items_body_has_equiped.append(self.shield)
+                self.shield = None
+            return items_body_has_equiped
+
         else:
             print(f'You don\'t have {item.name} on your inventory.')
 
@@ -304,6 +315,7 @@ class Player(Character):
         super(Player, self).__init__(name, 'Player', race)
         self.status = 'well'
         self.carrying_capacity = 10
+        self.appearance = ''
 
     def get_item(self, item: Union[Item, str]) -> None:
         print(f'You get the {item.name}.')

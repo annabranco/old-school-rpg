@@ -1,6 +1,7 @@
 from core.elements import Item
 from core.scenario import Scenario
 from core.characters.Hero import Hero
+from core.characters import NPC
 from typing import Union
 from core.elements import Element, Item, Container
 import gameplay
@@ -34,6 +35,8 @@ def take(element: str, scenario: Scenario):
                 pass
             else:
                 scenario.floor.remove(this_element)
+                if type(this_element) == NPC:
+                    drop(this_element, scenario)
             Hero.get_item(this_element)
 
     elif any(__item.name.endswith(element) for __item in scenario.elements):
@@ -64,29 +67,39 @@ def take(element: str, scenario: Scenario):
 '''
 
 
-def drop(element: str, scenario: Scenario):
+def drop(element: Union[str, NPC], scenario: Scenario):
     if not element:
         print('Which item would you like to drop?')
         Hero.declare_inventory()
         which_item = input('> ')
         __element: str = which_item.lower()
 
+    elif type(element) == NPC:
+        droped_items = element.drop_item()
+        Hero.appearance = 'stained of blood'
+        if len(droped_items) > 0:
+            print(
+                f'When you move the body, its \
+{" and ".join(item.name for item in droped_items)} \
+fall{"s" if len(droped_items) == 1 else ""} on the ground.')
+        for item in droped_items:
+            scenario.add_to_floor(item)
+
     else:
         __element: str = element.lower()
 
-    this_element: Item = Hero.get_item_from_inventory(__element)
-    if this_element:
-        if this_element not in scenario.floor:
-            scenario.add_to_floor(this_element)
-        Hero.drop_item(this_element)
-    else:
-        equiped_item: Item = Hero.get_equiped_item(__element)
-        if equiped_item:
-            scenario.add_to_floor(equiped_item)
-            Hero.drop_item(equiped_item)
+        this_element: Item = Hero.get_item_from_inventory(__element)
+        if this_element:
+            if this_element not in scenario.floor:
+                scenario.add_to_floor(this_element)
+            Hero.drop_item(this_element)
         else:
-            print('You can\'t drop items that you don\'t have.')
+            equiped_item: Item = Hero.get_equiped_item(__element)
+            if equiped_item:
+                scenario.add_to_floor(equiped_item)
+                Hero.drop_item(equiped_item)
+            else:
+                print('You can\'t drop items that you don\'t have.')
 
-# TODO NOW - items and characters
 def equip(item: str):
     Hero.equip(item)

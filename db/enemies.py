@@ -1,6 +1,7 @@
 from core.characters import NPC
 from db.weapons import *
 from db.armors import *
+from db.shields import *
 from db.food import *
 
 # DEFINES DATABASE FOR ALL ENEMIES
@@ -13,6 +14,7 @@ from db.food import *
 ugly_monster = NPC('Ugly Monster', 'monster', 'it')
 ugly_monster.weapon = club
 ugly_monster.armor = leather_armor
+ugly_monster.shield = small_shield
 ugly_monster.armor.on_taking = lambda: print(
     f'You remove {leather_armor.name} from the {ugly_monster.name}.')
 
