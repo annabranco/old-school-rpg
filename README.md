@@ -62,7 +62,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Get/Take (incl. looting from bodies);
 * Drop;
 * Check inventory/items;
-* Check own status.
+* Check own status;
+* Equip weapon/shield/armor.
 
 ### Combat actions:
 * Attack;

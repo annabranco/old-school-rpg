@@ -79,6 +79,14 @@ def drop(element: str, scenario: Scenario):
         if this_element not in scenario.floor:
             scenario.add_to_floor(this_element)
         Hero.drop_item(this_element)
+    else:
+        equiped_item: Item = Hero.get_equiped_item(__element)
+        if equiped_item:
+            scenario.add_to_floor(equiped_item)
+            Hero.drop_item(equiped_item)
+        else:
+            print('You can\'t drop items that you don\'t have.')
+
 
 def equip(item: str):
     Hero.equip(item)

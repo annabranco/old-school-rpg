@@ -113,12 +113,18 @@ class Character(object):
                         return True
             if self.weapon and self.weapon.name.endswith(element):
                 return True
-            if self.shield and self.shield.name.endswith(element):
+            elif self.shield and self.shield.name.endswith(element):
                 return True
-            if self.armor and self.armor.name.endswith(element):
+            elif self.armor and self.armor.name.endswith(element):
                 return True
         else:
             if element in self.inventory:
+                return True
+            elif self.weapon and self.weapon == element:
+                return True
+            elif self.shield and self.shield == element:
+                return True
+            elif self.armor and self.armor == element:
                 return True
         return False
 
@@ -203,6 +209,17 @@ class Character(object):
         else:
                 print('You can only equip items that you have on your inventory.')
 
+    def get_equiped_item(self, item: str) -> Union[Weapon, Shield, Armor]:
+        if self.weapon.name.lower().endswith(item):
+            return self.weapon
+        elif self.shield.name.lower().endswith(item):
+            return self.shield
+        elif self.armor.name.lower().endswith(item):
+            return self.armor
+        else:
+            return None
+
+
     def draw_weapon(self) -> None:
         if not self.weapon["name"]:
             if self.type == 'Player':
@@ -240,13 +257,38 @@ class Character(object):
             else:
                 self.armor.name = f'damaged {self.armor.name}'
 
-    def drop_item(self, item: Item = None):
+    def drop_item(self, item: Item = None) -> Item:
         if self.has_item(item):
-            print(f'{self.name} drops drop {item.name}.')
-            self.inventory.remove(item)
-            return item
+            equiped_item = self.get_equiped_item(item)
+            print('$$$', equiped_item)
+            if equiped_item:
+                print('$$$ hasit')
+                if type(equiped_item) == Weapon:
+                    self.weapon = None
+                    print(f'You place your {equiped_item.name} on the ground.')
+                    print(f'You are now unarmed.') # TODO status change
+
+                if type(equiped_item) == Shield:
+                    self.shield = None
+                    print(f'You unstrap your {equiped_item.name} and drop it.')
+                    if self.armor == None:
+                        print(f'You are now unprotected.')  # TODO status change
+
+                if type(equiped_item) == Armor:
+                    self.armor = None
+                    print(f'You strip your {equiped_item.name} off and drop it to the ground.')
+                    if self.shield == None:
+                        print(f'You are now unprotected.')  # TODO status change
+
+            elif item in self.inventory:
+                if type(self) == Player:
+                    print(f'You drop the {item.name}.')
+                else:
+                    print(f'{self.name} drops the {item.name} to the ground.')
+                self.inventory.remove(item)
+                return item
         else:
-            print(f'You don\'t have {item} on your inventory.')
+            print(f'You don\'t have {item.name} on your inventory.')
 
 # Player
 
