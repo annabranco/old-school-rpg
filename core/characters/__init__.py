@@ -1,5 +1,5 @@
 from math import ceil
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Tuple
 from core.elements import Item, Weapon, Shield, Armor
 from core.config import*
 import gameplay
@@ -13,11 +13,11 @@ import gameplay
 
 class Character(object):
 
-    def __init__(self, name: str, type: str, race: str):
+    def __init__(self, name: str, type: str, race: str, gender: str = 'undefined'):
         self.name: str = name
         self.type: str = type
         self.race: str = race
-        self.description: str = f'This is the {name}'
+        self.description: str = f'This is {name}'
         self.__weapon: Dict[[str, str], [str, str][str, int]] = None
         self.__shield: Dict[[str, str], [str, str][str, int]] = None
         self.__armor: Dict[[str, str], [str, str][str, int]] = None
@@ -28,6 +28,51 @@ class Character(object):
         self.hp: int = 0
         self.speed: int = 0
         self.__status: str = 'unknown'
+        self.gender: str = gender
+        self.pronom: Tuple[str] = None
+        self.set_pronom()
+
+    def set_pronom(self):
+        print(f'$$$ Im being called for {self.name}')
+
+        pronoms_list = {
+            'she': ('she', 'her', 'her'),
+            'he': ('he', 'his', 'him'),
+            'it': ('it', 'its', 'it'),
+            'they': ('they', 'their', 'them')
+        }
+
+        if self.gender == 'female':
+            self.pronom = pronoms_list['she']
+        elif self.gender == 'male':
+            self.pronom = pronoms_list['he']
+        elif self.gender == 'undefined':
+            self.pronom = pronoms_list['it']
+        elif self.gender == 'non-binary' or self.gender == 'other':
+            print('--- Config information needed ---')
+            print(f'As your character is identified as {self.gender}, you should state')
+            print('which pronom would you like to be used when refering to you?')
+            print('eg. she, he, it, they...')
+            my_pronom = None
+            while not my_pronom:
+                my_pronom = input('>> ')
+            self.pronom = pronoms_list[my_pronom]
+        else:
+            self.pronom = pronoms_list['they']
+        print(f'$$$ {self.name} has {self.pronom}')
+
+    # @property
+    # def pronom(self):
+    #     assert type(self.__pronom) == Tuple and len(self.__pronom) == 3
+    #     print(self.__pronom)
+    #     return self.__pronom
+
+    @property
+    def verb(self):
+        if self.pronom in ('she', 'he', 'it'):
+            return 'is'
+        else:
+            return 'are'
 
     @property
     def status(self) -> str:
@@ -227,13 +272,7 @@ class Character(object):
             else:
                 exit(f'{self.name} doesn\'t have a weapon. This is probably a mistake on your code.')
         else:
-            if self.weapon.type == 'blade':
-                action = ['unsheathe', 'unsheathes']
-            elif self.weapon.type == 'range':
-                action = [f'get an arrow and draw', 'gets an arrow and draws']
-            elif self.weapon.type == 'blunt':
-                action = ['draw', 'draws']
-
+            action = self.weapon.draw_action
             if self.type == 'Player':
                 return f'You {action[0]} your {self.weapon.name}'
             else:
@@ -312,8 +351,8 @@ class Character(object):
 
 class Player(Character):
 
-    def __init__(self, name='Hero', race='human'):
-        super(Player, self).__init__(name, 'Player', race)
+    def __init__(self, name: str = 'Hero', race: str = 'human', gender: str = 'non-binary'):
+        super(Player, self).__init__(name, 'Player', race, gender)
         self.status = 'well'
         self.carrying_capacity = 10
         self.appearance = ''
@@ -339,28 +378,9 @@ class Player(Character):
 
 class NPC(Character):
 
-    def __init__(self, name: str='Ugly Monster', race: str='humanoid', pronom: str = 'it'):
-        super(NPC, self).__init__(name, 'NPC', race)
+    def __init__(self, name: str='Thing', race: str='humanoid', gender: str = 'undefined'):
+        super(NPC, self).__init__(name, 'NPC', race, gender)
         self.weight: int = 8
-        self.__pronom = pronom
-
-    @property
-    def pronom(self):
-        if self.__pronom == 'she':
-            return ('she', 'her', 'her')
-        elif self.__pronom == 'he':
-            return ('he', 'his', 'him')
-        elif self.__pronom == 'it':
-            return ('it', 'its', 'it')
-        else:
-            return ('they', 'their', 'them')
-
-    @property
-    def verb(self):
-        if self.__pronom in ('she', 'he', 'it'):
-            return 'is'
-        else:
-            return 'are'
 
     @property
     def article(self) -> str:

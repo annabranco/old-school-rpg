@@ -5,13 +5,19 @@ from db.shields import *
 from db.food import *
 
 # DEFINES DATABASE FOR ALL ENEMIES
+'''
+    #constructor = NPC(name: str, race: str, gender: str='undefined')
+    if enemy has an armor, you should state  the attribute on_taking after assigning the armor
+        <NPC>.armor.on_taking = lambda: print(
+            f'You remove {<Armor>.name} from the {<NPC>.name}.')
+'''
 
 # Ugly Monster
 '''
     This is a generic unpleasant monster, for combat testing.
         Normally this guy will be killed by the Hero when figthing.
 '''
-ugly_monster = NPC('Ugly Monster', 'monster', 'it')
+ugly_monster = NPC('Ugly Monster', 'monster', 'undefined')
 ugly_monster.weapon = club
 ugly_monster.armor = leather_armor
 ugly_monster.shield = small_shield

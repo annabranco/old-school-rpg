@@ -171,6 +171,15 @@ class Weapon(Item):
         self.type: str = weapon_type
         self.bonus: str = bonus
 
+    @property
+    def draw_action(self) -> List[str]:
+        if self.type == 'blade':
+            return ['unsheathe', 'unsheathes']
+        elif self.type == 'range':
+            return [f'get an arrow and draw', 'gets an arrow and draws']
+        elif self.type == 'blunt':
+            return ['draw', 'draws']
+
 # Shield
 
 
