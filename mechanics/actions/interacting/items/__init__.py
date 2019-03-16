@@ -76,7 +76,7 @@ def drop(element: Union[str, NPC], scenario: Scenario):
 
     elif type(element) == NPC:
         droped_items = element.drop_item()
-        Hero.appearance = 'stained of blood'
+        Hero.appearance = 'all bloodstained'
         if len(droped_items) > 0:
             print(
                 f'When you move the body, its \

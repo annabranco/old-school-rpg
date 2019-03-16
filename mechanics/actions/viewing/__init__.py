@@ -16,7 +16,12 @@ def look(element: str, scenario: Scenario):
     element = element.lower()
     __element = system_name(element)
 
-    if __element == 'floor':
+    if __element == 'me':
+
+        print_cinematics(f'You are {Hero.appearance}.')
+
+
+    elif __element == 'floor':
         if len(scenario.floor) == 0:
             print('There\'s nothing special on the floor.')
         else:

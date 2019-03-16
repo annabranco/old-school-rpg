@@ -135,11 +135,6 @@ def basic_actions(scenario: Scenario):
         elif 'status' in action in action:
             print_cinematics(Hero.declare_status)
 
-        elif action.startswith('how am I'):
-            status = Hero.status
-            appearance = f' and {Hero.appearance}'
-            print_cinematics(f'You are {status}{appearance}.')
-
         elif action.startswith('draw'):
             item: str = action.replace('draw', '').replace('weapon', '').lstrip()
             if not Hero.weapon:

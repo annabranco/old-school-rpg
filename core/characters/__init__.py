@@ -30,11 +30,11 @@ class Character(object):
         self.__status: str = 'unknown'
         self.gender: str = gender
         self.pronom: Tuple[str] = None
+        self.appearance = None
         self.set_pronom()
+        self.set_appearance()
 
     def set_pronom(self):
-        print(f'$$$ Im being called for {self.name}')
-
         pronoms_list = {
             'she': ('she', 'her', 'her'),
             'he': ('he', 'his', 'him'),
@@ -59,13 +59,17 @@ class Character(object):
             self.pronom = pronoms_list[my_pronom]
         else:
             self.pronom = pronoms_list['they']
-        print(f'$$$ {self.name} has {self.pronom}')
 
-    # @property
-    # def pronom(self):
-    #     assert type(self.__pronom) == Tuple and len(self.__pronom) == 3
-    #     print(self.__pronom)
-    #     return self.__pronom
+    def set_appearance(self):
+        if not self.appearance:
+            attributes = (self.attack, self.defense, self.speed)
+            better_attribute = max(attributes)
+            quality = 'dangerous'
+            if attributes.index(better_attribute) == 1:
+                quality = 'strong'
+            elif attributes.index(better_attribute) == 2:
+                quality = 'skillful'
+            self.appearance = f'a {quality} {self.gender} {self.race}'
 
     @property
     def verb(self):
@@ -355,7 +359,6 @@ class Player(Character):
         super(Player, self).__init__(name, 'Player', race, gender)
         self.status = 'well'
         self.carrying_capacity = 10
-        self.appearance = ''
 
     def get_item(self, item: Union[Item, str]) -> None:
         print(f'You get the {item.name}.')
