@@ -7,13 +7,13 @@ This is a text-based Fantasy Role Playing Game.
 The aim to create a flexible backend system designed to acomodate different stories and games.
 
 ### Current development: basic non-combat actions
-- add quantity when getting food;
-- Threat level;
 - inventory should display quantity of items;
+- add quantity when getting food;
 - weight limit when getting;
 - getting (very) tired acording to rounds of combat;
 - getting (very) tired according to time;
 - move/go;
+- Threat level;
 - carrying bodies;
 - connecting scenarios;
 - hide.

@@ -15,15 +15,14 @@ class Element(object):
     def __init__(self, name, description):
         self.name: str = name
         self.description: str = description
-        self.scenario: str = ''
-        self.looking_effect: str = None
-        self.searching_effect: List[str] = None
-        self.on_hearing = None
-        self.hearing_effect: str = None
-        self.on_touching = None
-        self.touching_effect: str = None
-        self.on_tasting = None
-        self.tasting_effect: str = None
+        # self.looking_effect: str = None
+        # self.searching_effect: List[str] = None
+        # self.on_hearing = None
+        # self.hearing_effect: str = None
+        # self.on_touching = None
+        # self.touching_effect: str = None
+        # self.on_tasting = None
+        # self.tasting_effect: str = None
 
     # on_looking
 
@@ -50,15 +49,32 @@ class Element(object):
             return 'is'
 
     def on_looking(self) -> None:
-        for attr, value in self.__dict__.items():
+        things_saw: List = []
 
-            if issubclass(type(value), Item) or type(value) == Item:
-                if value.hidden == False:
-                    if not hasattr(gameplay.CURRENT_SCENARIO, attr):
+        for __item in gameplay.CURRENT_SCENARIO.elements:
+            if issubclass(type(__item), Item):
+                if __item.container == self.name:
+                    things_saw.append(__item)
+
+                if len(things_saw) == 1:
+                    this_element = things_saw[0]
+                    print_cinematics(
+                        f'You see {this_element.article[0]}{this_element.name} on the {self.name}')
+                elif len(things_saw) >= 1:
+                    print_cinematics(
+                        f'You see \
+                        {", ".join(f"{this_element.article[0]}{this_element.name}" for item in things_saw[: -1])} \
+                        and {f"{things_saw[-1].article[0]}{things_saw[-1].name}"} on the {self.name}.')
+
+        for property_name, property_value in self.__dict__.items():
+            if issubclass(type(property_value), Item) or type(property_value) == Item:
+                if property_value.hidden == False:
+                    if not property_name in gameplay.CURRENT_SCENARIO.elements:
                         print_cinematics(
-                            f'You see {value.name} on the {self.name}')
-                        gameplay.CURRENT_SCENARIO.add_to_scenario(
-                            attr, value)
+                            f'You see {property_value.name} on the {self.name}')
+                        gameplay.CURRENT_SCENARIO.add_to_elements(property_value)
+                        delattr(self, property_name)
+                        break
 
     # on_searching
 
@@ -73,15 +89,13 @@ class Element(object):
             print_cinematics(self.searching_effect[0])
             self.searching_effect[1]()
 
-        for attr, value in self.__dict__.items():
+        for property_name, property_value in self.__dict__.items():
 
-            if issubclass(type(value), Item) and value.hidden == True:
-                value.hidden = False
-                print_cinematics(f'You find {value.name}')
-                system_name = value.name.replace(' ', '_').lower()
-                gameplay.CURRENT_SCENARIO.add_to_scenario(
-                    system_name, value)
-                # delattr(self, system_name)
+            if issubclass(type(property_value), Item) and property_value.hidden == True:
+                property_value.hidden = False
+                print_cinematics(f'You find {property_value.name}')
+                gameplay.CURRENT_SCENARIO.add_to_elements(property_value)
+                delattr(self, property_name)
                 return
         print_cinematics(f'You search the {self.name} but you find nothing special.')
 
@@ -102,9 +116,11 @@ class Item(Element):
 
     def __init__(self, name: str, description: str, weight: int):
         super(Item, self).__init__(name, description)
-        self.hidden: bool = False
         self.usable: bool = False
         self.weight: int = weight
+        self.__quantity: int = 1
+        self.container: str = None
+        self.hidden: bool = False
 
 # Container
 
@@ -119,7 +135,10 @@ class Container(Element):
     def __init__(self, name: str, description: str):
         super(Container, self).__init__(name, description)
 
-    def add_item(self, item: Item):
+    def add_item(self, item: Item, hidden: str = None):
+        if hidden == 'hidden':
+            item.hidden = True
+        setattr(item, 'container', self.name)
         setattr(self, item.name, item)
 
 

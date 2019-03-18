@@ -35,13 +35,14 @@ class Scenario(object):
     Normally called upon looking or discovering something new.
     '''
 
-    def add_to_scenario(self, name: str, element: Union[Dict, List[Dict]]) -> None:
+    def add_to_scenario(self, name: str, element: Union[Element, List[Element]]) -> None:
         self.elements.append(element)
-        setattr(element, 'scenario', self.name)
 
-    def add_to_floor(self, element: Union[Dict, List[Dict]]) -> None:
+    def add_to_floor(self, element: Union[Element, List[Element]]) -> None:
         self.floor.append(element)
-        setattr(element, 'scenario', self.name)
+
+    def add_to_elements(self, element: Union[Element, List[Element]]) -> None:
+        self.elements.append(element)
 
     def get_element(self, element: str) -> Element:
         for __element in self.elements:

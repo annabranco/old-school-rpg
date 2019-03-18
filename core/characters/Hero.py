@@ -4,7 +4,7 @@ from db.weapons import *
 # THIS IMPORTS THE PLAYER CLASS, CREATES A PLAYABLE CHARACTER
 # AND DETERMINES ITS INITIAL ATTRIBUTES ANS ITEMS
 
-Hero = Player('Hero', 'human')
+Hero = Player('Hero', 'human', 'female')
 Hero.weapon = short_sword
 
 Hero.inventory.append(leather_meat)

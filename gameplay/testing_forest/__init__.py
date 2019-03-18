@@ -32,13 +32,14 @@ trees = Container('trees', 'big and very green apple trees')
 
 bushes = Container('bushes', '3 feet green bushes full of leaves')
 bushes.searching_effect = [
-    'You spend a very long time searching the bushes and start to feel tired.', lambda: Hero.set_status('tired')]
+    'You spend a very long time searching the bushes and start to feel tired.', lambda : Hero.set_status('tired')]
+    # TODO: up one degree.. well -> tired -> very tired
 
 # SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
 trees.add_item(apples)
 apples.on_taking = lambda: 'keep'
 
-bushes.add_item(golden_coin)
+bushes.add_item(golden_coin, 'hidden')
 golden_coin.hidden = True
 
 # ADDS GLOBAL CONTAINERS TO THE SCENARIO INSTANCE SO THEY CAN BE INTERACTED WITH.

@@ -15,31 +15,35 @@ from core.config import system_name
 
 
 def take(element: str, scenario: Scenario):
-    __element: str = element.replace(' ', '_').lower()
-
+    element = element.lower()
     if any(__item.endswith(element) for __item in scenario.ambient):
         print('There\'s no point in doing it.')
 
     elif any(__item.endswith(element) for __item in scenario.far_away):
         print('Even if you could take it, it is too far away.')
 
-    elif any(__item.name.endswith(element) for __item in scenario.floor) or \
-        any(__item.name.startswith('body') for __item in scenario.floor):
-        for __item in scenario.floor:
-            if __item.name.endswith(__element) or __item.name.startswith('body'):
-                this_element: Item = __item
-        if Hero.has_item(this_element):
-            print(f'You already have {element} on your inventory.')
-        else:
-            if hasattr(this_element, 'on_taking') and this_element.on_taking() == 'keep':
-                pass
-            else:
-                scenario.floor.remove(this_element)
-                if type(this_element) == NPC:
-                    drop(this_element, scenario)
-            Hero.get_item(this_element)
+    elif any(__item.name.lower().endswith(element) for __item in scenario.floor) or \
+            element.startswith('body'):
 
-    elif any(__item.name.endswith(element) for __item in scenario.elements):
+        for __item in scenario.floor:
+            __item: Union[Item, NPC]
+            if __item.name.lower().startswith('body') and element.lower().startswith('body') or \
+                    __item.name.lower().endswith(element) and __item.name.lower().startswith('body'):
+                drop(__item, scenario)
+                Hero.get_item(__item)
+                scenario.floor.remove(__item)
+
+            elif __item.name.lower().endswith(element):
+                if Hero.has_item(__item):
+                    print(f'You already have {element} on your inventory.') # TODO: Sum items
+                else:
+                    if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
+                        pass
+                    else:
+                        scenario.floor.remove(__item)
+                Hero.get_item(__item)
+
+    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
         this_element: Element = scenario.get_element(element)
 
         if type(this_element) == Container:
@@ -53,8 +57,9 @@ def take(element: str, scenario: Scenario):
 
         else:
             Hero.get_item(this_element)
-            if not hasattr(this_element, 'on_taking') and this_element.on_taking != 'keep':
-                delattr(scenario, __element)
+            if not hasattr(this_element, 'on_taking') or this_element.on_taking() != 'keep':
+                scenario.elements.remove(this_element)
+
 
     else:
         print(f'You don\'t see any {element} nearby to take it.')

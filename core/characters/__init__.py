@@ -128,7 +128,7 @@ class Character(object):
 
         if self.type == 'Player':
             searching_result_message = [
-                'You have no items on your inventory.', 'On your inventory you have']
+                'You have no items on your inventory', 'On your inventory you have']
         else:
             searching_result_message = [
                 f'Searching the {self.name} you find nothing worth taking',
@@ -304,9 +304,7 @@ class Character(object):
     def drop_item(self, item: Item = None) -> Union[Item, List[Item]]:
         if item and self.has_item(item):
             equiped_item = self.get_equiped_item(item)
-            print('$$$', equiped_item)
             if equiped_item:
-                print('$$$ hasit')
                 if type(equiped_item) == Weapon:
                     self.weapon = None
                     print(f'You place your {equiped_item.name} on the ground.')
