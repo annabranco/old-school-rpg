@@ -11,6 +11,7 @@ from core.characters import NPC
     It is called when the Hero looks at something.
 '''
 
+# TODO NOW: Interact with body and its items
 
 def look(element: str, scenario: Scenario):
     element = element.lower()
