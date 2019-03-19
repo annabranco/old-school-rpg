@@ -157,14 +157,14 @@ class Character(object):
     def has_item(self, element: Union[str, Item]) -> bool:
         if type(element) == str:
             for __element in self.inventory:
-                if __element.name.endswith(element) or \
+                if __element.name.lower().split()[-1] == element or \
                     __element.name.startswith('body') and element.startswith('body'):
                         return True
-            if self.weapon and self.weapon.name.endswith(element):
+            if self.weapon and self.weapon.name.lower().split()[-1] == element:
                 return True
-            elif self.shield and self.shield.name.endswith(element):
+            elif self.shield and self.shield.name.lower().split()[-1] == element:
                 return True
-            elif self.armor and self.armor.name.endswith(element):
+            elif self.armor and self.armor.name.lower().split()[-1] == element:
                 return True
         else:
             if element in self.inventory:
@@ -181,7 +181,7 @@ class Character(object):
         if self.has_item(element):
             if type(element) == str:
                 for __element in self.inventory:
-                    if __element.name.endswith(element) or \
+                    if __element.name.lower().split()[-1] == element or \
                        __element.name.startswith('body') and element.startswith('body'):
                         return __element
 

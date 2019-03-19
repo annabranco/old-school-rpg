@@ -14,13 +14,10 @@ from core.characters import NPC
 # TODO NOW: Interact with body and its items
 
 def look(element: str, scenario: Scenario):
-    element = element.lower()
-    __element = system_name(element)
+    __element = element.lower()
 
     if __element == 'me':
-
         print_cinematics(f'You are {Hero.appearance}.')
-
 
     elif __element == 'floor':
         if len(scenario.floor) == 0:
@@ -38,21 +35,21 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'You look around and you see {scenario.description}.')
 
-    elif any(__item.lower().endswith(element) for __item in scenario.ambient):
+    elif any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
         print_cinematics(
             f'You see nothing special about the {element}.')
 
-    elif any(__item.lower().endswith(element) for __item in scenario.far_away):
+    elif any(__item.lower().split()[-1] == __element for __item in scenario.far_away):
         print_cinematics(
             f'You look at the {element}, but is too far away to see any details.')
 
-    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
+    elif any(__item.name.lower().split()[-1] == __element for __item in scenario.elements):
         looking_element = scenario.get_element(element)
         print_cinematics(
             f'The {element} {looking_element.verb} {looking_element.description}.')
         looking_element.on_looking()
 
-    elif Hero.has_item(element):
+    elif Hero.has_item(__element):
         this_item = Hero.get_item_from_inventory(__element)
         enough_for = ''
         if type(this_item) == Food:
@@ -63,8 +60,8 @@ def look(element: str, scenario: Scenario):
             f'The {this_item.name} on your inventory {this_item.verb} {this_item.description}{enough_for}.')
 
     # elements lying on the floor can be accessed by the final word of their names (ej. "sword" matches for "short sword")
-    elif any(__something.name.lower().endswith(element) for __something in scenario.floor) or \
-            any(__something.name.lower().startswith('body') for __something in scenario.floor):
+    elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
+            any(__something.name.lower().startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
             if element.startswith('body') and __something.name.lower().startswith('body') or \
                 __something.name.lower().endswith(__element):
@@ -144,7 +141,7 @@ def search(element: str, scenario: Scenario):
         __item_from_inv.on_searching()
 
     elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
-            any(__something.name.lower().startswith('body') for __something in scenario.floor) and __element.endswith('body'):
+            any(__something.name.lower().startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
             if element.startswith('body') and __something.name.lower().startswith('body') :
                 in_inventory = __something.declare_inventory()
