@@ -35,7 +35,7 @@ def take(element: str, scenario: Scenario):
 
             elif __item.name.lower().endswith(element):
                 if Hero.has_item(__item):
-                    print(f'You already have {element} on your inventory.') # TODO: Sum items
+                    print(f'You already have {element} on your inventory.') # TODO NOW: Sum items - count items on inv
                 else:
                     if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
                         pass
