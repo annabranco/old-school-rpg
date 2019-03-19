@@ -146,10 +146,14 @@ def search(element: str, scenario: Scenario):
             any(__something.name.lower().startswith('body') for __something in scenario.floor):
         for __something in scenario.floor:
             if element.startswith('body') and __something.name.lower().startswith('body') :
+                print('$$$ searching here')
+                in_inventory = __something.declare_inventory()
+                print(f'$$$ {in_inventory}')
+
                 for __item in __something.inventory:
                     scenario.add_to_floor(__item)
+                    print('$$$', list(scenario.floor))
                     __something.inventory.remove(__item)
-                in_inventory = __something.declare_inventory()
                 searching_body(in_inventory, __something, scenario)
 
             elif __something.name.lower().endswith(element):
@@ -163,18 +167,21 @@ def search(element: str, scenario: Scenario):
 def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
     message = []
     if body.armor:
+        print(f'$$$ {body.armor.name}')
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
         scenario.add_to_floor(body.armor)
         body.armor = None
 
     if body.weapon:
+        print(f'$$$ {body.weapon.name}')
         message.append(
             f'{body.weapon.article[0]}{body.weapon.name}')
         scenario.add_to_floor(body.weapon)
         body.weapon = None
 
     if body.shield:
+        print(f'$$$ {body.shield.name}')
         message.append(f'{body.shield.article[0]}{body.shield.name}.')
         scenario.add_to_floor(body.shield)
         body.shield = None

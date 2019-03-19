@@ -73,7 +73,7 @@ class Character(object):
 
     @property
     def verb(self):
-        if self.pronom in ('she', 'he', 'it'):
+        if self.pronom[0] in ('she', 'he', 'it'):
             return 'is'
         else:
             return 'are'
@@ -200,7 +200,7 @@ class Character(object):
 
     @shield.setter
     def shield(self, this_shield: Shield) -> None:
-        if self.__shield:
+        if self.__shield and type(self) == Player:
             self.inventory.append(self.__shield)
         self.__shield = this_shield
 
@@ -211,7 +211,7 @@ class Character(object):
 
     @armor.setter
     def armor(self, this_armor: Armor) -> None:
-        if self.__armor:
+        if self.__armor and type(self) == Player:
             self.inventory.append(self.__armor)
         self.__armor = this_armor
 
@@ -222,7 +222,7 @@ class Character(object):
 
     @weapon.setter
     def weapon(self, this_weapon: Weapon) -> None:
-        if self.__weapon:
+        if self.__weapon and type(self) == Player:
             self.inventory.append(self.__weapon)
         self.__weapon = this_weapon
 
@@ -282,7 +282,7 @@ class Character(object):
             else:
                 return f'{self.name} {action[1]} {self.pronom[1]} {self.weapon.name}'
 
-# TODO NOW: change threat level when drawn. tired when drawn for a while. not draw twice. def put away
+# TODO: change threat level when drawn. tired when drawn for a while. not draw twice. def put away
 
     def on_dead(self):
         if type(self) == Player and gameplay.CURRENT_SCENARIO.special_death:
@@ -331,6 +331,7 @@ class Character(object):
                 return item
 
         elif item == None: # This is only called when a body is moved and drops the items it was holding
+            print(f'$$$ {self.weapon.name},  {self.armor.name},  {self.shield.name}')
             items_body_has_equiped = []
             if self.weapon:
                 items_body_has_equiped.append(self.weapon)

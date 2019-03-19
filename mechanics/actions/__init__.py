@@ -11,6 +11,7 @@ from mechanics.combat import defend
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
 from mechanics.actions.interacting.items import take, drop, equip
+from db.enemies import ugly_monster
 # DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
 # ask_for_action
@@ -131,6 +132,9 @@ def basic_actions(scenario: Scenario):
 
         elif 'inventory' in action or 'items' in action:
             Hero.declare_inventory()
+
+        elif 'bad' in action:
+            print(list(item_.name for item_ in ugly_monster.inventory))
 
         elif 'status' in action in action:
             print_cinematics(Hero.declare_status)

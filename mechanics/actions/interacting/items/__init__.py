@@ -29,7 +29,7 @@ def take(element: str, scenario: Scenario):
             __item: Union[Item, NPC]
             if __item.name.lower().startswith('body') and element.lower().startswith('body') or \
                     __item.name.lower().endswith(element) and __item.name.lower().startswith('body'):
-                drop(__item, scenario)
+                moving_body(__item, scenario)
                 Hero.get_item(__item)
                 scenario.floor.remove(__item)
 
@@ -64,9 +64,19 @@ def take(element: str, scenario: Scenario):
     else:
         print(f'You don\'t see any {element} nearby to take it.')
 
+
+def moving_body(body: NPC, scenario: Scenario):
+    droped_items = body.drop_item()
+    Hero.appearance = 'all bloodstained'
+    if len(droped_items) > 0:
+        print(
+            f'When you move the body, its \
+{" and ".join(item.name for item in droped_items)} \
+fall{"s" if len(droped_items) == 1 else ""} on the ground.')
+    for item in droped_items:
+        scenario.add_to_floor(item)
+
 # take
-
-
 '''
     Generic function to check if the Hero has an Item in the inventory.
 '''
@@ -78,17 +88,6 @@ def drop(element: Union[str, NPC], scenario: Scenario):
         Hero.declare_inventory()
         which_item = input('> ')
         __element: str = which_item.lower()
-
-    elif type(element) == NPC:
-        droped_items = element.drop_item()
-        Hero.appearance = 'all bloodstained'
-        if len(droped_items) > 0:
-            print(
-                f'When you move the body, its \
-{" and ".join(item.name for item in droped_items)} \
-fall{"s" if len(droped_items) == 1 else ""} on the ground.')
-        for item in droped_items:
-            scenario.add_to_floor(item)
 
     else:
         __element: str = element.lower()
