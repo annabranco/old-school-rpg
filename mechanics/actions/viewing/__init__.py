@@ -122,15 +122,15 @@ def looking_body(body: NPC, scenario: Scenario):
 
 
 def search(element: str, scenario: Scenario):
-    __element = system_name(element)
+    __element = element.lower()
 
-    if any(__item.lower().endswith(element) for __item in scenario.ambient):
+    if any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
         print_cinematics(f'You search the {element} but you find nothing.')
 
-    elif any(__item.lower().endswith(element) for __item in scenario.far_away):
+    elif any(__item.lower().split()[-1] == __element for __item in scenario.far_away):
         print_cinematics(f'It is too far away.')
 
-    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
+    elif any(__item.name.lower().split()[-1] == __element for __item in scenario.elements):
         searching_element = scenario.get_element(element)
         searching_element.on_searching()
 
@@ -139,25 +139,22 @@ def search(element: str, scenario: Scenario):
         print_cinematics(
             f'You can\'t search the body while you are carrying it.')
 
-    elif any(__item.name.lower().endswith(element) for __item in Hero.inventory):
+    elif any(__item.name.lower().split()[-1] == __element for __item in Hero.inventory):
         __item_from_inv: Item = Hero.get_item_from_inventory(element)
         __item_from_inv.on_searching()
 
-    elif any(__something.name.lower().endswith(element) for __something in scenario.floor) or \
-            any(__something.name.lower().startswith('body') for __something in scenario.floor):
+    elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
+            any(__something.name.lower().startswith('body') for __something in scenario.floor) and __element.endswith('body'):
         for __something in scenario.floor:
             if element.startswith('body') and __something.name.lower().startswith('body') :
-                print('$$$ searching here')
                 in_inventory = __something.declare_inventory()
-                print(f'$$$ {in_inventory}')
 
                 for __item in __something.inventory:
                     scenario.add_to_floor(__item)
-                    print('$$$', list(scenario.floor))
                     __something.inventory.remove(__item)
                 searching_body(in_inventory, __something, scenario)
 
-            elif __something.name.lower().endswith(element):
+            elif __something.name.lower().split()[-1] == __element:
                 __something.on_searching()
 
     else:
@@ -168,7 +165,6 @@ def search(element: str, scenario: Scenario):
 def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
     message = []
     if body.armor:
-        print(f'$$$ {body.armor.name}')
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
         body.armor.container = body.name
@@ -177,14 +173,12 @@ def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
         # body.armor = None
 
     if body.weapon:
-        print(f'$$$ {body.weapon.name}')
         message.append(
             f'{body.weapon.article[0]}{body.weapon.name}')
         scenario.add_to_floor(body.weapon)
         body.weapon = None
 
     if body.shield:
-        print(f'$$$ {body.shield.name}')
         message.append(f'{body.shield.article[0]}{body.shield.name}.')
         scenario.add_to_floor(body.shield)
         body.shield = None

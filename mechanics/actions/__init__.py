@@ -134,8 +134,8 @@ def basic_actions(scenario: Scenario):
             Hero.declare_inventory()
 
         elif 'bad' in action:
-            print(list(item_.name for item_ in ugly_monster.inventory))
-            print(list([getattr(ugly_monster.weapon, 'name', None),
+            print('$$$', list(__this.name for __this in ugly_monster.inventory))
+            print('$$$', list([getattr(ugly_monster.weapon, 'name', None),
                         getattr(ugly_monster.armor, 'name', None), getattr(ugly_monster.shield, 'name', None)]))
 
         elif 'status' in action in action:

@@ -76,29 +76,6 @@ class Element(object):
                         delattr(self, property_name)
                         break
 
-    # on_searching
-
-    '''
-    If the place looked upon has hidden items,
-    they are added to the Scenario instance and can now be also interacted to with.
-    Visible items are not found here with on_serching, but seen with on_looking.
-    '''
-
-    def on_searching(self) -> None:
-        if self.searching_effect:
-            print_cinematics(self.searching_effect[0])
-            self.searching_effect[1]()
-
-        for property_name, property_value in self.__dict__.items():
-
-            if issubclass(type(property_value), Item) and property_value.hidden == True:
-                property_value.hidden = False
-                print_cinematics(f'You find {property_value.name}')
-                gameplay.CURRENT_SCENARIO.add_to_elements(property_value)
-                delattr(self, property_name)
-                return
-        print_cinematics(f'You search the {self.name} but you find nothing special.')
-
 # called when Hero takes an item with on_taking attribute
     def on_taking(self, callback=None):
         if callback:
@@ -140,6 +117,30 @@ class Container(Element):
             item.hidden = True
         setattr(item, 'container', self.name)
         setattr(self, item.name, item)
+
+    # on_searching
+
+    '''
+    If the place looked upon has hidden items,
+    they are added to the Scenario instance and can now be also interacted to with.
+    Visible items are not found here with on_serching, but seen with on_looking.
+    '''
+
+    def on_searching(self) -> None:
+        if getattr(self, 'searching_effect', None):
+            print_cinematics(self.searching_effect[0])
+            self.searching_effect[1]()
+
+        for property_name, property_value in self.__dict__.items():
+
+            if issubclass(type(property_value), Item) and property_value.hidden == True:
+                property_value.hidden = False
+                print_cinematics(f'You find {property_value.name}')
+                gameplay.CURRENT_SCENARIO.add_to_elements(property_value)
+                delattr(self, property_name)
+                return
+        print_cinematics(
+            f'You search the {self.name} but you find nothing special.')
 
 
 class Food(Item):

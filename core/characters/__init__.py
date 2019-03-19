@@ -334,7 +334,6 @@ class Character(object):
                 return item
 
         elif item == None: # This is only called when a body is moved and drops the items it was holding
-            print(f'$$$ {self.weapon.name},  {self.armor.name},  {self.shield.name}')
             items_body_has_equiped = []
             if self.weapon:
                 items_body_has_equiped.append(self.weapon)
