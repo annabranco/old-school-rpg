@@ -60,6 +60,16 @@ def take(element: str, scenario: Scenario):
             if not hasattr(this_element, 'on_taking') or this_element.on_taking() != 'keep':
                 scenario.elements.remove(this_element)
 
+    elif element.endswith('armor') and \
+        any(type(__thing) == NPC and \
+        __thing.armor.container != None for __thing in scenario.floor):
+        for __thing in scenario.floor:
+            if type(__thing) == NPC:
+                if __thing.armor != None:
+                    __thing.armor.on_taking()
+                    __thing.armor.container = None
+                    Hero.get_item(__thing.armor)
+                    __thing.armor = None
 
     else:
         print(f'You don\'t see any {element} nearby to take it.')

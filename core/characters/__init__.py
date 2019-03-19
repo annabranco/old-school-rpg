@@ -213,6 +213,8 @@ class Character(object):
     def armor(self, this_armor: Armor) -> None:
         if self.__armor and type(self) == Player:
             self.inventory.append(self.__armor)
+            self.__armor.container = None
+            this_armor.container = self.name
         self.__armor = this_armor
 
     @property
@@ -319,6 +321,7 @@ class Character(object):
                 if type(equiped_item) == Armor:
                     self.armor = None
                     print(f'You strip your {equiped_item.name} off and drop it to the ground.')
+                    equiped_item.container = None
                     if self.shield == None:
                         print(f'You are now unprotected.')  # TODO status change
 

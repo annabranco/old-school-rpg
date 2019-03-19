@@ -90,8 +90,9 @@ def looking_body(body: NPC, scenario: Scenario):
     if body.armor:
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
-        scenario.add_to_floor(body.armor)
-        body.armor = None
+        body.armor.container = body.name
+        # scenario.add_to_floor(body.armor)
+        # body.armor = None
 
     if body.weapon:
         message.append(
@@ -170,8 +171,10 @@ def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
         print(f'$$$ {body.armor.name}')
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
-        scenario.add_to_floor(body.armor)
-        body.armor = None
+        body.armor.container = body.name
+
+        # scenario.add_to_floor(body.armor)
+        # body.armor = None
 
     if body.weapon:
         print(f'$$$ {body.weapon.name}')

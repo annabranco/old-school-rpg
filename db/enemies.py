@@ -21,8 +21,8 @@ ugly_monster = NPC('Ugly Monster', 'monster', 'undefined')
 ugly_monster.weapon = club
 ugly_monster.armor = leather_armor
 ugly_monster.shield = small_shield
-ugly_monster.armor.on_taking = lambda: print(
-    f'You remove {leather_armor.name} from the {ugly_monster.name}.')
+# ugly_monster.armor.on_taking = lambda: print(
+#     f'You remove the armor from the {ugly_monster.name}.')
 
 ugly_monster.inventory.append(smelly_meat)
 smelly_meat.add(10)

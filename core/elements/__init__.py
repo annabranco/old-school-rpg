@@ -227,6 +227,11 @@ class Armor(Item):
         super(Armor, self).__init__(name, description, weight)
         self.bonus: int = bonus
 
+    def on_taking(self):
+        if self.container:
+            print(
+                f'You remove the armor from the {self.container}.')
+
 
 '''
   class Element(object):
