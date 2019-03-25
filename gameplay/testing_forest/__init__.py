@@ -37,6 +37,7 @@ bushes.searching_effect = [
 
 # SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
 trees.add_item(apples)
+apples.add(1)
 apples.on_taking = lambda: 'keep'
 
 bushes.add_item(golden_coin, 'hidden')
