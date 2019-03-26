@@ -13,16 +13,16 @@ from core.characters import Character, NPC
 from mechanics import actions
 import gameplay
 from mechanics.combat.combat_rounds.combat_rounds import reset_rounds
-# DETERMINES THE MAIN COMBAT MECHANICS
 
-# damage
-'''
-    It is called whenever someone is hurt from an attack.
-    Calculates damage, checks if the victim is hurt or dead and calls next round.
-'''
+
+# DETERMINES THE MAIN COMBAT MECHANICS
 
 
 def damage(successes: int, attacker: Character, defendant: Character) -> None:
+    '''
+        It is called whenever someone is hurt from an attack.
+        Calculates damage, checks if the victim is hurt or dead and calls next round.
+    '''
     defendant.take_damage(abs(successes))
 
     if defendant.status == 'dead':
@@ -46,16 +46,12 @@ def damage(successes: int, attacker: Character, defendant: Character) -> None:
 
     next_round(attacker, defendant)
 
-# simultaneous_damage
-
-
-'''
-    It is called whenever the Hero and the enemy cause mutual damage.
-    Calculates damage, checks if both are hurt or dead and calls next round.
-'''
-
 
 def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_enemy: int, enemy: NPC) -> None:
+    '''
+        It is called whenever the Hero and the enemy cause mutual damage.
+        Calculates damage, checks if both are hurt or dead and calls next round.
+    '''
 
     new_hero_hp = Hero.hp - abs(results_number_enemy)
     Hero.hp = new_hero_hp
@@ -99,16 +95,12 @@ def simultaneous_damage(results_number_hero: int, Hero: Hero, results_number_ene
         print('\nStart next round.\n')
         next_round(Hero, enemy)
 
-# next_round
-
-
-'''
-    It is called whenever someone finishes its attacking round.
-    Determines who is the next to attack or call initiative if both have attacked on the current round.
-'''
-
-
+#
 def next_round(attacker: Character, defendant: Character) -> None:
+    '''
+        It is called whenever someone finishes its attacking round.
+        Determines who is the next to attack or call initiative if both have attacked on the current round.
+    '''
     if defendant == Hero and combat_rounds.took_action['Hero'] and combat_rounds.took_action['enemy']:
         print('\nStart next round.\n')
         initiative.initiative(attacker, 0)
@@ -127,15 +119,11 @@ def next_round(attacker: Character, defendant: Character) -> None:
     else:
         print('something went wrong')
 
-# missed
-
-
-'''
-    It is called whenever someone misses an attack.
-'''
-
 
 def missed(attacker: Character, defendant: Character) -> None:
+    '''
+        It is called whenever someone misses an attack.
+    '''
     cinematics_block()
     if attacker == Hero:
         print_cinematics(f'You miss your blow on {defendant.name}.\n')

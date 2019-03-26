@@ -4,13 +4,10 @@ from typing import List
 
 # DEFINES BASIC LOGICS FOR ELEMENTS AND ITEMS
 
-# Element
-'''
-    CLASS used for all interactable elements on the game.
-'''
-
-
 class Element(object):
+    '''
+        CLASS used for all interactable elements on the game.
+    '''
 
     def __init__(self, name, description):
         self.name: str = name
@@ -24,13 +21,6 @@ class Element(object):
         # self.on_tasting = None
         # self.tasting_effect: str = None
 
-    # on_looking
-
-    '''
-        If the place looked upon has visible elements (ej. apples on trees),
-        the items are added to the Scenario instance and can now be also interacted to with.
-        Hidden elements are only found with on_serching.
-    '''
 
     @property
     def article(self) -> str:
@@ -49,6 +39,11 @@ class Element(object):
             return 'is'
 
     def on_looking(self) -> None:
+        '''
+            If the place looked upon has visible elements (ej. apples on trees),
+            the items are added to the Scenario instance and can now be also interacted to with.
+            Hidden elements should be on a Container and are only found with on_searching.
+        '''
         things_saw: List = []
 
         for __item in gameplay.CURRENT_SCENARIO.elements:
@@ -76,20 +71,18 @@ class Element(object):
                         delattr(self, property_name)
                         break
 
-# called when Hero takes an item with on_taking attribute
     def on_taking(self, callback=None):
+        '''
+        called when Hero takes an item with on_taking attribute.
+        '''
         if callback:
             callback()
 
-# Item
-
-
-'''
-    CLASS used exclusively for items that can be taken and/or used by the Hero.
-'''
-
 
 class Item(Element):
+    '''
+        CLASS used exclusively for items that can be taken and/or used by the Hero.
+    '''
 
     def __init__(self, name: str, description: str, weight: int):
         super(Item, self).__init__(name, description)
@@ -99,18 +92,16 @@ class Item(Element):
         self.container: str = None
         self.hidden: bool = False
 
-# Container
-
-
-'''
-    CLASS used exclusively for elements that contain another elements (ej. a chest).
-'''
 
 
 class Container(Element):
+    '''
+        CLASS used exclusively for elements that contain another elements (ej. a chest).
+    '''
 
     def __init__(self, name: str, description: str):
         super(Container, self).__init__(name, description)
+
 
     def add_item(self, item: Item, hidden: str = None):
         if hidden == 'hidden':
@@ -118,15 +109,13 @@ class Container(Element):
         setattr(item, 'container', self.name)
         setattr(self, item.name, item)
 
-    # on_searching
-
-    '''
-    If the place looked upon has hidden items,
-    they are added to the Scenario instance and can now be also interacted to with.
-    Visible items are not found here with on_serching, but seen with on_looking.
-    '''
 
     def on_searching(self) -> None:
+        '''
+            If the place looked upon has hidden items,
+            they are added to the Scenario instance and can now be also interacted to with.
+            Visible items are not found here with on_serching, but seen with on_looking.
+        '''
         if getattr(self, 'searching_effect', None):
             print_cinematics(self.searching_effect[0])
             self.searching_effect[1]()
@@ -145,7 +134,7 @@ class Container(Element):
 
 class Food(Item):
 
-    def __init__(self, name: str, description: str, weight: int, quantity: int):
+    def __init__(self, name: str, description: str, weight: int, quantity: int = 0):
         self.description: str = description
         super(Food, self).__init__(name, self.description, weight)
         self.usable: bool = True
@@ -176,15 +165,11 @@ class Food(Item):
             self.name += 's'
         self.verb
 
-# Weapon
-
-
-'''
-    CLASS used exclusively for Weapons.
-'''
-
 
 class Weapon(Item):
+    '''
+        CLASS used exclusively for Weapons.
+    '''
 
     def __init__(self, name: str, description: str, weight: int, weapon_type: str, bonus: int):
         super(Weapon, self).__init__(name, description, weight)
@@ -200,29 +185,21 @@ class Weapon(Item):
         elif self.type == 'blunt':
             return ['draw', 'draws']
 
-# Shield
-
-
-'''
-    CLASS used exclusively for Shields.
-'''
-
 
 class Shield(Item):
+    '''
+        CLASS used exclusively for Shields.
+    '''
 
     def __init__(self, name: str, description: str, weight: int, bonus: int):
         super(Shield, self).__init__(name, description, weight)
         self.bonus: int = bonus
 
-# Armor
-
-
-'''
-    CLASS used exclusively for Armors.
-'''
-
 
 class Armor(Item):
+    '''
+        CLASS used exclusively for Armors.
+    '''
 
     def __init__(self, name: str, description: str, weight: int, bonus: int):
         super(Armor, self).__init__(name, description, weight)

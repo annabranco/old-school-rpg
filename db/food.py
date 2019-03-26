@@ -1,6 +1,13 @@
 from core.elements import Food
 
-# All descriptions must complete the sentence: "The {food} is..."
+# DEFINES DATABASE FOR ALL FOOD ITEMS
+'''
+    constructor = Food(name: str, description: str, weight: int, quantity: int = 0)
+    All descriptions must complete the sentence: "The {food} looks..."
+    Initial quantity is normally always 0 when the instance is created.
+'''
+
+
 apples = Food('apples', 'red and juicy', 0.2, 0)
 
 dry_meat = Food('dry meat', 'dry and untasty', 0.5, 0)

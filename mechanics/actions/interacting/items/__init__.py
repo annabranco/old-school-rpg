@@ -6,15 +6,14 @@ from typing import Union
 from core.elements import Element, Item, Container
 import gameplay
 from core.config import system_name
-# DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 
-# take
-'''
-    It is called when the Hero tries to get something from the Scenario.
-'''
+# DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 
 
 def take(element: str, scenario: Scenario):
+    '''
+        Function fired when the Player wants the Hero to take something from the Scenario.
+    '''
     element = element.lower()
     if any(__item.endswith(element) for __item in scenario.ambient):
         print('There\'s no point in doing it.')
@@ -86,13 +85,11 @@ fall{"s" if len(droped_items) == 1 else ""} on the ground.')
     for item in droped_items:
         scenario.add_to_floor(item)
 
-# take
-'''
-    Generic function to check if the Hero has an Item in the inventory.
-'''
-
 
 def drop(element: Union[str, NPC], scenario: Scenario):
+    '''
+        Function fired when the Player wants the Hero to drop something.
+    '''
     if not element:
         print('Which item would you like to drop?')
         Hero.declare_inventory()
@@ -116,4 +113,7 @@ def drop(element: Union[str, NPC], scenario: Scenario):
                 print('You can\'t drop items that you don\'t have.')
 
 def equip(item: str):
+    '''
+        Function fired when the Player wants the Hero to equip a weapon, shield or armor.
+    '''
     Hero.equip(item)

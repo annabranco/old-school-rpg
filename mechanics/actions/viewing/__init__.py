@@ -6,12 +6,11 @@ from core.characters import NPC
 
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 
-# look
-'''
-    It is called when the Hero looks at something.
-'''
 
 def look(element: str, scenario: Scenario):
+    '''
+        It is called when the Hero looks at something.
+    '''
     __element = element.lower()
 
     if __element == 'me':
@@ -33,6 +32,7 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'You look around and you see {scenario.description}.')
 
+    # elements derivated from the Class Item can be accessed by the final word of their names (ej. "sword" matches for "short sword")
     elif any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
         print_cinematics(
             f'You see nothing special about the {element}.')
@@ -51,13 +51,12 @@ def look(element: str, scenario: Scenario):
         this_item = Hero.get_item_from_inventory(__element)
         enough_for = ''
         if type(this_item) == Food:
-            # I consider that 1weight of food is enough for a full day, so multiplying quantity by the food weight returns for how many days one portion of this food is capable of sustaining the Hero.
+            # I consider that the weight of food is enough for a full day, so multiplying quantity by the food weight returns for how many days one portion of this food is capable of sustaining the Hero.
             enough_for = f', enough for {int(this_item.quantity * this_item.unity_weight)} days'
 
         print(
             f'The {this_item.name} on your inventory {this_item.verb} {this_item.description}{enough_for}.')
 
-    # elements lying on the floor can be accessed by the final word of their names (ej. "sword" matches for "short sword")
     elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
             any(__something.name.lower().startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
@@ -72,22 +71,17 @@ def look(element: str, scenario: Scenario):
         print_cinematics(
             f'There is nothing to be seen.')
 
-# looking_body
-
-
-'''
-    It is called when the Hero look to an enemy dead body.
-'''
-
 
 def looking_body(body: NPC, scenario: Scenario):
+    '''
+        It is called specifically when the Hero looks to an enemy dead body.
+        Handles the weapons, shield and armor used by the deceased.
+    '''
     message = []
     if body.armor:
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
         body.armor.container = body.name
-        # scenario.add_to_floor(body.armor)
-        # body.armor = None
 
     if body.weapon:
         message.append(
@@ -108,15 +102,11 @@ def looking_body(body: NPC, scenario: Scenario):
         print_cinematics(
             f'You see {", ".join(message[:-1])} and {message[-1]}.')
 
-# search
-
-
-'''
-    It is called when the Hero searched somewhere.
-'''
-
 
 def search(element: str, scenario: Scenario):
+    '''
+        It is called when the Hero searches somewhere.
+    '''
     __element = element.lower()
 
     if any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
@@ -158,14 +148,15 @@ def search(element: str, scenario: Scenario):
 
 
 def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
+    '''
+        It is called specifically when the Hero searches an enemy dead body.
+        Handles the weapons, armor and shield used by the deceased.
+    '''
     message = []
     if body.armor:
         message.append(
             f'it is wearing {body.armor.article[0]}{body.armor.name}')
         body.armor.container = body.name
-
-        # scenario.add_to_floor(body.armor)
-        # body.armor = None
 
     if body.weapon:
         message.append(

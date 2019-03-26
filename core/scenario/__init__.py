@@ -3,13 +3,11 @@ from core.elements import Item, Element
 
 # DEFINES BASIC LOGICS FOR SCENARIOS
 
-# Scenario
-'''
-    CLASS used for all Scenario instances.
-'''
-
 
 class Scenario(object):
+    '''
+        CLASS used for all Scenario instances.
+    '''
 
     def __init__(self, name: str, scene: str, short_description: str):
         self.scene: str = scene
@@ -28,14 +26,12 @@ class Scenario(object):
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
 
-    # add_to_scenario
-
-    '''
-    Adds to the Scenario elements not initially interactable.
-    Normally called upon looking or discovering something new.
-    '''
 
     def add_to_scenario(self, name: str, element: Union[Element, List[Element]]) -> None:
+        '''
+            Adds to the Scenario elements not initially interactable.
+            Normally called upon looking or discovering something new.
+        '''
         self.elements.append(element)
 
     def add_to_floor(self, element: Union[Element, List[Element]]) -> None:

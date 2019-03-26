@@ -3,15 +3,14 @@ from typing import Dict, List, Union, Tuple
 from core.elements import Item, Weapon, Shield, Armor
 from core.config import*
 import gameplay
+
+
 # DEFINES BASIC LOGICS FOR CHARACTERS
 
-# Character
-'''
-    CLASS used for all characters on the game.
-'''
-
-
 class Character(object):
+    '''
+        CLASS used for all characters on the game.
+    '''
 
     def __init__(self, name: str, type: str, race: str, gender: str = 'undefined'):
         self.name: str = name
@@ -30,16 +29,41 @@ class Character(object):
         self.__status: str = 'unknown'
         self.gender: str = gender
         self.pronom: Tuple[str] = None
-        self.appearance = None
+        self.appearance: str = None
         self.set_pronom()
         self.set_appearance()
 
+        # self.name: the known name of the Character. If it is unknown a global name is used, as "Elf"
+        # self.type: type of the character -> Player or NPC
+        # self.race: race of the character (eg. Elf, Human). For the moment doesn't have any impact on the game.
+        # self.description: description printed when the Hero looks at this character
+        # self.__weapon: main weapon
+        # self.__shield: shield used
+        # self.__armor: armor weared
+        # self.inventory: list of all items owned by the character
+
+    # TODO: CALCULATE ATTRIBUTES BASED ON GLOBAL ONES (STRENGTH, AGILITY, ETC.)
+        # self.attack: total attack power of the character
+        # self.defense: total defense power of the character
+        # self.full_hp: total hit points. This value doesn't change.
+        # self.hp: current hit points
+        # self.speed: total speed. Used for initiative rolls, for example.
+        # self.__status: how is the character, for example wounded, afraid, tired
+        # self.gender: gender of the character. . For the moment doesn't have any impact on the game.
+        # self.pronom: a Tuple of pronoms used to refer to this character on every situation. Eg. (I, my, me, mine)
+        # self.appearance: how the character looks. TODO FUTURE: should influence how other perceive the character (as a threat, etc.).
+
+
     def set_pronom(self):
+        '''
+            Determines the pronoms, based on gender. Eg. (I, my, me, mine).
+            If the character is identified as non-binary or other, the player should determine the basic pronom.
+        '''
         pronoms_list = {
-            'she': ('she', 'her', 'her'),
-            'he': ('he', 'his', 'him'),
-            'it': ('it', 'its', 'it'),
-            'they': ('they', 'their', 'them')
+            'she': ('she', 'her', 'her', 'hers'),
+            'he': ('he', 'his', 'him', 'his'),
+            'it': ('it', 'its', 'it', 'its'),
+            'they': ('they', 'their', 'them', 'theirs')
         }
 
         if self.gender == 'female':
@@ -60,7 +84,11 @@ class Character(object):
         else:
             self.pronom = pronoms_list['they']
 
+
     def set_appearance(self):
+        '''
+        Sets initial and basic appearance.
+        '''
         if not self.appearance:
             attributes = (self.attack, self.defense, self.speed)
             better_attribute = max(attributes)
@@ -346,15 +374,11 @@ class Character(object):
         else:
             print(f'You don\'t have {item.name} on your inventory.')
 
-# Player
-
-
-'''
-    CLASS used exclusivelly for the Hero (controlled by the player).
-'''
-
 
 class Player(Character):
+    '''
+        CLASS used exclusivelly for the Hero (controlled by the player).
+    '''
 
     def __init__(self, name: str = 'Hero', race: str = 'human', gender: str = 'non-binary'):
         super(Player, self).__init__(name, 'Player', race, gender)
@@ -372,15 +396,11 @@ class Player(Character):
         else:
             print(f'You don\'t have {item} on your inventory.')
 
-# NPC
-
-
-'''
-    CLASS used exclusively for Non Player Characters.
-'''
-
 
 class NPC(Character):
+    '''
+        CLASS used exclusively for Non Player Characters.
+    '''
 
     def __init__(self, name: str='Thing', race: str='humanoid', gender: str = 'undefined'):
         super(NPC, self).__init__(name, 'NPC', race, gender)

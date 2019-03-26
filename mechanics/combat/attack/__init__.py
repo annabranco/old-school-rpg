@@ -7,17 +7,16 @@ from mechanics.combat import initiative
 from core.config import *
 from core.characters import NPC
 
-# define texts by types of weapons
+# TODO: define texts by types of weapons
 
 # DETERMINES THE MECHANICS RELATED TO THE PLAYER ATTACKS
 
 
-# attack
-'''
-    It is called whenever the player attacks.
-    Calls roll_dices method and according to the results calls damage or other specific methods.
-'''
 def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False):
+    '''
+        It is called whenever the Player attacks.
+        Calls roll_dices method and according to the results calls damage or other specific methods.
+    '''
     combat_rounds.took_action['Hero'] = True
 
     if surprise_attack == True:
@@ -41,12 +40,11 @@ def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False):
         combat_mechanics.missed(Hero, enemy)
 
 
-# simultaneous_attack
-'''
-    It is called whenever the player and the enemy simultaneously attack each other.
-    Calls roll_dices method and according to the results calls damage or other specific methods.
-'''
 def simultaneous_attack(enemy: NPC) -> None:
+    '''
+        It is called whenever the player and the enemy simultaneously attack each other.
+        Calls roll_dices method and according to the results calls damage or other specific methods.
+    '''
     results_number_hero, results_text_hero = roll_dices(
         Hero.attack, enemy.defense, f'Attacking {enemy.name}')
     results_number_enemy, results_text_enemy = roll_dices(

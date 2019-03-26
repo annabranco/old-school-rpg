@@ -6,15 +6,16 @@ from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.global_mechanics.rolls import roll_dices
 from core.characters import NPC
+
+
 # DETERMINES THE MECHANICS RELATED TO INITIATIVE ON COMBATS
 # (DETERMINES WHO WAS QUICKER TO STRIKE FIRST, OR IF IT WAS SIMULTANEOUS)
 
 
-# initiative
-'''
-    It is called whenever a new round begins and calls roll_dices method.
-'''
 def initiative(enemy: NPC, bonus: int = 0) -> None:
+    '''
+        It is called whenever a new round begins and calls roll_dices method.
+    '''
     mechanics_block('COMBAT')
     write_to_screen(
         '\tAn initiative should be rolled to know who strikes first.\n')
@@ -38,11 +39,10 @@ def initiative(enemy: NPC, bonus: int = 0) -> None:
     compare_initiatives(Hero_initiative, enemy_initiative, enemy)
 
 
-# compare_initiatives
-'''
-    Compares the results of the rolls obtained in the initiative method.
-'''
 def compare_initiatives(Hero_initiative: int, enemy_initiative: int, enemy: NPC) -> None:
+    '''
+        Compares the results of the rolls obtained in the initiative method.
+    '''
     if Hero_initiative > enemy_initiative:
         print('* You strike first.')
         action_block()

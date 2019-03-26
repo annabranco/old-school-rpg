@@ -1,18 +1,17 @@
 from core.config import print_cinematics, cinematics_block
 from core.characters.Hero import Hero
 from core.characters import Character
-# Prints cinematics of the actions.
 
+# PRINTS CINEMATICS OF DAMAGES
 
-# cause_damage
-'''
-    It is called in combat situations when a character inflicts
-    damage upon another one
-'''
+# TODO: Internationalization
 
 def cause_damage(attacker: Character, defendant: Character, severity: int):
+    '''
+        It is called in combat situations when a character inflicts
+        damage upon another one
+    '''
     cinematics_block()
-
     if attacker == Hero:
         print_cinematics(
             f'You strike a blow on {defendant.name}, causing some blood to spill.\n')

@@ -1,6 +1,7 @@
 from core.characters import Player
 from db.food import *
 from db.weapons import *
+
 # THIS IMPORTS THE PLAYER CLASS, CREATES A PLAYABLE CHARACTER
 # AND DETERMINES ITS INITIAL ATTRIBUTES ANS ITEMS
 
