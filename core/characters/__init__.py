@@ -3,6 +3,7 @@ from typing import Dict, List, Union, Tuple
 from core.elements import Item, Weapon, Shield, Armor
 from core.config import*
 import gameplay
+import copy
 
 
 # DEFINES BASIC LOGICS FOR CHARACTERS
@@ -185,37 +186,39 @@ class Character(object):
     def has_item(self, element: Union[str, Item]) -> bool:
         if type(element) == str:
             for __element in self.inventory:
-                if __element.name.lower().split()[-1] == element or \
+                if system_name(__element.name).split()[-1] == element or \
                     __element.name.startswith('body') and element.startswith('body'):
                         return True
-            if self.weapon and self.weapon.name.lower().split()[-1] == element:
+            if self.weapon and system_name(self.weapon.name).split()[-1] == element:
                 return True
-            elif self.shield and self.shield.name.lower().split()[-1] == element:
+            elif self.shield and system_name(self.shield.name).split()[-1] == element:
                 return True
-            elif self.armor and self.armor.name.lower().split()[-1] == element:
+            elif self.armor and system_name(self.armor.name).split()[-1] == element:
                 return True
         else:
-            if element in self.inventory:
-                return True
-            elif self.weapon and self.weapon == element:
-                return True
-            elif self.shield and self.shield == element:
-                return True
-            elif self.armor and self.armor == element:
-                return True
+            for __element in self.inventory:
+                if system_name(__element.name) == system_name(element.name):
+                    print(f'$$$ Hero has {__element.name}')
+                    return True
+                elif self.weapon and system_name(self.weapon.name) == system_name(element.name):
+                    return True
+                elif self.shield and system_name(self.shield.name) == system_name(element.name):
+                    return True
+                elif self.armor and system_name(self.armor.name) == system_name(element.name):
+                    return True
         return False
 
     def get_item_from_inventory(self, element: Union[str, Item]) -> Item:
         if self.has_item(element):
             if type(element) == str:
                 for __element in self.inventory:
-                    if __element.name.lower().split()[-1] == element or \
+                    if system_name(__element.name).split()[-1] == system_name(element) or \
                        __element.name.startswith('body') and element.startswith('body'):
                         return __element
 
             else:
                 for __element in self.inventory:
-                    if __element == element:
+                    if system_name(__element.name) == system_name(element.name):
                         return __element
         else:
             if type(self) == Player:
@@ -291,11 +294,11 @@ class Character(object):
                 print('You can only equip items that you have on your inventory.')
 
     def get_equiped_item(self, item: str) -> Union[Weapon, Shield, Armor]:
-        if self.weapon and self.weapon.name.lower().endswith(item):
+        if self.weapon and system_name(self.weapon.name).endswith(item):
             return self.weapon
-        elif self.shield and self.shield.name.lower().endswith(item):
+        elif self.shield and system_name(self.shield.name).endswith(item):
             return self.shield
-        elif self.armor and self.armor.name.lower().endswith(item):
+        elif self.armor and system_name(self.armor.name).endswith(item):
             return self.armor
         else:
             return None
@@ -389,7 +392,8 @@ class Player(Character):
 
     def get_item(self, item: Union[Item, str]) -> None:
         print(f'You get the {item.name}.')
-        self.inventory.append(item)
+        __item = copy.copy(item)
+        self.inventory.append(__item)
 
     def drop_item(self, item: Item):
         if self.has_item(item):

@@ -1,5 +1,6 @@
 from typing import Dict, List, Union
 from core.elements import Item, Element
+import copy
 
 # DEFINES BASIC LOGICS FOR SCENARIOS
 
@@ -32,13 +33,16 @@ class Scenario(object):
             Adds to the Scenario elements not initially interactable.
             Normally called upon looking or discovering something new.
         '''
-        self.elements.append(element)
+        __element = copy.copy(element)
+        self.elements.append(__element)
 
     def add_to_floor(self, element: Union[Element, List[Element]]) -> None:
-        self.floor.append(element)
+        __element = copy.copy(element)
+        self.floor.append(__element)
 
     def add_to_elements(self, element: Union[Element, List[Element]]) -> None:
-        self.elements.append(element)
+        __element = copy.copy(element)
+        self.elements.append(__element)
 
     def get_element(self, element: str) -> Element:
         for __element in self.elements:
