@@ -5,6 +5,7 @@ from core.characters import NPC
 from typing import Union
 from core.elements import Element, Item, Container
 import gameplay
+import copy
 from core.config import system_name
 
 # DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
@@ -34,10 +35,13 @@ def take(element: str, scenario: Scenario):
 
             elif __item.name.lower().endswith(element):
                 if Hero.has_item(__item):
-                    print(f'You already have {element} on your inventory.') # TODO NOW: Sum items - count items on inv
+                    owned_item = Hero.get_item_from_inventory(__item)
+                    new_quantity = owned_item.change_quantity(__item.quantity)
+
+                    print(f'You now have {new_quantity} {owned_item.name} on your inventory.')  # TODO NOW: Sum items - count items on inv
                 else:
                     if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
-                        pass
+                        __item = copy.copy(__item) # TODO: Check copy and mutation
                     else:
                         scenario.floor.remove(__item)
                 Hero.get_item(__item)
@@ -51,8 +55,12 @@ def take(element: str, scenario: Scenario):
         elif this_element.weight >= Hero.carrying_capacity: # TODO
             print('It is too much for you to carry.')
 
-        elif Hero.has_item(this_element): # TODO
-                print(f'You already have {element} on your inventory.')
+        elif Hero.has_item(this_element):  # TODO
+            owned_item = Hero.get_item_from_inventory(this_element)
+            print(f'$$$ {owned_item.quantity}', this_element.quantity)
+            new_quantity = owned_item.add(this_element.quantity)
+            print(f'$$$ {owned_item.quantity}')
+            print(f'You now have {new_quantity} {owned_item.name} on your inventory.')  # TODO NOW: Sum items - count items on inv
 
         else:
             Hero.get_item(this_element)

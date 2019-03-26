@@ -84,13 +84,51 @@ class Item(Element):
         CLASS used exclusively for items that can be taken and/or used by the Hero.
     '''
 
-    def __init__(self, name: str, description: str, weight: int):
+    def __init__(self, name: str, description: str, weight: int, quantity: int = 1):
         super(Item, self).__init__(name, description)
         self.usable: bool = False
-        self.weight: int = weight
-        self.__quantity: int = 1
         self.container: str = None
         self.hidden: bool = False
+        self.unity_weight: int = weight
+        self.__quantity: int = quantity
+        self.weight: int = weight * quantity
+
+    @property
+    def verb(self) -> str:
+        if type(self) == Food:
+            if self.__quantity <= 1 and not self.name.endswith('food'):
+                return 'look'
+            else:
+                return 'looks'
+        else:
+            if self.__quantity <= 1:
+                return 'is'
+            else:
+                return 'are'
+
+    def add(self, number: int):
+        self.__quantity += number
+        self.update_quantity()
+        return (self.__quantity)
+
+    def remove(self, number: int):
+        self.__quantity -= number
+        self.update_quantity()
+        return (self.__quantity)
+
+    def update_quantity(self):
+        self.weight = self.unity_weight * self.__quantity
+        if self.__quantity <= 1 and not self.name.endswith('food'):
+            if self.name[-1] == 's':
+                self.name = self.name[:-1]
+        elif self.__quantity > 1 and not self.name.endswith('food'):
+            if self.name[-1] != 's':
+                self.name = f'{self.name}s'
+        self.verb
+
+    @property
+    def quantity(self):
+        return self.__quantity
 
 
 
@@ -136,34 +174,9 @@ class Food(Item):
 
     def __init__(self, name: str, description: str, weight: int, quantity: int = 0):
         self.description: str = description
-        super(Food, self).__init__(name, self.description, weight)
+        super(Food, self).__init__(name, self.description, weight, quantity)
         self.usable: bool = True
-        self.quantity: int = quantity
-        self.unity_weight: int = weight
-        self.weight: int = weight * quantity
 
-    def add(self, quantity: int):
-        self.quantity = self.quantity + quantity
-        self.update_quantity()
-
-    def remove(self, quantity: int):
-        self.quantity = self.quantity - quantity
-        self.update_quantity()
-
-    @property
-    def verb(self) -> str:
-        if self.quantity < 1 and not self.name.endswith('food'):
-            return 'look'
-        else:
-            return 'looks'
-
-    def update_quantity(self):
-        self.weight = self.unity_weight * self.quantity
-        if self.quantity < 1 and not self.name.endswith('food'):
-            self.name -= 's'
-        elif self.quantity > 1 and not self.name.endswith('food'):
-            self.name += 's'
-        self.verb
 
 
 class Weapon(Item):

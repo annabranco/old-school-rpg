@@ -171,14 +171,14 @@ class Character(object):
         elif len(self.inventory) == 1:
             if self.type == 'Player':
                 print_cinematics(
-                    f'{searching_result_message[1]} {self.inventory[0].article[0]}{self.inventory[0].name}.')
+                    f'{searching_result_message[1]} {self.inventory[0].article[0]}{self.inventory[0].name} ({self.inventory[0].quantity}).')
             else:
                 return f'{searching_result_message[1]} {self.inventory[0].article[0]}{self.inventory[0].name}.'
 
         else:
             if self.type == 'Player':
                 print_cinematics(
-                    f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name}"}.')
+                    f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name} ({item.quantity})" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name} ({self.inventory[-1].quantity})"}.')
             else:
                 return f'{searching_result_message[1]} {", ".join(f"{item.article[0]}{item.name}" for item in self.inventory[: -1])} and {f"{self.inventory[-1].article[0]}{self.inventory[-1].name}"}.'
 
@@ -214,7 +214,9 @@ class Character(object):
                         return __element
 
             else:
-                return element in self.inventory
+                for __element in self.inventory:
+                    if __element == element:
+                        return __element
         else:
             if type(self) == Player:
                 print(f'You don\'t have {element} on your inventory.')
