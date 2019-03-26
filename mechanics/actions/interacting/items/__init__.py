@@ -15,25 +15,25 @@ def take(element: str, scenario: Scenario):
     '''
         Function fired when the Player wants the Hero to take something from the Scenario.
     '''
-    element = element.lower()
+    element = system_name(element)
     if any(__item.endswith(element) for __item in scenario.ambient):
         print('There\'s no point in doing it.')
 
     elif any(__item.endswith(element) for __item in scenario.far_away):
         print('Even if you could take it, it is too far away.')
 
-    elif any(__item.name.lower().endswith(element) for __item in scenario.floor) or \
+    elif any(system_name(__item.name).endswith(element) for __item in scenario.floor) or \
             element.startswith('body'):
 
         for __item in scenario.floor:
             __item: Union[Item, NPC]
-            if __item.name.lower().startswith('body') and element.lower().startswith('body') or \
-                    __item.name.lower().endswith(element) and __item.name.lower().startswith('body'):
+            if system_name(__item.name).startswith('body') and system_name(element).startswith('body') or \
+                    system_name(__item.name).endswith(element) and system_name(__item.name).startswith('body'):
                 moving_body(__item, scenario)
                 Hero.get_item(__item)
                 scenario.floor.remove(__item)
 
-            elif __item.name.lower().endswith(element):
+            elif system_name(__item.name).endswith(element):
                 if Hero.has_item(__item):
                     owned_item = Hero.get_item_from_inventory(__item)
                     new_quantity = owned_item.change_quantity(__item.quantity)
@@ -46,7 +46,7 @@ def take(element: str, scenario: Scenario):
                         scenario.floor.remove(__item)
                 Hero.get_item(__item)
 
-    elif any(__item.name.lower().endswith(element) for __item in scenario.elements):
+    elif any(system_name(__item.name).endswith(element) for __item in scenario.elements):
         this_element: Element = scenario.get_element(element)
 
         if type(this_element) == Container:
@@ -57,6 +57,7 @@ def take(element: str, scenario: Scenario):
 
         elif Hero.has_item(this_element):  # TODO
             owned_item = Hero.get_item_from_inventory(this_element)
+            print(f'$$$ {this_element.name}')
             print(f'$$$ {owned_item.quantity}', this_element.quantity)
             new_quantity = owned_item.add(this_element.quantity)
             print(f'$$$ {owned_item.quantity}')
@@ -102,10 +103,10 @@ def drop(element: Union[str, NPC], scenario: Scenario):
         print('Which item would you like to drop?')
         Hero.declare_inventory()
         which_item = input('> ')
-        __element: str = which_item.lower()
+        __element: str = system_name(which_item)
 
     else:
-        __element: str = element.lower()
+        __element: str = system_name(element)
 
         this_element: Item = Hero.get_item_from_inventory(__element)
         if this_element:

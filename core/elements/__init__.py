@@ -41,7 +41,7 @@ class Element(object):
     def on_looking(self) -> None:
         '''
             If the place looked upon has visible elements (ej. apples on trees),
-            the items are added to the Scenario instance and can now be also interacted to with.
+            the items are added to the elements List of the Scenario instance and can now be also interacted to with.
             Hidden elements should be on a Container and are only found with on_searching.
         '''
         things_saw: List = []
@@ -55,7 +55,7 @@ class Element(object):
                     this_element = things_saw[0]
                     print_cinematics(
                         f'You see {this_element.article[0]}{this_element.name} on the {self.name}')
-                elif len(things_saw) >= 1:
+                elif len(things_saw) > 1:
                     print_cinematics(
                         f'You see \
                         {", ".join(f"{this_element.article[0]}{this_element.name}" for item in things_saw[: -1])} \

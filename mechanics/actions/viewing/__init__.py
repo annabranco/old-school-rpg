@@ -3,6 +3,7 @@ from core.scenario import Scenario
 from core.characters.Hero import Hero
 from core.elements import Item, Food
 from core.characters import NPC
+from core.config import system_name
 
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 
@@ -11,7 +12,7 @@ def look(element: str, scenario: Scenario):
     '''
         It is called when the Hero looks at something.
     '''
-    __element = element.lower()
+    __element = system_name(element)
 
     if __element == 'me':
         print_cinematics(f'You are {Hero.appearance}.')
@@ -33,15 +34,15 @@ def look(element: str, scenario: Scenario):
             f'You look around and you see {scenario.description}.')
 
     # elements derivated from the Class Item can be accessed by the final word of their names (ej. "sword" matches for "short sword")
-    elif any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
+    elif any(system_name(__item).split()[-1] == __element for __item in scenario.ambient):
         print_cinematics(
             f'You see nothing special about the {element}.')
 
-    elif any(__item.lower().split()[-1] == __element for __item in scenario.far_away):
+    elif any(system_name(__item).split()[-1] == __element for __item in scenario.far_away):
         print_cinematics(
             f'You look at the {element}, but is too far away to see any details.')
 
-    elif any(__item.name.lower().split()[-1] == __element for __item in scenario.elements):
+    elif any(system_name(__item.name).split()[-1] == __element for __item in scenario.elements):
         looking_element = scenario.get_element(element)
         print_cinematics(
             f'The {element} {looking_element.verb} {looking_element.description}.')
@@ -57,11 +58,11 @@ def look(element: str, scenario: Scenario):
         print(
             f'The {this_item.name} on your inventory {this_item.verb} {this_item.description}{enough_for}.')
 
-    elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
-            any(__something.name.lower().startswith('body') for __something in scenario.floor) and 'body' in __element:
+    elif any(system_name(__something.name).split()[-1] == __element for __something in scenario.floor) or \
+            any(system_name(__something.name).startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
-            if element.startswith('body') and __something.name.lower().startswith('body') or \
-                __something.name.lower().endswith(__element):
+            if element.startswith('body') and system_name(__something.name).startswith('body') or \
+                    system_name(__something.name).endswith(__element):
                 print(
                     f'The {__something.name} laying on the floor {__something.verb} {__something.description}.')
                 if type(__something) == NPC:
@@ -107,31 +108,31 @@ def search(element: str, scenario: Scenario):
     '''
         It is called when the Hero searches somewhere.
     '''
-    __element = element.lower()
+    __element = system_name(element)
 
-    if any(__item.lower().split()[-1] == __element for __item in scenario.ambient):
+    if any(system_name(__item).split()[-1] == __element for __item in scenario.ambient):
         print_cinematics(f'You search the {element} but you find nothing.')
 
-    elif any(__item.lower().split()[-1] == __element for __item in scenario.far_away):
+    elif any(system_name(__item).split()[-1] == __element for __item in scenario.far_away):
         print_cinematics(f'It is too far away.')
 
-    elif any(__item.name.lower().split()[-1] == __element for __item in scenario.elements):
+    elif any(system_name(__item.name).split()[-1] == __element for __item in scenario.elements):
         searching_element = scenario.get_element(element)
         searching_element.on_searching()
 
-    elif any(__item.name.lower().startswith('body') for __item in Hero.inventory) and \
+    elif any(system_name(__item.name).startswith('body') for __item in Hero.inventory) and \
         element.startswith('body'):
         print_cinematics(
             f'You can\'t search the body while you are carrying it.')
 
-    elif any(__item.name.lower().split()[-1] == __element for __item in Hero.inventory):
+    elif any(system_name(__item.name).split()[-1] == __element for __item in Hero.inventory):
         __item_from_inv: Item = Hero.get_item_from_inventory(element)
         __item_from_inv.on_searching()
 
-    elif any(__something.name.lower().split()[-1] == __element for __something in scenario.floor) or \
-            any(__something.name.lower().startswith('body') for __something in scenario.floor) and 'body' in __element:
+    elif any(system_name(__something.name).split()[-1] == __element for __something in scenario.floor) or \
+            any(system_name(__something.name).startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
-            if element.startswith('body') and __something.name.lower().startswith('body') :
+            if element.startswith('body') and system_name(__something.name).startswith('body') :
                 in_inventory = __something.declare_inventory()
 
                 for __item in __something.inventory:
@@ -139,7 +140,7 @@ def search(element: str, scenario: Scenario):
                     __something.inventory.remove(__item)
                 searching_body(in_inventory, __something, scenario)
 
-            elif __something.name.lower().split()[-1] == __element:
+            elif system_name(__something.name).split()[-1] == __element:
                 __something.on_searching()
 
     else:
