@@ -178,3 +178,5 @@ def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
     else:
         print_cinematics(
             f'{in_inventory}\n\t\tYou also see {", ".join(message[:-1])} and {message[-1]}.')
+
+# TODO NOW: look tree after picking up apples
