@@ -389,7 +389,7 @@ class Player(Character):
         self.status = 'well'
         self.carrying_capacity = 10
 
-    def get_item(self, item: Item) -> None:
+    def take_item(self, item: Item) -> None:
         __item = copy.copy(item)
         if item.on_taking() == 'keep':
             __item.name = __item.name[:-1]

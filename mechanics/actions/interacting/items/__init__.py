@@ -30,7 +30,7 @@ def take(element: str, scenario: Scenario):
             if system_name(__item.name).startswith('body') and system_name(element).startswith('body') or \
                     system_name(__item.name).endswith(element) and system_name(__item.name).startswith('body'):
                 moving_body(__item, scenario)
-                Hero.get_item(__item)
+                Hero.take_item(__item)
                 scenario.floor.remove(__item)
 
             elif system_name(__item.name).endswith(element):
@@ -45,7 +45,7 @@ def take(element: str, scenario: Scenario):
                         __item = copy.copy(__item)
                     else:
                         scenario.floor.remove(__item)
-                Hero.get_item(__item)
+                Hero.take_item(__item)
 
     elif any(system_name(__item.name).endswith(element) for __item in scenario.elements):
         this_element: Element = scenario.get_element(element)
@@ -64,7 +64,7 @@ def take(element: str, scenario: Scenario):
                 f'You get another {Item_name_in_singular}.')
 
         else:
-            Hero.get_item(this_element)
+            Hero.take_item(this_element)
             if not hasattr(this_element, 'on_taking') or this_element.on_taking() != 'keep':
                 scenario.elements.remove(this_element)
 
@@ -76,7 +76,7 @@ def take(element: str, scenario: Scenario):
                 if __thing.armor != None:
                     __thing.armor.on_taking()
                     __thing.armor.container = None
-                    Hero.get_item(__thing.armor)
+                    Hero.take_item(__thing.armor)
                     __thing.armor = None
 
     else:
