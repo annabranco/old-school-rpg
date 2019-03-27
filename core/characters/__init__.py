@@ -391,7 +391,7 @@ class Player(Character):
 
     def take_item(self, item: Item) -> None:
         __item = copy.copy(item)
-        if item.on_taking() == 'keep':
+        if getattr(item, 'on_taking', None) and item.on_taking() == 'keep':
             __item.name = __item.name[:-1]
         print(f'You get the {__item.name}.')
         self.inventory.append(__item)
@@ -412,6 +412,7 @@ class NPC(Character):
     def __init__(self, name: str='Thing', race: str='humanoid', gender: str = 'undefined'):
         super(NPC, self).__init__(name, 'NPC', race, gender)
         self.weight: int = 8
+        self.quantity = 1
 
     @property
     def article(self) -> str:
