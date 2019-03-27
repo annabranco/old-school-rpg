@@ -198,7 +198,6 @@ class Character(object):
         else:
             for __element in self.inventory:
                 if system_name(__element.name) == system_name(element.name):
-                    print(f'$$$ Hero has {__element.name}')
                     return True
                 elif self.weapon and system_name(self.weapon.name) == system_name(element.name):
                     return True
@@ -390,9 +389,11 @@ class Player(Character):
         self.status = 'well'
         self.carrying_capacity = 10
 
-    def get_item(self, item: Union[Item, str]) -> None:
-        print(f'You get the {item.name}.')
+    def get_item(self, item: Item) -> None:
         __item = copy.copy(item)
+        if item.on_taking() == 'keep':
+            __item.name = __item.name[:-1]
+        print(f'You get the {__item.name}.')
         self.inventory.append(__item)
 
     def drop_item(self, item: Item):

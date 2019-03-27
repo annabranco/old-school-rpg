@@ -36,12 +36,13 @@ def take(element: str, scenario: Scenario):
             elif system_name(__item.name).endswith(element):
                 if Hero.has_item(__item):
                     owned_item = Hero.get_item_from_inventory(__item)
-                    new_quantity = owned_item.change_quantity(__item.quantity)
-
-                    print(f'You now have {new_quantity} {owned_item.name} on your inventory.')  # TODO NOW: Sum items - count items on inv
+                    owned_item.change_quantity(__item.quantity)
+                    Item_name_in_singular = owned_item.name[:-1]
+                    print(
+                            f'You get another {Item_name_in_singular}.' )
                 else:
                     if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
-                        __item = copy.copy(__item) # TODO: Check copy and mutation
+                        __item = copy.copy(__item)
                     else:
                         scenario.floor.remove(__item)
                 Hero.get_item(__item)
@@ -57,11 +58,10 @@ def take(element: str, scenario: Scenario):
 
         elif Hero.has_item(this_element):  # TODO
             owned_item = Hero.get_item_from_inventory(this_element)
-            print(f'$$$ {this_element.name}')
-            print(f'$$$ {owned_item.quantity}', this_element.quantity)
-            new_quantity = owned_item.add(this_element.quantity)
-            print(f'$$$ {owned_item.quantity}')
-            print(f'You now have {new_quantity} {owned_item.name} on your inventory.')  # TODO NOW: Sum items - count items on inv
+            owned_item.add(this_element.quantity)
+            Item_name_in_singular = owned_item.name[:-1]
+            print(
+                f'You get another {Item_name_in_singular}.')
 
         else:
             Hero.get_item(this_element)

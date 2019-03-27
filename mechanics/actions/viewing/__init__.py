@@ -43,9 +43,9 @@ def look(element: str, scenario: Scenario):
             f'You look at the {element}, but is too far away to see any details.')
 
     elif any(system_name(__item.name).split()[-1] == __element for __item in scenario.elements):
-        looking_element = scenario.get_element(element)
+        looking_element = scenario.get_element(system_name(element))
         print_cinematics(
-            f'The {element} {looking_element.verb} {looking_element.description}.')
+            f'The {looking_element.name} {looking_element.verb} {looking_element.description}.')
         looking_element.on_looking()
 
     elif Hero.has_item(__element):

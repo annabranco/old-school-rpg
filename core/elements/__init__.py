@@ -106,13 +106,18 @@ class Item(Element):
             else:
                 return 'are'
 
-    def add(self, number: int):
-        self.__quantity += number
-        self.update_quantity()
-        return (self.__quantity)
+    def add(self, how_many: int = 'countless') -> int:
+        if how_many == 'countless':
+            self.on_taking = lambda: 'keep'
+            self.name += 's'
+            self.__quantity = 1
+        else:
+            self.__quantity += how_many
+            self.update_quantity()
+            return (self.__quantity)
 
-    def remove(self, number: int):
-        self.__quantity -= number
+    def remove(self, how_many: int):
+        self.__quantity -= how_many
         self.update_quantity()
         return (self.__quantity)
 

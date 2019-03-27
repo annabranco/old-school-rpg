@@ -1,6 +1,7 @@
 from typing import Dict, List, Union
 from core.elements import Item, Element
 import copy
+from core.config import system_name
 
 # DEFINES BASIC LOGICS FOR SCENARIOS
 
@@ -46,7 +47,7 @@ class Scenario(object):
 
     def get_element(self, element: str) -> Element:
         for __element in self.elements:
-            if __element.name.endswith(element) or \
+            if system_name(__element.name).endswith(element) or \
                     __element.name.endswith('body') and element.startswith('body'):
                 return __element
 

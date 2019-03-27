@@ -68,3 +68,10 @@ def disastrous_fail_on_attack(fails, attacker, defendant):
 # MENTAL CHECK
 
 # CHARISMA CHECK
+
+
+
+#TODO: fix Fail
+#File "C:\Users\Anna Branco Araujo\Documents\Personal\RPG\cinematics\fails\__init__.py", line 54, in disastrous_fail_on_attack
+#  print_cinematics(f'{fail_types[fails][0]}\n')
+#KeyError: -1

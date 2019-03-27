@@ -36,9 +36,9 @@ bushes.searching_effect = [
     # TODO: up one degree.. well -> tired -> very tired
 
 # SPECIFIC ITEMS THAT CANNOT BE IMMEDIATELLY INTERACTED WITH.
-trees.add_item(apples)
-apples.add(1)
-apples.on_taking = lambda: 'keep'
+trees.add_item(apple)
+apple.add()
+# apple.on_taking = lambda: 'keep'
 
 bushes.add_item(golden_coin, 'hidden')
 golden_coin.hidden = True
