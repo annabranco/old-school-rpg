@@ -1,4 +1,5 @@
 # Old -school RPG
+v0.0.18
 
 _Under construction_
 
@@ -7,16 +8,19 @@ This is a text-based Fantasy Role Playing Game.
 The aim to create a flexible backend system designed to acomodate different stories and games.
 
 ### Current development: basic non-combat actions
-- add quantity when getting food;
-- getting (very) tired acording to rounds of combat;
-- getting (very) tired according to time;
-- carrying bodies;
-- move/go;
-- connecting scenarios;
-- hide.
+- (0.0.19) weight limit when getting elements;
+- (0.0.20) basic eating action;
+- food comsumption;
+- (0.0.21) getting (very) tired acording to rounds of combat;
+- (0.0.21) getting (very) tired according to time;
+- (0.0.22) move/go;
+- (0.0.23) Threat level;
+- (0.0.24) carrying bodies;
+- (0.0.25) connecting scenarios;
+- (0.0.26) hide.
 
 ## Next dev:
-- First testing game.
+- First testing game. 0.1
 
 
 ## Implemented:
@@ -31,7 +35,8 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Food constructor;
 * Weapons constructor;
 * Armors constructor;
-* Shields constructor.
+* Shields constructor;
+* Articles and pronoms.
 
 ### Global mechanics:
 * Dice rolls;
@@ -59,7 +64,10 @@ The aim to create a flexible backend system designed to acomodate different stor
 * Get/Take (incl. looting from bodies);
 * Drop;
 * Check inventory/items;
-* Check own status.
+* Check own status;
+* Equip weapon/shield/armor;
+* Check own appearance (wip);
+* Draw weapon (wip).
 
 ### Combat actions:
 * Attack;
@@ -84,3 +92,99 @@ The aim to create a flexible backend system designed to acomodate different stor
 ### Scenarios:
 * Base (WIP);
 * Testing Forest (WIP).
+
+
+## Changelog:
+
+0.0.18
+- getting countless items
+- added number of each item on inventory
+- added quantity when getting food
+
+0.0.17
+- improving get/take action by cloning objects taken
+- added system_name as global config to standardize names when comparing them
+
+0.0.16
+- improved draw weapon
+- added gender and corresponding pronoms
+- added look at self appearance action
+- improved looking action
+
+0.0.15
+- added equip weapon/shield/armor action
+- added droping equiped weapon/shield/armor action
+- improved interaction with dead enemies weapons/shields/armors
+
+0.0.14
+- added information about how many days the food owned can sustain Hero
+- added articles and pronoms to elements
+- added looking/searching by partial names
+
+0.0.13
+- implemented secondary effects of on searching
+- added check own status action
+
+0.0.12
+- Improved get/take action
+- added drop action
+- added interacting with enemies bodies
+- added looting enemies bodies
+- created basic databases for armors, enemies, food, shields, status, valuables and weapons
+
+0.0.11
+- added get/take action
+- added checking own inventory
+
+0.0.10
+- improved searching action
+- added type definitions
+
+0.0.9
+- developed basic concept of using 5 senses to interact with elements and scenario
+- improved looking action
+- added comments on code to make it easier maintenance;
+- implemented Element generic Class
+- implemented Item, Container as instances of Element
+- implemented Food, Weapon, Shield, Armor as instances of Item
+
+0.0.8
+  - added actions looking and searching;
+  - added cinematics module
+  - implemented Scenario Class
+  - added basic scenario structure
+  - created testing forest basic scenario
+
+0.0.7
+- Implemented full alfa version of combat system
+
+0.0.6
+- implementeg generic Character Class
+- implemented Player and NPC as Character instances
+- Implemented Hero as Player instance
+- added draw weapon action
+
+0.0.5
+- added databases (death, kill, damage)
+- added basic status changes management
+- added cinematics texts
+- added simultaneous attacks
+
+0.0.4
+- added status system (basic concept)
+- improved defense mechanics
+- finished basic combat system (with rounds)
+
+0.0.3
+- added specific print effects
+- created config file
+- added initiative system
+- added surprise attack
+- improved combat mechanics
+
+0.0.2
+- developed basic defense structure
+
+0.0.1
+- created basic roll system
+- developed basic attack structure

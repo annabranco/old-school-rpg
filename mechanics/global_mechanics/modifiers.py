@@ -2,7 +2,7 @@ from core.config import *
 from typing import List
 # MANAGES CRITICAL FAILS AND DECISIVE SUCCESSES
 
-### TODO: CHECK IF THIS IS STILL IN USE.
+# TODO: CHECK IF THIS IS STILL IN USE.
 
 
 def manage_critical_fails(rolls: List[int]) -> int:

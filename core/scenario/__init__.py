@@ -1,14 +1,15 @@
 from typing import Dict, List, Union
-from core.elements import Item
-from pprint import pprint
+from core.elements import Item, Element
+import copy
+from core.config import system_name
+
 # DEFINES BASIC LOGICS FOR SCENARIOS
 
 
-# Scenario
-'''
-    CLASS used for all Scenario instances.
-'''
 class Scenario(object):
+    '''
+        CLASS used for all Scenario instances.
+    '''
 
     def __init__(self, name: str, scene: str, short_description: str):
         self.scene: str = scene
@@ -21,23 +22,35 @@ class Scenario(object):
         self.status_on_entering: str = ''
         self.ambient: List[str] = ['sand']
         self.far_away: List[str] = []
+        self.elements: List[Element] = []
         self.floor: List[Item] = []
         self.exits: List[str] = []
         self.special_death: List[str] = []
         self.special_kill: List[str] = []
 
-    # add_to_scenario
-    '''
-    Adds to the Scenario elements not initially interactable.
-    Normally called upon looking or discovering something new.
-    '''
-    def add_to_scenario(self, name: str, element: Union[Dict, List[Dict]]) -> None:
-        setattr(self, name, element)
-        setattr(element, 'scenario', self.name)
 
-    def add_to_floor(self, element: Union[Dict, List[Dict]]) -> None:
-        self.floor.append(element)
-        setattr(element, 'scenario', self.name)
+    def add_to_scenario(self, name: str, element: Union[Element, List[Element]]) -> None:
+        '''
+            Adds to the Scenario elements not initially interactable.
+            Normally called upon looking or discovering something new.
+        '''
+        __element = copy.copy(element)
+        self.elements.append(__element)
+
+    def add_to_floor(self, element: Union[Element, List[Element]]) -> None:
+        __element = copy.copy(element)
+        self.floor.append(__element)
+
+    def add_to_elements(self, element: Union[Element, List[Element]]) -> None:
+        __element = copy.copy(element)
+        self.elements.append(__element)
+
+    def get_element(self, element: str) -> Element:
+        for __element in self.elements:
+            if system_name(__element.name).endswith(element) or \
+                    __element.name.endswith('body') and element.startswith('body'):
+                return __element
+
 
 '''
 class Scenario(object):

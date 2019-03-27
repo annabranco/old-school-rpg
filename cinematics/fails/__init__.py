@@ -1,14 +1,15 @@
 from core.characters.Hero import Hero
 from mechanics.combat import combat_mechanics
 from core.config import print_cinematics, cinematics_block
-# Prints cinematics of the actions.
 
 
-# disastrous_fail_on_attack
-'''
-    It is called when someone gets a critical fail when attacking.
-'''
+# PRINTS CINEMATICS OF FAILS
+
+
 def disastrous_fail_on_attack(fails, attacker, defendant):
+    '''
+        It is called when someone gets a critical fail when attacking.
+    '''
     fail_types = {}
     if attacker.weapon.type == 'range':
         if fails >= 3:
@@ -67,3 +68,10 @@ def disastrous_fail_on_attack(fails, attacker, defendant):
 # MENTAL CHECK
 
 # CHARISMA CHECK
+
+
+
+#TODO: fix Fail
+#File "C:\Users\Anna Branco Araujo\Documents\Personal\RPG\cinematics\fails\__init__.py", line 54, in disastrous_fail_on_attack
+#  print_cinematics(f'{fail_types[fails][0]}\n')
+#KeyError: -1

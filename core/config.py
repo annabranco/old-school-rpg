@@ -1,6 +1,7 @@
 import sys
 import time
 from textwrap import dedent
+
 # DEFINES BASIC CONFIG FOR ALL OTHER MODULES
 
 
@@ -57,5 +58,7 @@ def cinematics_block() -> None:
 def action_block() -> None:
     print('\n\t\t---\n')
 
-def system_name(full_name: str) -> str:
-    return full_name.replace(' ', '_').lower()
+def system_name(name: str) -> str:
+    if name.endswith('s'):
+        name = name[:-1]
+    return name.lower()
