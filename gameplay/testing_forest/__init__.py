@@ -1,12 +1,12 @@
 import cinematics
-from core.scenario import Scenario
-from core.elements import Item, Container
+from core_elements.scenario import Scenario
+from core_elements.elements import Item, Container
 import gameplay
 from db.enemies import ugly_monster
-from core.config import *
+from core_elements import *
 from db.food import *
 from db.valuables import *
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 
 # A TESTING SCENARIO
 # This scenario is just for testing purposes

@@ -1,18 +1,18 @@
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from mechanics.global_mechanics.rolls import roll_dices
 from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
 from cinematics import fails
 from mechanics.combat import initiative
-from core.config import *
-from core.characters import NPC
+from core_elements import *
+from core_elements.characters import NPC
 
 # TODO: define texts by types of weapons
 
 # DETERMINES THE MECHANICS RELATED TO THE PLAYER ATTACKS
 
 
-def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False):
+def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False) -> None:
     '''
         It is called whenever the Player attacks.
         Calls roll_dices method and according to the results calls damage or other specific methods.
@@ -51,7 +51,7 @@ def simultaneous_attack(enemy: NPC) -> None:
         enemy.attack, Hero.defense, f'{enemy.name}\'s attack')
 
     if (results_number_hero <= 0 and results_number_enemy <= 0):
-        mechanics_block()
+        mechanics_block('Simultaneous attack')
         print_cinematics(
             f'You and {enemy.name} attack at the same time and your blows block each other.')
         initiative.initiative(enemy, 0)

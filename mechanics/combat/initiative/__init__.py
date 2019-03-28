@@ -1,11 +1,11 @@
-from core.config import *
+from core_elements import *
 from mechanics.combat.combat_rounds import combat_rounds
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from random import randint
 from mechanics.combat import attack
 from mechanics.combat import defend
 from mechanics.global_mechanics.rolls import roll_dices
-from core.characters import NPC
+from core_elements.characters import NPC
 
 
 # DETERMINES THE MECHANICS RELATED TO INITIATIVE ON COMBATS

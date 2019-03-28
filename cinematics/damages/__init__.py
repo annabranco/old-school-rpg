@@ -1,12 +1,13 @@
-from core.config import print_cinematics, cinematics_block
-from core.characters.Hero import Hero
-from core.characters import Character
+from core_elements import print_cinematics, cinematics_block
+from core_elements.characters.Hero import Hero
+from core_elements.characters import Character
 
 # PRINTS CINEMATICS OF DAMAGES
 
 # TODO: Internationalization
 
-def cause_damage(attacker: Character, defendant: Character, severity: int):
+
+def cause_damage(attacker: Character, defendant: Character, severity: int) -> None:
     '''
         It is called in combat situations when a character inflicts
         damage upon another one

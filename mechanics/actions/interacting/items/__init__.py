@@ -1,20 +1,21 @@
-from core.elements import Item
-from core.scenario import Scenario
-from core.characters.Hero import Hero
-from core.characters import NPC
+from core_elements.elements import Item
+from core_elements.scenario import Scenario
+from core_elements.characters.Hero import Hero
+from core_elements.characters import NPC
 from typing import Union
-from core.elements import Element, Item, Container
+from core_elements.elements import Element, Item, Container
 import gameplay
 import copy
-from core.config import system_name
+from core_elements import system_name
 
 # DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 
 
-def take(element: str, scenario: Scenario):
+def take(element: str, scenario: Scenario) -> None:
     '''
         Function fired when the Player wants the Hero to take something from the Scenario.
     '''
+    Hero.update_weigth()
     element = system_name(element)
     if any(__item.endswith(element) for __item in scenario.ambient):
         print('There\'s no point in doing it.')
@@ -29,23 +30,32 @@ def take(element: str, scenario: Scenario):
             __item: Union[Item, NPC]
             if system_name(__item.name).startswith('body') and system_name(element).startswith('body') or \
                     system_name(__item.name).endswith(element) and system_name(__item.name).startswith('body'):
-                moving_body(__item, scenario)
-                Hero.take_item(__item)
-                scenario.floor.remove(__item)
+
+                __item.update_weigth()
+                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:  # TODO
+                    print('It is too much for you to carry.')
+                else:
+                    moving_body(__item, scenario)
+                    Hero.take_item(__item)
+                    scenario.floor.remove(__item)
 
             elif system_name(__item.name).endswith(element):
-                if Hero.has_item(__item):
-                    owned_item = Hero.get_item_from_inventory(__item)
-                    owned_item.change_quantity(__item.quantity)
-                    Item_name_in_singular = owned_item.name[:-1]
-                    print(
-                            f'You get another {Item_name_in_singular}.' )
+
+                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:  # TODO
+                    print('It is too much for you to carry.')
                 else:
-                    if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
-                        __item = copy.copy(__item)
+                    if Hero.has_item(__item):
+                        owned_item = Hero.get_item_from_inventory(__item)
+                        owned_item.change_quantity(__item.quantity)
+                        Item_name_in_singular = owned_item.name[:-1]
+                        print(
+                            f'You get another {Item_name_in_singular}.')
                     else:
-                        scenario.floor.remove(__item)
-                Hero.take_item(__item)
+                        if hasattr(__item, 'on_taking') and __item.on_taking() == 'keep':
+                            __item = copy.copy(__item)
+                        else:
+                            scenario.floor.remove(__item)
+                    Hero.take_item(__item)
 
     elif any(system_name(__item.name).endswith(element) for __item in scenario.elements):
         this_element: Element = scenario.get_element(element)
@@ -53,7 +63,7 @@ def take(element: str, scenario: Scenario):
         if type(this_element) == Container:
             print('You cannot take it.')
 
-        elif this_element.weight >= Hero.carrying_capacity: # TODO
+        elif Hero.carrying_weigth + this_element.weight > Hero.weigth_capacity:  # TODO
             print('It is too much for you to carry.')
 
         elif Hero.has_item(this_element):  # TODO
@@ -69,8 +79,8 @@ def take(element: str, scenario: Scenario):
                 scenario.elements.remove(this_element)
 
     elif element.endswith('armor') and \
-        any(type(__thing) == NPC and \
-        __thing.armor.container != None for __thing in scenario.floor):
+        any(type(__thing) == NPC and
+            __thing.armor.container != None for __thing in scenario.floor):
         for __thing in scenario.floor:
             if type(__thing) == NPC:
                 if __thing.armor != None:
@@ -83,19 +93,19 @@ def take(element: str, scenario: Scenario):
         print(f'You don\'t see any {element} nearby to take it.')
 
 
-def moving_body(body: NPC, scenario: Scenario):
+def moving_body(body: NPC, scenario: Scenario) -> None:
     droped_items = body.drop_item()
     Hero.appearance = 'all bloodstained'
     if len(droped_items) > 0:
         print(
             f'When you move the body, its \
-{" and ".join(item.name for item in droped_items)} \
-fall{"s" if len(droped_items) == 1 else ""} on the ground.')
+            {" and ".join(item.name for item in droped_items)} \
+            fall{"s" if len(droped_items) == 1 else ""} on the ground.')
     for item in droped_items:
         scenario.add_to_floor(item)
 
 
-def drop(element: Union[str, NPC], scenario: Scenario):
+def drop(element: Union[str, NPC], scenario: Scenario) -> None:
     '''
         Function fired when the Player wants the Hero to drop something.
     '''
@@ -121,7 +131,8 @@ def drop(element: Union[str, NPC], scenario: Scenario):
             else:
                 print('You can\'t drop items that you don\'t have.')
 
-def equip(item: str):
+
+def equip(item: str) -> None:
     '''
         Function fired when the Player wants the Hero to equip a weapon, shield or armor.
     '''

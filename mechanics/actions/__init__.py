@@ -1,8 +1,8 @@
 # Core modules
-from core.config import *
-from core.characters.Hero import Hero
-from core.characters import NPC
-from core.scenario import Scenario
+from core_elements import *
+from core_elements.characters.Hero import Hero
+from core_elements.characters import NPC
+from core_elements.scenario import Scenario
 
 # Mechanics modules
 from mechanics.combat import initiative
@@ -29,7 +29,7 @@ def await_for_action() -> str:
     return input('\n\t\t> ').lower()
 
 
-def encounter_reaction(enemy: NPC):
+def encounter_reaction(enemy: NPC) -> None:
     '''
         It is called every time an encounter starts. Checks if the enemy is aware of the Hero presence.
     '''
@@ -41,12 +41,13 @@ def encounter_reaction(enemy: NPC):
         encounter_reaction_aware(action, enemy)
 
 
-def encounter_reaction_unaware(action: str, enemy: NPC):
+def encounter_reaction_unaware(action: str, enemy: NPC) -> None:
     '''
         It is called to check Player decisions when the enemy IS NOT aware of the Hero.
     '''
     if action.startswith('attack') or action.startswith('kill'):
-        print_cinematics(f'{Hero.draw_weapon} and strike before {enemy.name} has a chance to understand what is happening.')
+        print_cinematics(
+            f'{Hero.draw_weapon} and strike before {enemy.name} has a chance to understand what is happening.')
         mechanics_block('SNEAK ATTACK')
         attack.attack(enemy, 2, True)
         combat_rounds.took_action['enemy'] = True
@@ -56,7 +57,7 @@ def encounter_reaction_unaware(action: str, enemy: NPC):
         encounter_reaction(enemy)
 
 
-def encounter_reaction_aware(action: str, enemy: NPC):
+def encounter_reaction_aware(action: str, enemy: NPC) -> None:
     '''
         It is called to check Player decisions when the enemy IS aware of the Hero.
     '''
@@ -74,7 +75,8 @@ def encounter_reaction_aware(action: str, enemy: NPC):
             decision_taken = True
             print_cinematics(f'You wait to see {enemy.pronom[1]} reaction.')
             print_cinematics(f'{enemy.draw_weapon} and comes to attack you.')
-            print_cinematics(f'{Hero.draw_weapon} and prepare to face {enemy.pronom[2]}.')
+            print_cinematics(
+                f'{Hero.draw_weapon} and prepare to face {enemy.pronom[2]}.')
             initiative.initiative(enemy, 0)
 
         elif action.startswith('defend'):
@@ -90,8 +92,7 @@ def encounter_reaction_aware(action: str, enemy: NPC):
             action: str = ask_for_action()
 
 
-
-def basic_actions(scenario: Scenario):
+def basic_actions(scenario: Scenario) -> None:
     '''
         It is called to check Player decisions related to no-combat actions.
     '''
@@ -100,7 +101,8 @@ def basic_actions(scenario: Scenario):
         action = await_for_action()
 
         if action.startswith('look'):
-            what = action.replace('look', '').replace(' at ', '').replace(' the ', '').lstrip()
+            what = action.replace('look', '').replace(
+                ' at ', '').replace(' the ', '').lstrip()
             look(what, scenario)
 
         elif action.startswith('search'):
@@ -108,7 +110,8 @@ def basic_actions(scenario: Scenario):
                 print('You need to tell where would you like to search.')
 
             else:
-                place: str = action.replace( 'search', '').replace('the', '').lstrip()
+                place: str = action.replace(
+                    'search', '').replace('the', '').lstrip()
                 search(place, scenario)
 
         elif action.startswith('take') or action.startswith('get'):
@@ -118,16 +121,18 @@ def basic_actions(scenario: Scenario):
         elif 'inventory' in action or 'items' in action:
             Hero.declare_inventory()
 
-        elif 'bad' in action:
-            print('$$$', list(__this.name for __this in ugly_monster.inventory))
-            print('$$$', list([getattr(ugly_monster.weapon, 'name', None),
-                        getattr(ugly_monster.armor, 'name', None), getattr(ugly_monster.shield, 'name', None)]))
+        elif 'bad inv' in action:
+            print('$$$ Enemy Items', list(
+                __this.name for __this in ugly_monster.inventory))
+            print('$$$ Enemy Weapons', list([getattr(ugly_monster.weapon, 'name', None),
+                                             getattr(ugly_monster.armor, 'name', None), getattr(ugly_monster.shield, 'name', None)]))
 
         elif 'status' in action in action:
             print_cinematics(Hero.declare_status)
 
         elif action.startswith('draw'):
-            item: str = action.replace('draw', '').replace('weapon', '').lstrip()
+            item: str = action.replace(
+                'draw', '').replace('weapon', '').lstrip()
             if not Hero.weapon:
                 print('You have no weapons.')
             else:

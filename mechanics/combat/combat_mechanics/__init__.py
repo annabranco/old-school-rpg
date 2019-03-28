@@ -1,5 +1,5 @@
-from core.config import *
-from core.characters.Hero import Hero
+from core_elements import *
+from core_elements.characters.Hero import Hero
 import cinematics
 from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.combat import initiative
@@ -9,7 +9,7 @@ from db import status
 from cinematics import death
 from cinematics import kills
 from cinematics import damages
-from core.characters import Character, NPC
+from core_elements.characters import Character, NPC
 from mechanics import actions
 import gameplay
 from mechanics.combat.combat_rounds.combat_rounds import reset_rounds

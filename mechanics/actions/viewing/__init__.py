@@ -1,14 +1,14 @@
-from core.config import *
-from core.scenario import Scenario
-from core.characters.Hero import Hero
-from core.elements import Item, Food
-from core.characters import NPC
-from core.config import system_name
+from core_elements import *
+from core_elements.scenario import Scenario
+from core_elements.characters.Hero import Hero
+from core_elements.elements import Item, Food
+from core_elements.characters import NPC
+from core_elements import system_name
 
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 
 
-def look(element: str, scenario: Scenario):
+def look(element: str, scenario: Scenario) -> None:
     '''
         It is called when the Hero looks at something.
     '''
@@ -73,7 +73,7 @@ def look(element: str, scenario: Scenario):
             f'There is nothing to be seen.')
 
 
-def looking_body(body: NPC, scenario: Scenario):
+def looking_body(body: NPC, scenario: Scenario) -> None:
     '''
         It is called specifically when the Hero looks to an enemy dead body.
         Handles the weapons, shield and armor used by the deceased.
@@ -104,7 +104,7 @@ def looking_body(body: NPC, scenario: Scenario):
             f'You see {", ".join(message[:-1])} and {message[-1]}.')
 
 
-def search(element: str, scenario: Scenario):
+def search(element: str, scenario: Scenario) -> None:
     '''
         It is called when the Hero searches somewhere.
     '''
@@ -121,7 +121,7 @@ def search(element: str, scenario: Scenario):
         searching_element.on_searching()
 
     elif any(system_name(__item.name).startswith('body') for __item in Hero.inventory) and \
-        element.startswith('body'):
+            element.startswith('body'):
         print_cinematics(
             f'You can\'t search the body while you are carrying it.')
 
@@ -132,7 +132,7 @@ def search(element: str, scenario: Scenario):
     elif any(system_name(__something.name).split()[-1] == __element for __something in scenario.floor) or \
             any(system_name(__something.name).startswith('body') for __something in scenario.floor) and 'body' in __element:
         for __something in scenario.floor:
-            if element.startswith('body') and system_name(__something.name).startswith('body') :
+            if element.startswith('body') and system_name(__something.name).startswith('body'):
                 in_inventory = __something.declare_inventory()
 
                 for __item in __something.inventory:
@@ -148,7 +148,7 @@ def search(element: str, scenario: Scenario):
             f'There is nothing to be found.')
 
 
-def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
+def searching_body(in_inventory: str, body: NPC, scenario: Scenario) -> None:
     '''
         It is called specifically when the Hero searches an enemy dead body.
         Handles the weapons, armor and shield used by the deceased.
@@ -178,5 +178,3 @@ def searching_body(in_inventory: str, body: NPC, scenario: Scenario):
     else:
         print_cinematics(
             f'{in_inventory}\n\t\tYou also see {", ".join(message[:-1])} and {message[-1]}.')
-
-# TODO NOW: look tree after picking up apples

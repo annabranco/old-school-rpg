@@ -1,4 +1,4 @@
-from core.config import write_to_screen
+from core_elements import write_to_screen
 import time
 from random import randint
 from typing import List, Dict
@@ -8,7 +8,7 @@ from typing import List, Dict
 # Used everywhere on the game when someone tries to do something
 
 
-def roll_dices(dices_number: int, difficult: int, reason: str):
+def roll_dices(dices_number: int, difficult: int, reason: str) -> List[int, str]:
     '''
         Rolls an specific number of 10-sided dices (dices_number) and checks the results
         obtained against a previous determined difficult (from 1-10).
@@ -50,8 +50,9 @@ def roll_dices(dices_number: int, difficult: int, reason: str):
     results_object['final_result']: int = results_object['success'] + \
         results_object['decisiveMinusCritical']
     special: str = print_rolls(difficult, rolls, rolled_results,
-                          results_object, reason)
+                               results_object, reason)
     return [results_object['final_result'], special]
+
 
 def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_object: Dict[str, int], reason: str) -> str:
     '''
@@ -78,7 +79,7 @@ def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_o
     return special
 
 
-def define_result(results_object: Dict[str, int]):
+def define_result(results_object: Dict[str, int]) -> List[str, str, int]:
     '''
         Defines the final results
         between epic success (the better possible outcome) to

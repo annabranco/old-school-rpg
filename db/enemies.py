@@ -1,4 +1,4 @@
-from core.characters import NPC
+from core_elements.characters import NPC
 from db.weapons import *
 from db.armors import *
 from db.shields import *
@@ -6,7 +6,7 @@ from db.food import *
 
 # DEFINES DATABASE FOR ALL ENEMIES
 '''
-    constructor = NPC(name: str, race: str, gender: str='undefined')
+    constructor = NPC(name: str, race: str, gender: str='undefined', weight: int = 8)
 '''
 
 # UGLY MONSTER
@@ -37,7 +37,7 @@ ugly_monster.status = 'angry'
         Normally this guy will kill the Hero when figthing.
 '''
 # 0. Identification
-strong_monster = NPC('Strong Monster', 'monster')
+strong_monster = NPC('Strong Monster', 'monster', 12)
 # 1. Basic attributes
 strong_monster.attack = 5
 strong_monster.defense = 5

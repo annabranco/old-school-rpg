@@ -1,12 +1,12 @@
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from mechanics.combat import combat_mechanics
-from core.config import print_cinematics, cinematics_block
-
+from core_elements import print_cinematics, cinematics_block
+from core_elements.characters import Character
 
 # PRINTS CINEMATICS OF FAILS
 
 
-def disastrous_fail_on_attack(fails, attacker, defendant):
+def disastrous_fail_on_attack(fails: int, attacker: Character, defendant: Character) -> None:
     '''
         It is called when someone gets a critical fail when attacking.
     '''
@@ -70,8 +70,7 @@ def disastrous_fail_on_attack(fails, attacker, defendant):
 # CHARISMA CHECK
 
 
-
-#TODO: fix Fail
-#File "C:\Users\Anna Branco Araujo\Documents\Personal\RPG\cinematics\fails\__init__.py", line 54, in disastrous_fail_on_attack
+# TODO: fix Fail
+# File "C:\Users\Anna Branco Araujo\Documents\Personal\RPG\cinematics\fails\__init__.py", line 54, in disastrous_fail_on_attack
 #  print_cinematics(f'{fail_types[fails][0]}\n')
 #KeyError: -1

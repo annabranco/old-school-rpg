@@ -1,7 +1,7 @@
 from typing import Dict, List, Union
-from core.elements import Item, Element
+from core_elements.elements import Item, Element
 import copy
-from core.config import system_name
+from core_elements import system_name
 
 # DEFINES BASIC LOGICS FOR SCENARIOS
 
