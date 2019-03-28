@@ -1,6 +1,6 @@
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from mechanics.combat import combat_mechanics
-from core.config import print_cinematics, cinematics_block
+from core_elements import print_cinematics, cinematics_block
 
 
 # PRINTS CINEMATICS OF FAILS

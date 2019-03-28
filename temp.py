@@ -1,5 +1,5 @@
 from cinematics.fails import disastrous_fail_on_attack
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from db.enemies import ugly_monster
 from mechanics.actions import *
 from gameplay.testing_forest import testing_forest

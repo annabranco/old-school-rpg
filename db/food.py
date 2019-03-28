@@ -1,4 +1,4 @@
-from core.elements import Food
+from core_elements.elements import Food
 
 # DEFINES DATABASE FOR ALL FOOD ITEMS
 '''

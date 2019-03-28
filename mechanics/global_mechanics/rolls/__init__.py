@@ -1,4 +1,4 @@
-from core.config import write_to_screen
+from core_elements import write_to_screen
 import time
 from random import randint
 from typing import List, Dict

@@ -1,11 +1,11 @@
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 from mechanics.global_mechanics.rolls import roll_dices
 from mechanics.combat import combat_mechanics
 from mechanics.combat.combat_rounds import combat_rounds
 from cinematics import fails
 from mechanics.combat import initiative
-from core.config import *
-from core.characters import NPC
+from core_elements import *
+from core_elements.characters import NPC
 
 # TODO: define texts by types of weapons
 

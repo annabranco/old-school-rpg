@@ -1,4 +1,4 @@
-from core.elements import Armor
+from core_elements.elements import Armor
 
 # DEFINES DATABASE FOR ARMORS
 '''

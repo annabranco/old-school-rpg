@@ -1,6 +1,6 @@
-from core.config import print_cinematics, cinematics_block
-from core.characters.Hero import Hero
-from core.characters import Character
+from core_elements import print_cinematics, cinematics_block
+from core_elements.characters.Hero import Hero
+from core_elements.characters import Character
 
 # PRINTS CINEMATICS OF DAMAGES
 

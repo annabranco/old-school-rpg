@@ -1,5 +1,5 @@
 import gameplay
-from core.config import *
+from core_elements import *
 from typing import List
 
 # DEFINES BASIC LOGICS FOR ELEMENTS AND ITEMS

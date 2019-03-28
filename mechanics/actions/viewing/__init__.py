@@ -1,9 +1,9 @@
-from core.config import *
-from core.scenario import Scenario
-from core.characters.Hero import Hero
-from core.elements import Item, Food
-from core.characters import NPC
-from core.config import system_name
+from core_elements import *
+from core_elements.scenario import Scenario
+from core_elements.characters.Hero import Hero
+from core_elements.elements import Item, Food
+from core_elements.characters import NPC
+from core_elements import system_name
 
 # DETERMINES THE MECHANICS RELATED TO VIEWING THINGS
 

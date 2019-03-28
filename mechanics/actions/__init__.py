@@ -1,8 +1,8 @@
 # Core modules
-from core.config import *
-from core.characters.Hero import Hero
-from core.characters import NPC
-from core.scenario import Scenario
+from core_elements import *
+from core_elements.characters.Hero import Hero
+from core_elements.characters import NPC
+from core_elements.scenario import Scenario
 
 # Mechanics modules
 from mechanics.combat import initiative

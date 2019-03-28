@@ -1,4 +1,4 @@
-from core.elements import Shield
+from core_elements.elements import Shield
 
 # DEFINES DATABASE FOR SHIELDS
 '''

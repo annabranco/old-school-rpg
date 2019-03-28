@@ -17,7 +17,7 @@ status_hero = {
 }
 
 # think about bonuses according to status
-# think about system to roll fear reactions
+# think about core_elements to roll fear reactions
 
 status_npc = {
 		'terrifying': 7,

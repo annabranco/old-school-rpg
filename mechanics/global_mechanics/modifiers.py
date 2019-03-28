@@ -1,4 +1,4 @@
-from core.config import *
+from core_elements import *
 from typing import List
 # MANAGES CRITICAL FAILS AND DECISIVE SUCCESSES
 

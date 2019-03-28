@@ -1,12 +1,12 @@
-from core.elements import Item
-from core.scenario import Scenario
-from core.characters.Hero import Hero
-from core.characters import NPC
+from core_elements.elements import Item
+from core_elements.scenario import Scenario
+from core_elements.characters.Hero import Hero
+from core_elements.characters import NPC
 from typing import Union
-from core.elements import Element, Item, Container
+from core_elements.elements import Element, Item, Container
 import gameplay
 import copy
-from core.config import system_name
+from core_elements import system_name
 
 # DETERMINES THE MECHANICS RELATED TO INTERACTING WITH ITEMS
 

@@ -1,6 +1,6 @@
-from core.config import print_cinematics
+from core_elements import print_cinematics
 from mechanics import actions
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 
 
 # PRINTS GENERAL CINEMATICS

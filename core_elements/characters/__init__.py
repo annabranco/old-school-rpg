@@ -1,7 +1,7 @@
 from math import ceil
 from typing import Dict, List, Union, Tuple
-from core.elements import Item, Weapon, Shield, Armor
-from core.config import*
+from core_elements.elements import Item, Weapon, Shield, Armor
+from core_elements import *
 import gameplay
 import copy
 
@@ -18,10 +18,10 @@ class Character(object):
         self.type: str = type
         self.race: str = race
         self.description: str = f'This is {name}'
-        self.__weapon: Dict[[str, str], [str, str][str, int]] = None
-        self.__shield: Dict[[str, str], [str, str][str, int]] = None
-        self.__armor: Dict[[str, str], [str, str][str, int]] = None
-        self.inventory: List[str] = []
+        self.__weapon: Weapon = None
+        self.__shield: Shield = None
+        self.__armor: Armor = None
+        self.inventory: List[Item] = []
         self.attack: int = 0
         self.defense: int = 0
         self.full_hp: int = 0

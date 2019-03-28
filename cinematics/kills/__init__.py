@@ -1,7 +1,7 @@
 from textwrap import dedent
-from core.config import print_cinematics, cinematics_block
+from core_elements import print_cinematics, cinematics_block
 import cinematics
-from core.characters.Hero import Hero
+from core_elements.characters.Hero import Hero
 
 
 # PRINTS CINEMATICS OF KILLS

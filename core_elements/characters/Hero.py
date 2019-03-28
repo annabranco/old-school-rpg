@@ -1,4 +1,4 @@
-from core.characters import Player
+from core_elements.characters import Player
 from db.food import *
 from db.weapons import *
 

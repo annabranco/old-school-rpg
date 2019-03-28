@@ -1,4 +1,4 @@
-from core.elements import Item
+from core_elements.elements import Item
 
 # DEFINES DATABASE FOR VALUABLES
 '''

@@ -1,4 +1,4 @@
-from core.elements import Weapon
+from core_elements.elements import Weapon
 
 # DEFINES DATABASE FOR WEAPONS
 '''

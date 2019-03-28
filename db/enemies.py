@@ -1,4 +1,4 @@
-from core.characters import NPC
+from core_elements.characters import NPC
 from db.weapons import *
 from db.armors import *
 from db.shields import *
