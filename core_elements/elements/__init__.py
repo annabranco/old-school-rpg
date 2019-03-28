@@ -4,6 +4,7 @@ from typing import List
 
 # DEFINES BASIC LOGICS FOR ELEMENTS AND ITEMS
 
+
 class Element(object):
     '''
         CLASS used for all interactable elements on the game.
@@ -21,11 +22,10 @@ class Element(object):
         # self.on_tasting = None
         # self.tasting_effect: str = None
 
-
     @property
     def article(self) -> str:
         if self.name.endswith('s') or self.name.endswith('food'):
-            return ('','')
+            return ('', '')
         elif self.name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
             return ('an ', 'an ')
         else:
@@ -67,11 +67,12 @@ class Element(object):
                     if not property_name in gameplay.CURRENT_SCENARIO.elements:
                         print_cinematics(
                             f'You see {property_value.name} on the {self.name}')
-                        gameplay.CURRENT_SCENARIO.add_to_elements(property_value)
+                        gameplay.CURRENT_SCENARIO.add_to_elements(
+                            property_value)
                         delattr(self, property_name)
                         break
 
-    def on_taking(self, callback=None):
+    def on_taking(self, callback=None) -> None:
         '''
         called when Hero takes an item with on_taking attribute.
         '''
@@ -109,8 +110,9 @@ class Item(Element):
     def add(self, how_many: int = 'countless') -> int:
         if how_many == 'countless':
             self.on_taking = lambda: 'keep'
-            self.name += 's'
             self.__quantity = 1
+            self.name += 's'
+            self.weight = self.unity_weight * self.__quantity
         else:
             self.__quantity += how_many
             self.update_quantity()
@@ -121,7 +123,7 @@ class Item(Element):
         self.update_quantity()
         return (self.__quantity)
 
-    def update_quantity(self):
+    def update_quantity(self) -> None:
         self.weight = self.unity_weight * self.__quantity
         if self.__quantity <= 1 and not self.name.endswith('food'):
             if self.name[-1] == 's':
@@ -132,9 +134,8 @@ class Item(Element):
         self.verb
 
     @property
-    def quantity(self):
+    def quantity(self) -> int:
         return self.__quantity
-
 
 
 class Container(Element):
@@ -145,13 +146,11 @@ class Container(Element):
     def __init__(self, name: str, description: str):
         super(Container, self).__init__(name, description)
 
-
-    def add_item(self, item: Item, hidden: str = None):
+    def add_item(self, item: Item, hidden: str = None) -> None:
         if hidden == 'hidden':
             item.hidden = True
         setattr(item, 'container', self.name)
         setattr(self, item.name, item)
-
 
     def on_searching(self) -> None:
         '''
@@ -181,7 +180,6 @@ class Food(Item):
         self.description: str = description
         super(Food, self).__init__(name, self.description, weight, quantity)
         self.usable: bool = True
-
 
 
 class Weapon(Item):
@@ -223,7 +221,7 @@ class Armor(Item):
         super(Armor, self).__init__(name, description, weight)
         self.bonus: int = bonus
 
-    def on_taking(self):
+    def on_taking(self) -> None:
         if self.container:
             print(
                 f'You remove the armor from the {self.container}.')

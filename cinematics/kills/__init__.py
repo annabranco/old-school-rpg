@@ -2,12 +2,12 @@ from textwrap import dedent
 from core_elements import print_cinematics, cinematics_block
 import cinematics
 from core_elements.characters.Hero import Hero
-
+from core_elements.characters import NPC
 
 # PRINTS CINEMATICS OF KILLS
 
 
-def victory():
+def victory() -> None:
     '''
         It is called when Hero wins a combat.
     '''
@@ -16,7 +16,7 @@ def victory():
     print_cinematics('You win!\n')
 
 
-def killed_enemy(you, enemy):
+def killed_enemy(you: Hero, enemy: NPC) -> None:
     '''
         It is called when Hero kills an enemy on combat.
     '''
@@ -26,7 +26,7 @@ def killed_enemy(you, enemy):
     victory()
 
 
-def killed_enemy_on_simultaneous_attack(you, enemy):
+def killed_enemy_on_simultaneous_attack(you: Hero, enemy: NPC) -> None:
     '''
         It is called when Hero kills an enemy on combat on a simultaneous attack.
     '''

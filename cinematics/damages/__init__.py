@@ -6,7 +6,8 @@ from core_elements.characters import Character
 
 # TODO: Internationalization
 
-def cause_damage(attacker: Character, defendant: Character, severity: int):
+
+def cause_damage(attacker: Character, defendant: Character, severity: int) -> None:
     '''
         It is called in combat situations when a character inflicts
         damage upon another one

@@ -55,7 +55,7 @@ class Character(object):
         # self.appearance: how the character looks. TODO FUTURE: should influence how other perceive the character (as a threat, etc.).
 
 
-    def set_pronom(self):
+    def set_pronom(self) -> None:
         '''
             Determines the pronoms, based on gender. Eg. (I, my, me, mine).
             If the character is identified as non-binary or other, the player should determine the basic pronom.
@@ -86,7 +86,7 @@ class Character(object):
             self.pronom = pronoms_list['they']
 
 
-    def set_appearance(self):
+    def set_appearance(self) -> None:
         '''
         Sets initial and basic appearance.
         '''
@@ -101,7 +101,7 @@ class Character(object):
             self.appearance = f'a {quality} {self.gender} {self.race}'
 
     @property
-    def verb(self):
+    def verb(self) -> str:
         if self.pronom[0] in ('she', 'he', 'it'):
             return 'is'
         else:
@@ -384,10 +384,11 @@ class Player(Character):
         CLASS used exclusivelly for the Hero (controlled by the player).
     '''
 
-    def __init__(self, name: str = 'Hero', race: str = 'human', gender: str = 'non-binary'):
+    def __init__(self, name: str = 'Hero', race: str = 'human', gender: str = 'undefined'):
         super(Player, self).__init__(name, 'Player', race, gender)
         self.status = 'well'
-        self.carrying_capacity = 10
+        self.weigth_capacity = 10
+        self.carrying_weigth = 0
 
     def take_item(self, item: Item) -> None:
         __item = copy.copy(item)
@@ -395,13 +396,25 @@ class Player(Character):
             __item.name = __item.name[:-1]
         print(f'You get the {__item.name}.')
         self.inventory.append(__item)
+        self.update_weigth()
 
-    def drop_item(self, item: Item):
+    def drop_item(self, item: Item) -> None:
         if self.has_item(item):
             print(f'You drop {item.name}.')
             self.inventory.remove(item)
         else:
             print(f'You don\'t have {item} on your inventory.')
+
+    def update_weigth(self) -> float:
+        if self.weapon:
+            self.carrying_weigth = self.weapon.weight
+        if self.shield:
+            self.carrying_weigth += self.shield.weight
+        if self.armor:
+            self.carrying_weigth += self.armor.weight
+        for __item in self.inventory:
+            self.carrying_weigth += __item.weight
+        return self.carrying_weigth
 
 
 class NPC(Character):
@@ -409,10 +422,12 @@ class NPC(Character):
         CLASS used exclusively for Non Player Characters.
     '''
 
-    def __init__(self, name: str='Thing', race: str='humanoid', gender: str = 'undefined'):
+    def __init__(self, name: str='Thing', race: str='humanoid', gender: str = 'undefined', weight: int = 8):
         super(NPC, self).__init__(name, 'NPC', race, gender)
-        self.weight: int = 8
+        self.basic_weight: int = weight
         self.quantity = 1
+        self.weight: int = weight
+
 
     @property
     def article(self) -> str:
@@ -424,9 +439,21 @@ class NPC(Character):
             first_time = 'a '
         return (first_time, 'the ')
 
-    def set_name(self, new_name):
+    def set_name(self, new_name) -> None:
         self.name = new_name
         print(f'The {self.race} tells you {self.pronom[1]} name is {self.name}.')
 
-    def declare_action(self, action):
+    def declare_action(self, action: str) -> None:
         print(f'{self.name} {self.verb} {action}.')
+
+    def update_weigth(self) -> float:
+        self.weight = self.basic_weight
+        if self.weapon:
+            self.weight += self.weapon.weight
+        if self.shield:
+            self.weight += self.shield.weight
+        if self.armor:
+            self.weight += self.armor.weight
+        for __item in self.inventory:
+            self.weight += __item.weight
+        return self.weight

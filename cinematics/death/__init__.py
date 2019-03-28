@@ -1,10 +1,11 @@
 from core_elements import print_cinematics, cinematics_block
 from core_elements.characters.Hero import Hero
+from core_elements.characters import NPC
 
 
 # PRINTS CINEMATICS OF DYING
 
-def the_end():
+def the_end() -> None:
     '''
         It is called when the adventure finishes. TODO: Move to other module of Endings
     '''
@@ -12,7 +13,7 @@ def the_end():
     exit(1)
 
 
-def death_by_combat(Hero, enemy):
+def death_by_combat(Hero, enemy: NPC) -> None:
     '''
         It is called when Hero is killed by an enemy on combat.
     '''
@@ -24,7 +25,7 @@ def death_by_combat(Hero, enemy):
     the_end()
 
 
-def mutual_death_by_combat(enemy):
+def mutual_death_by_combat(enemy: NPC) -> None:
     '''
         It is called when both Hero and the enemy kill each other simultaneously on combat
     '''
@@ -36,7 +37,7 @@ def mutual_death_by_combat(enemy):
     the_end()
 
 
-def death_by_simultaneous_attack(enemy, results_number_hero):
+def death_by_simultaneous_attack(enemy, results_number_hero: int) -> None:
     '''
         It is called when Hero dies on a simultaneous attack, but the enemy survives
     '''

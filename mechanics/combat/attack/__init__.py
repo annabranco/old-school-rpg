@@ -12,7 +12,7 @@ from core_elements.characters import NPC
 # DETERMINES THE MECHANICS RELATED TO THE PLAYER ATTACKS
 
 
-def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False):
+def attack(enemy: NPC, bonus: int = 0, surprise_attack: bool = False) -> None:
     '''
         It is called whenever the Player attacks.
         Calls roll_dices method and according to the results calls damage or other specific methods.
@@ -51,7 +51,7 @@ def simultaneous_attack(enemy: NPC) -> None:
         enemy.attack, Hero.defense, f'{enemy.name}\'s attack')
 
     if (results_number_hero <= 0 and results_number_enemy <= 0):
-        mechanics_block()
+        mechanics_block('Simultaneous attack')
         print_cinematics(
             f'You and {enemy.name} attack at the same time and your blows block each other.')
         initiative.initiative(enemy, 0)
