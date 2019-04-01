@@ -1,14 +1,14 @@
 from core_elements import write_to_screen
 import time
 from random import randint
-from typing import List, Dict
+from typing import List, Dict, Union
 
 
 # DETERMINES THE GLOBAL MECHANICS OF ROLLING DICES
 # Used everywhere on the game when someone tries to do something
 
 
-def roll_dices(dices_number: int, difficult: int, reason: str) -> List[int, str]:
+def roll_dices(dices_number: int, difficult: int, reason: str) -> List[Union[int, str]]:
     '''
         Rolls an specific number of 10-sided dices (dices_number) and checks the results
         obtained against a previous determined difficult (from 1-10).
@@ -79,7 +79,7 @@ def print_rolls(difficult: int, rolls: int, rolled_results: List[int], results_o
     return special
 
 
-def define_result(results_object: Dict[str, int]) -> List[str, str, int]:
+def define_result(results_object: Dict[str, int]) -> List[Union[int, str]]:
     '''
         Defines the final results
         between epic success (the better possible outcome) to
