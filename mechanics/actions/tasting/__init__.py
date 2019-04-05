@@ -27,7 +27,7 @@ def eat(element: Food, scenario: Scenario):
         for __something in scenario.floor:
             if element.startswith('body') and system_name(__something.name).startswith('body'):
                 print(
-                  f'You would need to be really starving to death to even think about eathing the {__something.name}.')
+                  f'You would need to be really starving to death to even think about eating the {__something.name}.')
 
         #         print(
         #             f'The {__something.name} laying on the floor {__something.verb} {__something.description}.')

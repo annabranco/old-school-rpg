@@ -9,13 +9,12 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ## Current development: interactions
 
-- (0.0.19) weight limit when getting elements
-- (0.0.20) basic eat action
 - (0.0.20) food comsumption
-- (0.0.20) basic rest action
-- (0.0.21) getting (very) tired acording to rounds of combat
+- (0.0.21) basic rest action
 - (0.0.21) basic time events
+- (0.0.21) getting (very) tired acording to rounds of combat
 - (0.0.21) getting (very) tired according to time
+- (0.0.21) getting hungry according ot time
 - (0.0.22) move/go
 - (0.0.23) Threat level
 - (0.0.24) carrying bodies
@@ -29,6 +28,11 @@ The aim to create a flexible backend system designed to acomodate different stor
 ## Changelog
 
 ### Basic interacting with elements development
+
+0.0.20
+
+- implemented basic eating action
+- implemented food consumption
 
 0.0.19
 

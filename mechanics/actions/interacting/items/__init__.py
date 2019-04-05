@@ -32,7 +32,7 @@ def take(element: str, scenario: Scenario) -> None:
                     system_name(__item.name).endswith(element) and system_name(__item.name).startswith('body'):
 
                 __item.update_weigth()
-                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:  # TODO
+                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:
                     print('It is too much for you to carry.')
                 else:
                     moving_body(__item, scenario)
@@ -41,7 +41,7 @@ def take(element: str, scenario: Scenario) -> None:
 
             elif system_name(__item.name).endswith(element):
 
-                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:  # TODO
+                if Hero.carrying_weigth + __item.weight > Hero.weigth_capacity:
                     print('It is too much for you to carry.')
                 else:
                     if Hero.has_item(__item):
@@ -63,10 +63,10 @@ def take(element: str, scenario: Scenario) -> None:
         if type(this_element) == Container:
             print('You cannot take it.')
 
-        elif Hero.carrying_weigth + this_element.weight > Hero.weigth_capacity:  # TODO
+        elif Hero.carrying_weigth + this_element.weight > Hero.weigth_capacity:
             print('It is too much for you to carry.')
 
-        elif Hero.has_item(this_element):  # TODO
+        elif Hero.has_item(this_element):
             owned_item = Hero.get_item_from_inventory(this_element)
             owned_item.add(this_element.quantity)
             Item_name_in_singular = owned_item.name[:-1]
