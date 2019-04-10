@@ -1,6 +1,6 @@
 # _Old-school_ Role Playing Game
 
-v0.0.19
+v0.0.20
 _Under construction_
 
 This is a text-based Fantasy Role Playing Game.
