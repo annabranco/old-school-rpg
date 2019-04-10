@@ -12,7 +12,9 @@ from mechanics.combat.combat_rounds import combat_rounds
 from mechanics.actions.viewing import look, search
 from mechanics.actions.interacting.items import take, drop, equip
 from db.enemies import ugly_monster
+from mechanics.actions.tasting import eat
 
+from typing import List
 
 # DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
@@ -149,6 +151,10 @@ def basic_actions(scenario: Scenario) -> None:
         elif action.startswith('equip'):
             what: str = action.replace('equip', '').lstrip()
             equip(what)
+
+        elif action.startswith('eat'):
+            what: List = action.split(' ', 1)[1]
+            eat(what, scenario)
 
         else:
             print('You can\'t do that.')

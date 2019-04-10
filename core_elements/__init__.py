@@ -59,6 +59,24 @@ def action_block() -> None:
     print('\n\t\t---\n')
 
 def system_name(name: str) -> str:
-    if name.endswith('s'):
+    if name.endswith('sses'):
+        name = name[:-3]
+    elif name.endswith('ves'):
+        name = name[:-3] + 'f'
+    elif name.endswith('ies'):
+        name = name[:-3] + 'y'
+    elif name.endswith('ses') or name.endswith('shes') or name.endswith('ches') \
+         or name.endswith('xes') or name.endswith('zes') or name.endswith('oes'):
+        name = name[:-2]
+    elif name.endswith('ses'):
+        name = name[:-2]
+    elif name.endswith('s'):
         name = name[:-1]
     return name.lower()
+
+def system_name_with_article(name: str) -> str:
+    __name = system_name(name)
+    if __name.startswith(('a', 'e', 'i', 'o', 'u', 'y')):
+        return f'an {__name}'
+    else:
+        return f'a {__name}'

@@ -47,7 +47,7 @@ class Scenario(object):
 
     def get_element(self, element: str) -> Element:
         for __element in self.elements:
-            if system_name(__element.name).endswith(element) or \
+            if system_name(__element.name).endswith(system_name(element)) or \
                     __element.name.endswith('body') and element.startswith('body'):
                 return __element
 
