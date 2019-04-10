@@ -9,7 +9,6 @@ The aim to create a flexible backend system designed to acomodate different stor
 
 ## Current development: interactions
 
-- (0.0.20) food comsumption
 - (0.0.21) basic rest action
 - (0.0.21) basic time events
 - (0.0.21) getting (very) tired acording to rounds of combat

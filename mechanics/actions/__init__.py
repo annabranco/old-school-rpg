@@ -14,6 +14,7 @@ from mechanics.actions.interacting.items import take, drop, equip
 from db.enemies import ugly_monster
 from mechanics.actions.tasting import eat
 
+from typing import List
 
 # DETERMINES THE MECHANICS RELATED TO GENERIC ACTIONS
 
