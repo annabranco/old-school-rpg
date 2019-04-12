@@ -14,5 +14,6 @@ leather_meat.add(10)
 Hero.attack = 5
 Hero.defense = 5
 Hero.full_hp = 5
+Hero.resistance = 5
 Hero.speed = 5
 Hero.hp = 5
