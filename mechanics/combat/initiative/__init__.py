@@ -23,6 +23,7 @@ def initiative(enemy: NPC, bonus: int = 0) -> None:
     action_block()
     combat_rounds.took_action['Hero'] = False
     combat_rounds.took_action['enemy'] = False
+    combat_rounds.num_of_rounds += 1
     initiative_difficulty = 1
 
     Initiative_Hero_roll = roll_dices(
