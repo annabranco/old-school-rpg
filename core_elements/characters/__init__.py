@@ -24,10 +24,11 @@ class Character(object):
         self.inventory: List[Item] = []
         self.attack: int = 0
         self.defense: int = 0
+        self.resistance: int = 0
         self.full_hp: int = 0
         self.hp: int = 0
         self.speed: int = 0
-        self.__status: str = 'unknown'
+        self.__status: Dict[str,str] = {'physical': 'well', 'mental': 'calm', 'tiredness': 'rested', 'condition': None }
         self.gender: str = gender
         self.pronom: Tuple[str] = None
         self.appearance: str = None
@@ -42,6 +43,7 @@ class Character(object):
         # self.__shield: shield used
         # self.__armor: armor weared
         # self.inventory: list of all items owned by the character
+        # self.__status: dictionary of three possible status (wounds, mental, tiredness, special conditions)
 
     # TODO: CALCULATE ATTRIBUTES BASED ON GLOBAL ONES (STRENGTH, AGILITY, ETC.)
         # self.attack: total attack power of the character
@@ -113,30 +115,70 @@ class Character(object):
 
     @property
     def declare_status(self) -> None:
+        physical, mental, tiredness, condition = [
+            self.status[k] for k in ('physical', 'mental', 'tiredness', 'condition')]
         if self.type == 'Player':
-            return f'You are {self.__status}.'
+            sentence = 'You are'
+            if condition: # Permanent condition
+                sentence = f'{sentence} {condition}'
+
+            return f'You are {condition}.'
         else:
-            return f'{self.name} looks {self.__status}.'
+            if condition:  # Permanent condition
+                sentence = f'{self.name} is {condition}.'
+                if physical != 'well':
+                    sentence = f'{sentence} {self.pronom[0].capitalize()} looks {physical}'
+                    if tiredness != 'rested':
+                        return f'{sentence} and {tiredness}.'
+                    else:
+                        return f'{sentence}.'
+                elif tiredness != 'rested':
+                    return f'{sentence} {self.pronom[0].capitalize()} looks {tiredness}.'
+                return f'{sentence} {self.pronom[0].capitalize()} looks {mental}.'
+
+            elif physical != 'well':
+                sentence = f'{self.name} looks {physical}'
+                if tiredness != 'rested':
+                    return f'{sentence} and {tiredness}.'
+                else:
+                    return f'{sentence}.'
+            elif tiredness != 'rested':
+                return f'{self.name} looks {tiredness}.'
+            return f'{self.name} looks {mental}.'
+
+# TODO: Keep on with that.
+# Use mechanics\combat\special_events\getting_tired
+
+# prostrated
 
     @status.setter
-    def status(self, new_status: str=None) -> None:
-        self.set_status(new_status)
+    def status(self, new_status: str = None, energy_level: str = None) -> None:
+        self.set_status(new_status, energy_level)
 
-    def set_status(self, new_status: str=None) -> None:
+    def set_status(self, new_status, energy_level) -> None:
+        damage_status = None
         if not new_status:
             if self.hp <= 0:
                 self.__status = 'dead'
-                self.on_dead()
+                return self.on_dead()
             elif self.hp == self.full_hp:
-                self.__status = 'well'
+                damage_status = 'well'
             elif self.hp <= ceil(self.full_hp / 3):
-                self.__status = 'severily wounded'
+                damage_status = 'severily wounded'
             elif self.hp <= ceil(self.full_hp * 2 / 3):
-                self.__status = 'wounded'
+                damage_status = 'wounded'
             else:
-                self.__status = 'lightly wounded'
+                damage_status = 'lightly wounded'
         else:
             self.__status = new_status
+
+            if energy_level:
+                if damage_status == 'well':
+                    self.__status = energy_level
+                else:
+                    self.__status = f'{damage_status} and {energy_level}'
+            else:
+                self.__status = damage_status
 
     def declare_hp(self) -> None:
         if self.type == 'Player':
@@ -386,7 +428,6 @@ class Player(Character):
 
     def __init__(self, name: str = 'Hero', race: str = 'human', gender: str = 'undefined'):
         super(Player, self).__init__(name, 'Player', race, gender)
-        self.status = 'well'
         self.weigth_capacity = 10
         self.carrying_weigth = 0
 

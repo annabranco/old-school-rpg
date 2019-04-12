@@ -20,7 +20,8 @@ ugly_monster = NPC('Ugly Monster', 'monster', 'undefined')
 ugly_monster.attack = 2
 ugly_monster.defense = 2
 ugly_monster.speed = 2
-ugly_monster.full_hp = ugly_monster.hp = 2
+ugly_monster.resistance = 2
+ugly_monster.full_hp = ugly_monster.hp = 10
 # 2. Weapons
 ugly_monster.weapon = club
 ugly_monster.armor = leather_armor
@@ -29,7 +30,11 @@ ugly_monster.shield = small_shield
 ugly_monster.inventory.append(smelly_meat)
 smelly_meat.add(10)
 # 4. Status
-ugly_monster.status = 'angry'
+ugly_monster.status['mental'] = 'angry'
+#ugly_monster.status['physical'] = 'hurt'
+#ugly_monster.status['condition'] = 'blind'
+#ugly_monster.status['tiredness'] = 'exhausted'
+
 
 # STRONG MONSTER
 '''
@@ -48,4 +53,4 @@ strong_monster.weapon = heavy_club
 # 3. Inventory
 strong_monster.inventory = [{'name': 'food', 'quantity': 10}]
 # 4. Status
-strong_monster.status = 'very angry'
+strong_monster.status['mental'] = 'very angry'
