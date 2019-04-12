@@ -146,7 +146,7 @@ class Character(object):
                 return f'{self.name} looks {tiredness}.'
             return f'{self.name} looks {mental}.'
 
-# TODO: Keep on with that.
+# TODO NOW: Keep on with that.
 # Use mechanics\combat\special_events\getting_tired
 
 # prostrated
